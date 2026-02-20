@@ -381,17 +381,17 @@ function initGSAP() {
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: leftCard,
-                    start: 'top 100%',   // Start as soon as the pair enters viewport bottom
-                    end: 'top 45%',      // Finish when the pair is well into view
-                    scrub: 2.5,          // Very slow, silky scrub
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
                 }
             });
 
             // Left card: diagonal from bottom-left
             tl.from(leftCard, {
                 opacity: 0,
-                x: -140,
-                y: 140,
+                x: -60,
+                y: 60,
+                duration: 0.8,
                 ease: 'power2.out',
             }, 0);
 
@@ -399,8 +399,9 @@ function initGSAP() {
             if (rightCard) {
                 tl.from(rightCard, {
                     opacity: 0,
-                    x: 140,
-                    y: 140,
+                    x: 60,
+                    y: 60,
+                    duration: 0.8,
                     ease: 'power2.out',
                 }, 0); // Start at same time as left card
             }
