@@ -1977,7 +1977,7 @@ select.form-control {
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     transition: all var(--duration) var(--ease);
     cursor: pointer;
 }
