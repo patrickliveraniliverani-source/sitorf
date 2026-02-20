@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prodotti — R.F. Resina Forlivese | Poliuretano, Ovatta, Piuma</title>
+    <meta name="description"
+        content="Produzione e lavorazione di imbottiture in poliuretano espanso, ovatta e piuma. Materiali di alta qualità per l'arredamento Made in Italy.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="scroll-progress"></div>
+    <div class="custom-cursor"></div>
+    <div class="page-transition"></div>
+
+    <header class="site-header">
+        <div class="container header-inner"><a href="index.html" class="logo">
+                <img src="img/logo_new.png" alt="R.F. Resina Forlivese" class="logo-img">
+            </a>
+            <nav class="nav-links">
+                <a href="chi-siamo.html">Chi Siamo</a>
+                <a href="settori.html">Settori</a>
+
+                <div class="nav-item-dropdown">
+                    <a href="prodotti.html" class="active nav-link-parent">Prodotti</a>
+                    <div class="dropdown-menu">
+                        <a href="prodotti.html?modal=poliuretani" class="dropdown-item">Poliuretani Espansi</a>
+                        <a href="prodotti.html?modal=ovatte" class="dropdown-item">Ovatte e Resinati</a>
+                        <a href="prodotti.html?modal=piuma" class="dropdown-item">Piuma e Misti</a>
+                        <a href="prodotti.html?modal=microfibra" class="dropdown-item">Microfibra</a>
+                        <a href="prodotti.html?modal=memory" class="dropdown-item">Memory Foam</a>
+                    </div>
+                </div>
+
+                <a href="lavorazioni.html">Lavorazioni</a>
+                <div class="nav-item-dropdown">
+                    <a href="qualita.html" class="nav-link-parent">Qualità</a>
+                    <div class="dropdown-menu">
+                        <a href="qualita.html" class="dropdown-item">Qualità</a>
+                        <a href="green-vision.html" class="dropdown-item">Green Vision 🌿</a>
+                    </div>
+                </div>
+            </nav><a href="contatti.html" class="header-cta">Contatti</a><button class="hamburger"
+                aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+    <div class="mobile-nav"><a href="chi-siamo.html">Chi Siamo</a><a href="settori.html">Settori</a><a
+            href="prodotti.html" class="active">Prodotti</a><a href="lavorazioni.html">Lavorazioni</a><a
+            href="qualita.html">Qualità</a><a href="green-vision.html" style="color:#22c55e;">Green Vision 🌿</a>
+        <a href="contatti.html">Contatti</a>
+    </div>
+
+    <section class="page-hero"
+        style="background-image: url('https://images.unsplash.com/photo-1617104424032-b9bd6972d0e4?q=80&w=2070&auto=format&fit=crop');">
+        <div class="container">
+            <h1>I NOSTRI PRODOTTI</h1>
+            <p class="subtitle">Scopri i nostri materiali per la lavorazione. Dal poliuretano espanso alla piuma, per
+                ogni tipologia di comfort e necessità.</p>
+            <p class="breadcrumb"><a href="index.html">Home</a> &rsaquo; Prodotti</p>
+        </div>
+    </section>
+
+    <!-- STILI LOCALI PER LA GRIGLIA E I MODALI -->
+    <style>
+        /* --- Grid Layout --- */
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(2, 450px);
+            gap: 20px;
+            padding-bottom: 80px;
+        }
+
+        .mat-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+            isolation: isolate;
+        }
+
+        .mat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        /* Card Placement */
+        .mat-card.large {
+            grid-column: span 3;
+        }
+
+        /* 50% width */
+        .mat-card.medium {
+            grid-column: span 3;
+        }
+
+        /* 50% width */
+        .mat-card.small {
+            grid-column: span 2;
+        }
+
+        /* 33% width */
+
+        /* Card Content */
+        .mat-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2));
+            z-index: 1;
+            transition: background 0.4s;
+        }
+
+        .mat-card:hover .mat-overlay {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4));
+        }
+
+        .mat-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px;
+            color: #fff;
+        }
+
+        .mat-content h3 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: #fff;
+            transform: translateY(0);
+            transition: transform 0.4s;
+        }
+
+        .mat-content p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s;
+            max-height: 0;
+        }
+
+        .mat-card:hover .mat-content p {
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 100px;
+            margin-bottom: 16px;
+        }
+
+        .mat-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.8;
+            letter-spacing: 1px;
+            margin-top: auto;
+            /* Push to bottom if needed, but flex handles it */
+        }
+
+        /* Background Images */
+        .mat-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.8s var(--ease);
+        }
+
+        .mat-card:hover .mat-bg {
+            transform: scale(1.05);
+        }
+
+        /* --- MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 22, 40, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s var(--ease);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-container {
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 45% 55%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            transform: translateY(50px) scale(0.95);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-image {
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .modal-content-scroll {
+            padding: 60px;
+            overflow-y: auto;
+            height: 100%;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: #f1f1f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 20px;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 900px) {
+            .materials-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .mat-card {
+                grid-column: span 1 !important;
+                height: 350px;
+            }
+
+            .modal-container {
+                grid-template-columns: 1fr;
+                height: 90vh;
+            }
+
+            .modal-image {
+                height: 250px;
+            }
+
+            .modal-content-scroll {
+                padding: 30px;
+            }
+        }
+    </style>
+
+    <!-- INTRO MATERIALI -->
+    <section class="section" style="background: var(--white); padding-bottom:40px;">
+        <div class="container text-center">
+            <span class="label">La Nostra Selezione</span>
+            <h2 class="reveal">ECCELLENZA NEI <span class="text-blue">MATERIALI</span></h2>
+            <p class="reveal" style="max-width: 700px; margin: 0 auto; color: var(--gray-400);">
+                Cinque categorie, infinite possibilità. Esplora le nostre soluzioni per scoprire le specifiche tecniche,
+                le lavorazioni e i vantaggi di ogni materiale.
+            </p>
+        </div>
+    </section>
+
+    <!-- GRID SECTION -->
+    <section class="section" style="padding-top:0;">
+        <div class="container">
+            <div class="materials-grid">
+
+                <!-- 1. POLIURETANI -->
+                <div class="mat-card large" onclick="openModal('poliuretani')">
+                    <div class="mat-bg"
+                        style="background-image: url('https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=2070&auto=format&fit=crop');">
+                    </div>
+                    <div class="mat-overlay"></div>
+                    <div class="mat-content">
+                        <h3>Poliuretani</h3>
+                        <p>Oltre 50 tipologie di gomme indeformabili per ogni settore.</p>
+                        <span class="mat-btn">Scopri di più &rarr;</span>
+                    </div>
+                </div>
+
+                <!-- 2. OVATTE E RESINATI -->
+                <div class="mat-card medium" onclick="openModal('ovatte')">
+                    <div class="mat-bg"
+                        style="background-image: url('https://images.unsplash.com/photo-1540553016722-983e48a2cd10?q=80&w=2070');">
+                    </div>
+                    <div class="mat-overlay"></div>
+                    <div class="mat-content">
+                        <h3>Ovatte e Resinati</h3>
+                        <p>Morbidezza e volume per finiture di alta qualità.</p>
+                        <span class="mat-btn">Scopri di più &rarr;</span>
+                    </div>
+                </div>
+
+                <!-- 3. PIUMA -->
+                <div class="mat-card small" onclick="openModal('piuma')">
+                    <div class="mat-bg"
+                        style="background-image: url('https://images.unsplash.com/photo-1616627547584-bf28ceeec20a?q=80&w=2070');">
+                    </div>
+                    <div class="mat-overlay"></div>
+                    <div class="mat-content">
+                        <h3>Piuma</h3>
+                        <p>Comfort naturale e sintetico di livello superiore.</p>
+                        <span class="mat-btn">Scopri di più &rarr;</span>
+                    </div>
+                </div>
+
+                <!-- 4. MICROFIBRA -->
+                <div class="mat-card small" onclick="openModal('microfibra')">
+                    <div class="mat-bg"
+                        style="background-image: url('https://images.unsplash.com/photo-1617325247661-675ab4b64ae4?q=80');">
+                    </div>
+                    <div class="mat-overlay"></div>
+                    <div class="mat-content">
+                        <h3>Microfibra</h3>
+                        <p>Tessuti tecnici resistenti e versatili.</p>
+                        <span class="mat-btn">Scopri di più &rarr;</span>
+                    </div>
+                </div>
+
+                <!-- 5. MEMORY -->
+                <div class="mat-card small" onclick="openModal('memory')">
+                    <div class="mat-bg"
+                        style="background-image: url('https://images.unsplash.com/photo-1511406361295-0a1ff814c0ce?q=80');">
+                    </div>
+                    <div class="mat-overlay"></div>
+                    <div class="mat-content">
+                        <h3>Memory</h3>
+                        <p>Ergonomia avanzata che si adatta alle forme.</p>
+                        <span class="mat-btn">Scopri di più &rarr;</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MODAL CONTAINER (Hidden by default) -->
+    <div id="materialModal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modalImage" class="modal-image"></div>
+            <div class="modal-content-scroll">
+                <span id="modalLabel" class="label text-blue"
+                    style="margin-bottom:12px; display:block;">Categoria</span>
+                <h2 id="modalTitle" style="margin-bottom:24px;">TITOLO MATERIALE</h2>
+                <div id="modalBody" style="color:var(--gray-400); line-height:1.8; margin-bottom:40px;">
+                    <!-- Dynamic Content -->
+                </div>
+
+                <h4 style="margin-bottom:20px; border-bottom:1px solid #111; padding-bottom:10px;">Specifiche Tecniche
+                </h4>
+                <ul id="modalSpecs" style="margin-bottom:40px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <!-- Dynamic Specs -->
+                </ul>
+
+                <a href="contatti.html" class="btn btn-primary">Richiedi Informazioni</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- DATA SOURCE FOR MODALS -->
+    <script>
+        const materialsData = {
+            'poliuretani': {
+                title: "POLIURETANI ESPANSI",
+                subtitle: "Il cuore della nostra produzione",
+                image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=2070&auto=format&fit=crop",
+                description: "<p>Il poliuretano espanso flessibile è il cuore della nostra produzione. Con <strong>oltre 50 tipologie di gomme</strong> disponibili e lavorate quotidianamente, offriamo la soluzione perfetta per ogni esigenza di imbottitura nel mondo del mobile, dell'arredamento e del contract. La nostra gamma spazia dalle densità più basse per schienali morbidi a quelle più alte per sedute indeformabili.</p>",
+                specs: [
+                    "<li><strong>Densità:</strong> da 18 a 60 kg/m³</li>",
+                    "<li><strong>Utilizzo:</strong> Sedute, schienali, braccioli</li>",
+                    "<li><strong>Varianti:</strong> Ignifugo, Alta Resilienza (HR)</li>",
+                    "<li><strong>Certificazioni:</strong> CertiPUR, OEKO-TEX</li>"
+                ]
+            },
+            'ovatte': {
+                title: "OVATTE E RESINATI",
+                subtitle: "Morbidezza e Volume",
+                image: "https://images.unsplash.com/photo-1540553016722-983e48a2cd10?q=80&w=2070",
+                description: "<p>L'ovatta sintetica e i resinati sono essenziali per conferire sofficità superficiale e volume alle imbottiture. Utilizzati spesso come strato di finitura 'interliner' tra il poliuretano e il tessuto di rivestimento, migliorano in modo significativo il comfort percepito e l'estetica del prodotto finito, garantendo rotondità e pienezza.</p>",
+                specs: [
+                    "<li><strong>Grammatura:</strong> da 100 a 600 gr/m²</li>",
+                    "<li><strong>Composizione:</strong> Poliestere, misto cotone</li>",
+                    "<li><strong>Utilizzo:</strong> Trapuntature, rivestimenti</li>",
+                    "<li><strong>Caratteristiche:</strong> Termolegata, anallergica</li>"
+                ]
+            },
+            'piuma': {
+                title: "PIUMA E MISTI",
+                subtitle: "Comfort Naturale Superiore",
+                image: "https://images.unsplash.com/photo-1616627547584-bf28ceeec20a?q=80&w=2070",
+                description: "<p>Per i progetti che richiedono il massimo del lusso e del comfort \"affondante\", offriamo una selezione pregiata di piume. Dalla piuma d'oca naturale sterling, lavata e sterilizzata secondo le più rigide normative, alle miscele con fiocco di poliestere per bilanciare sofficità e ritorno elastico.</p>",
+                specs: [
+                    "<li><strong>Tipologie:</strong> Oca bianca, anatra, misto piuma</li>",
+                    "<li><strong>Trattamenti:</strong> Sterilizzazione, depolverizzazione</li>",
+                    "<li><strong>Confezione:</strong> Fodere in cotone tenuta piuma</li>",
+                    "<li><strong>Settori:</strong> Divani di lusso, cuscineria d'arredo</li>"
+                ]
+            },
+            'microfibra': {
+                title: "MICROFIBRA",
+                subtitle: "Tecnologia e Resistenza",
+                image: "https://images.unsplash.com/photo-1617325247661-675ab4b64ae4?q=80",
+                description: "<p>Le nostre soluzioni in microfibra offrono un'alternativa tecnologica e versatile per imbottiture che richiedono particolare resistenza e praticità senza rinunciare alla morbidezza. Ideali per rivestimenti tecnici e componenti interni che necessitano di traspirabilità e durata nel tempo.</p>",
+                specs: [
+                    "<li><strong>Trama:</strong> Ultra-fine</li>",
+                    "<li><strong>Vantaggi:</strong> Idrorepellente, antimacchia</li>",
+                    "<li><strong>Utilizzo:</strong> Rivestimenti tecnici, contract</li>",
+                    "<li><strong>Manutenzione:</strong> Lavabile e resistente</li>"
+                ]
+            },
+            'memory': {
+                title: "MEMORY FOAM",
+                subtitle: "Ergonomia Avanzata",
+                image: "https://images.unsplash.com/photo-1511406361295-0a1ff814c0ce?q=80",
+                description: "<p>Il Memory Foam (poliuretano viscoelastico) è la frontiera dell'ergonomia. Grazie alla sua capacità di modellarsi col calore corporeo, distribuisce uniformemente la pressione, offrendo un comfort senza pari. È la scelta ideale per materassi di alta gamma, cuscini ergonomici e sedute che devono garantire relax prolungato.</p>",
+                specs: [
+                    "<li><strong>Effetto:</strong> Ritorno lento (Slow Memory)</li>",
+                    "<li><strong>Benefici:</strong> Decompressione, accoglienza</li>",
+                    "<li><strong>Applicazioni:</strong> Materassi, guanciali, topping</li>",
+                    "<li><strong>Tecnologia:</strong> Viscoelastico termosensibile</li>"
+                ]
+            }
+        };
+
+        function openModal(materialKey) {
+            const data = materialsData[materialKey];
+            if (!data) return;
+
+            // Populate Content
+            document.getElementById('modalTitle').innerHTML = data.title;
+            document.getElementById('modalLabel').innerHTML = data.subtitle;
+            document.getElementById('modalBody').innerHTML = data.description;
+            document.getElementById('modalSpecs').innerHTML = data.specs.join('');
+            document.getElementById('modalImage').style.backgroundImage = `url('${data.image}')`;
+
+            // Show Modal
+            const modal = document.getElementById('materialModal');
+            modal.classList.add('active');
+
+            // Prevent Body Scroll (optional but recommended)
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('materialModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scroll
+        }
+
+        // Close on clicking outside
+        document.getElementById('materialModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Check for URL params to open modal
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const modalKey = urlParams.get('modal');
+            if (modalKey) {
+                // Small delay to ensure smooth transition after page load
+                setTimeout(() => {
+                    openModal(modalKey);
+                }, 300);
+            }
+        });
+    </script>
+
+    <!-- SETTORI LINK -->
+    <section class="section" style="background: #f8f9fa;">
+        <div class="container text-center">
+            <span class="label reveal">Applicazioni</span>
+            <h2 class="reveal" style="color: var(--charcoal); margin-bottom: 24px;">SOLUZIONI PER OGNI SETTORE</h2>
+            <p class="reveal" style="max-width: 600px; margin: 0 auto 48px; color: var(--gray-400);">
+                I nostri materiali trovano applicazione in molteplici industrie, dall'arredamento alla nautica,
+                garantendo prestazioni eccellenti e durata nel tempo.
+            </p>
+            <div class="grid grid-4 reveal" style="gap: 24px; text-align: left;">
+                <a href="settori.html" class="sector-card-light">
+                    <span>Arredamento</span>
+                    <div class="icon-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg></div>
+                </a>
+                <a href="settori.html" class="sector-card-light">
+                    <span>Nautica</span>
+                    <div class="icon-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg></div>
+                </a>
+                <a href="settori.html" class="sector-card-light">
+                    <span>Automotive</span>
+                    <div class="icon-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg></div>
+                </a>
+                <a href="settori.html" class="sector-card-light">
+                    <span>Medicale</span>
+                    <div class="icon-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg></div>
+                </a>
+                <a href="settori.html" class="sector-card-light">
+                    <span>Edilizia</span>
+                    <div class="icon-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg></div>
+                </a>
+                <a href="settori.html" class="sector-card-light">
+                    <span>Sport</span>
+                    <div class="icon-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg></div>
+                </a>
+                <a href="settori.html" class="sector-card-light">
+                    <span>Contract</span>
+                    <div class="icon-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg></div>
+                </a>
+                <a href="settori.html" class="sector-card-light">
+                    <span>Outdoor</span>
+                    <div class="icon-arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .sector-card-light {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 28px;
+            background: var(--white);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 12px;
+            color: var(--charcoal);
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+        }
+
+        .sector-card-light .icon-arrow {
+            width: 32px;
+            height: 32px;
+            background: #f3f4f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            transition: all 0.3s ease;
+        }
+
+        .sector-card-light:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+            border-color: rgba(17, 61, 172, 0.2);
+        }
+
+        .sector-card-light:hover span {
+            color: var(--blue);
+        }
+
+        .sector-card-light:hover .icon-arrow {
+            background: var(--blue);
+            color: #fff;
+            transform: translateX(4px);
+        }
+    </style>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="img/logo.png" alt="R.F. Resina Forlivese" class="logo-img" style="height: 54px;">
+                    </div>
+                    <p class="tagline">Gli esperti delle imbottiture in poliuretano dal 1973.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Link Rapidi</h4>
+                    <ul>
+                        <li><a href="chi-siamo.html">Chi Siamo</a></li>
+                        <li><a href="settori.html">Settori</a></li>
+                        <li><a href="prodotti.html">Prodotti</a></li>
+                        <li><a href="lavorazioni.html">Lavorazioni</a></li>
+                        <li><a href="qualita.html">Qualità</a></li>
+                        <li><a href="green-vision.html">Green Vision</a></li>
+                        <li><a href="contatti.html">Contatti</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contatti</h4>
+                    <ul>
+                        <li>0543 700047</li>
+                        <li style="margin-top:8px;">rf@resinaforlivese.it</li>
+                        <li style="margin-top:8px;">resinaforlivese@pec.it</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Certificazioni</h4>
+                    <div class="footer-badges">
+                        <span class="footer-badge">ISO 9001</span>
+                        <span class="footer-badge">Parità Genere</span>
+                        <img src="img/italia-imbottiti.png" alt="Italia Imbottiti"
+                            style="height:30px; opacity:0.8; background:#fff; padding:2px; border-radius:4px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-row">
+                    <p>© 2025 R.F. Resina Forlivese S.r.l. — Tutti i diritti riservati</p>
+                    <div style="display:flex;gap:16px;"><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a>
+                    </div>
+                </div>
+                <div class="footer-legal">
+                    <p>R.F. Resina Forlivese S.r.l. — Via Pitagora, 2 — 47121 Forlì (FC) — P.IVA: IT 00309120400 — REA:
+                        FO 148977 — SDI: A4707H7</p>
+                    <p>Sottoposta a direzione e coordinamento di Valli Holding S.r.l. — Via Ossi 10, Forlì (FC) — P.IVA:
+                        IT 04679600405</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/393333269000" target="_blank" class="floating-whatsapp" aria-label="WhatsApp"><svg
+            viewBox="0 0 24 24">
+            <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+        </svg></a>
+    <button class="scroll-top-btn" aria-label="Torna su"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5">
+            <path d="M18 15l-6-6-6 6" />
+        </svg></button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.18/lenis.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lavorazioni — R.F. Resina Forlivese | Dal Concept alla Realizzazione</title>
+    <meta name="description"
+        content="Da oltre 50 anni trasformiamo il poliuretano espanso in soluzioni su misura. Taglio, sagomatura, incollaggio e finiture di pregio per l'industria del mobile imbottito.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        /* ===== LAVORAZIONI PAGE STYLES (v3 - Refined) ===== */
+        :root {
+            --navy-custom: #0d1f3c;
+            /* User requested specific navy */
+            --gray-light-custom: #f5f5f5;
+        }
+
+        /* Overrides */
+        body {
+            background: var(--white);
+            color: var(--navy-custom);
+        }
+
+        .bg-navy-custom {
+            background-color: var(--navy-custom);
+            color: var(--white);
+        }
+
+        .bg-gray-light {
+            background-color: var(--gray-light-custom);
+        }
+
+        /* Hero Override */
+        .hero-lavorazioni {
+            background-color: var(--navy-custom);
+            padding: 180px 0 100px;
+            position: relative;
+        }
+
+        .hero-lavorazioni h1 {
+            color: var(--white);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .hero-lavorazioni p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.2rem;
+            font-weight: 400;
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        /* ---------------------------------------------------------
+           SERVICE CARDS (Styled like "Value Pillars" from Chi Siamo) 
+           --------------------------------------------------------- */
+        .services-grid-v3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 50px;
+        }
+
+        .service-card-v3 {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 44px 32px 40px;
+            text-align: left;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--gray-100);
+            border-left: 4px solid var(--blue);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(.22, .68, 0, .71),
+                box-shadow 0.4s cubic-bezier(.22, .68, 0, .71),
+                border-color 0.4s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card-v3:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+            border-left-color: var(--gold);
+        }
+
+        .service-card-v3 h3 {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--charcoal);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            transition: color 0.3s ease;
+        }
+
+        .service-card-v3:hover h3 {
+            color: var(--blue);
+        }
+
+        .service-card-v3 p {
+            color: var(--gray-400);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--blue);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: gap 0.3s ease;
+        }
+
+        .service-card-v3:hover .service-link {
+            gap: 12px;
+            color: var(--gold);
+        }
+
+        /* ---------------------------------------------------------
+           PROCESS / METHOD (Refined)
+           --------------------------------------------------------- */
+        .process-section {
+            background: var(--white);
+            padding: 100px 0;
+        }
+
+        .process-horizontal {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 60px;
+            padding: 0 40px;
+        }
+
+        .process-horizontal::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 60px;
+            right: 60px;
+            height: 1px;
+            background: var(--gray-200);
+            z-index: 1;
+        }
+
+        .process-horizontal .progress-fill {
+            position: absolute;
+            top: 25px;
+            left: 60px;
+            height: 1px;
+            width: 0%;
+            background: var(--blue);
+            z-index: 1;
+        }
+
+        .process-item {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .process-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 2px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--gray-300);
+            transition: all 0.3s ease;
+        }
+
+        .process-item.active .process-dot {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: var(--white);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(17, 61, 172, 0.3);
+        }
+
+        .process-item h4 {
+            font-family: var(--font-heading);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gray-300);
+            transition: color 0.3s ease;
+        }
+
+        .process-item.active h4 {
+            color: var(--blue);
+        }
+
+        /* Process Panel */
+        .process-panel {
+            margin-top: 60px;
+            background: var(--white);
+            border: 1px solid var(--gray-100);
+            border-radius: 12px;
+            /* Consistent radius */
+            padding: 60px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+            box-shadow: var(--shadow-lg);
+            /* Consistent shadow */
+            min-height: 320px;
+        }
+
+        .panel-text h3 {
+            color: var(--charcoal);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .panel-text p {
+            color: var(--gray-400);
+            line-height: 1.7;
+        }
+
+        .panel-detail {
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 24px;
+            display: block;
+        }
+
+        .panel-visual {
+            height: 250px;
+            background: var(--gray-100);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-300);
+            font-size: 4rem;
+            font-weight: 300;
+        }
+
+        /* ---------------------------------------------------------
+           SPLIT SECTIONS (50/50)
+           --------------------------------------------------------- */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 550px;
+            /* Increased height for elegance */
+        }
+
+        .split-content {
+            padding: 80px 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .split-image {
+            background-color: var(--gray-200);
+            height: 100%;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-400);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* ---------------------------------------------------------
+           STATS (SITO_RF Style)
+           --------------------------------------------------------- */
+        .stats-section-custom {
+            background: var(--blue);
+            padding: 100px 0;
+            color: var(--white);
+        }
+
+        .stats-grid-custom {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item-custom h3 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .stat-divider-custom {
+            width: 40px;
+            height: 3px;
+            background: var(--gold);
+            margin: 0 auto 16px;
+            border-radius: 2px;
+        }
+
+        .stat-label-custom {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+            font-weight: 600;
+        }
+
+        /* ---------------------------------------------------------
+           MODAL
+           --------------------------------------------------------- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(13, 31, 60, 0.8);
+            /* Darker overlay */
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* MODAL V3 — Technical Sheet */
+        .modal-container {
+            background: var(--white);
+            width: 96%;
+            max-width: 1100px;
+            max-height: 90vh;
+            padding: 0;
+            border-radius: 20px;
+            position: relative;
+            transform: translateY(40px) scale(0.94);
+            transition: all 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.28);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 45% 55%;
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-img-wrapper {
+            background: #0d1f3c;
+            position: relative;
+            min-height: 480px;
+            overflow: hidden;
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: transform 0.8s ease, opacity 0.5s ease;
+        }
+
+        .modal-overlay.active .modal-img {
+            transform: scale(1.06);
+            opacity: 1;
+        }
+
+        .modal-content-wrapper {
+            padding: 52px 52px 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.92);
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--charcoal);
+            transition: all 0.25s;
+            z-index: 10;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            background: var(--blue);
+            color: var(--white);
+            transform: rotate(90deg);
+        }
+
+        .modal-tag {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--blue);
+            background: rgba(17, 61, 172, 0.07);
+            border: 1px solid rgba(17, 61, 172, 0.2);
+            padding: 5px 12px;
+            border-radius: 4px;
+            margin-bottom: 18px;
+        }
+
+        .modal-content h3 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--charcoal);
+            margin-bottom: 0;
+            text-transform: uppercase;
+            font-weight: 900;
+            line-height: 1.0;
+            letter-spacing: -0.02em;
+        }
+
+        .modal-separator {
+            width: 44px;
+            height: 3px;
+            background: #c9a84c;
+            margin: 18px 0 16px;
+            border-radius: 2px;
+        }
+
+        .modal-subtitle {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--blue);
+            margin-bottom: 24px;
+            line-height: 1.5;
+            font-style: italic;
+            opacity: 0.85;
+        }
+
+        .modal-content p {
+            color: #4a5568;
+            line-height: 1.85;
+            font-size: 0.97rem;
+            margin-bottom: 14px;
+        }
+
+        .modal-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 900px) {
+            .modal-container {
+                grid-template-columns: 1fr;
+                max-width: 560px;
+                max-height: 92vh;
+                overflow-y: auto;
+            }
+
+            .modal-img-wrapper {
+                height: 200px;
+                min-height: auto;
+            }
+
+            .modal-content-wrapper {
+                padding: 32px 28px;
+            }
+
+            .modal-content h3 {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .services-grid-v3 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .split-section {
+                grid-template-columns: 1fr;
+            }
+
+            .split-image {
+                order: -1;
+                min-height: 350px;
+            }
+
+            .split-section.inverted .split-image {
+                order: -1;
+            }
+
+            /* Ensure image always top on mobile */
+            .stats-grid-custom {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 60px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-lavorazioni {
+                padding: 140px 0 60px;
+            }
+
+            .services-grid-v3 {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid-custom {
+                grid-template-columns: 1fr;
+            }
+
+            .process-panel {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 40px;
+            }
+
+            .process-horizontal {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scroll-progress"></div>
+    <div class="custom-cursor"></div>
+
+    <header class="site-header">
+        <div class="container header-inner"><a href="index.html" class="logo">
+                <img src="img/logo_new.png" alt="R.F. Resina Forlivese" class="logo-img">
+            </a>
+            <nav class="nav-links">
+                <a href="chi-siamo.html">Chi Siamo</a>
+                <a href="settori.html">Settori</a>
+                <div class="nav-item-dropdown">
+                    <a href="prodotti.html" class="nav-link-parent">Prodotti</a>
+                    <div class="dropdown-menu">
+                        <a href="prodotti.html?modal=poliuretani" class="dropdown-item">Poliuretani Espansi</a>
+                        <a href="prodotti.html?modal=ovatte" class="dropdown-item">Ovatte e Resinati</a>
+                        <a href="prodotti.html?modal=piuma" class="dropdown-item">Piuma e Misti</a>
+                        <a href="prodotti.html?modal=microfibra" class="dropdown-item">Microfibra</a>
+                        <a href="prodotti.html?modal=memory" class="dropdown-item">Memory Foam</a>
+                    </div>
+                </div>
+                <a href="lavorazioni.html" class="active">Lavorazioni</a>
+                <div class="nav-item-dropdown">
+                    <a href="qualita.html" class="nav-link-parent">Qualità</a>
+                    <div class="dropdown-menu">
+                        <a href="qualita.html" class="dropdown-item">Qualità</a>
+                        <a href="green-vision.html" class="dropdown-item">Green Vision 🌿</a>
+                    </div>
+                </div>
+            </nav><a href="contatti.html" class="header-cta">Contatti</a><button class="hamburger"
+                aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+    <div class="mobile-nav"><a href="chi-siamo.html">Chi Siamo</a><a href="settori.html">Settori</a><a
+            href="prodotti.html">Prodotti</a><a href="lavorazioni.html" class="active">Lavorazioni</a><a
+            href="qualita.html">Qualità</a><a href="green-vision.html" style="color:#22c55e;">Green Vision 🌿</a>
+        <a href="contatti.html">Contatti</a>
+    </div>
+
+    <!-- SEZIONE 1 — HERO -->
+    <section class="hero-lavorazioni">
+        <div class="container">
+            <h1 class="reveal">LAVORAZIONI</h1>
+            <p class="reveal">Dal poliuretano grezzo al prodotto finito: precisione, tecnologia e cura artigianale.</p>
+        </div>
+    </section>
+
+    <!-- SEZIONE 2 — IL NOSTRO PROCESSO -->
+    <section class="process-section">
+        <div class="container">
+            <div class="text-center reveal" style="margin-bottom: 50px;">
+                <span class="label">Il Nostro Metodo</span>
+                <h2 style="color: var(--charcoal); margin-bottom: 16px;">DAL CONCEPT ALLA <span
+                        class="text-blue">REALIZZAZIONE</span></h2>
+                <p style="color: var(--gray-400); max-width: 600px; margin: 0 auto;">Accompagniamo il cliente in ogni
+                    fase: dall'ascolto iniziale alla consegna del prodotto finito.</p>
+            </div>
+
+            <!-- Horizontal steps -->
+            <div class="process-horizontal reveal">
+                <div class="progress-fill"></div>
+                <div class="process-item active" data-step="0">
+                    <div class="process-dot">01</div>
+                    <h4>Ascolto</h4>
+                </div>
+                <div class="process-item" data-step="1">
+                    <div class="process-dot">02</div>
+                    <h4>Progetto</h4>
+                </div>
+                <div class="process-item" data-step="2">
+                    <div class="process-dot">03</div>
+                    <h4>Prototipo</h4>
+                </div>
+                <div class="process-item" data-step="3">
+                    <div class="process-dot">04</div>
+                    <h4>Produzione</h4>
+                </div>
+                <div class="process-item" data-step="4">
+                    <div class="process-dot">05</div>
+                    <h4>Consegna</h4>
+                </div>
+            </div>
+
+            <!-- Content panel -->
+            <div class="process-panel reveal">
+                <div class="panel-text" id="panelText">
+                    <h3 id="panelTitle">Ascolto</h3>
+                    <p id="panelDesc">Incontriamo il cliente per comprendere le sue esigenze tecniche, estetiche e
+                        produttive. Analizziamo specifiche, quantità e tempistiche per costruire la proposta migliore.
+                    </p>
+                    <span id="panelDetail" class="panel-detail">✓ Incontro conoscitivo &nbsp; ✓ Analisi tecnica &nbsp; ✓
+                        Proposta personalizzata</span>
+                </div>
+                <div class="panel-visual">
+                    <span class="visual-icon" id="panelIcon">01</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEZIONE 3 — RICERCA & SVILUPPO -->
+    <section class="split-section bg-gray-light">
+        <div class="split-content reveal">
+            <span class="label">Innovazione</span>
+            <h2 style="color: var(--charcoal); margin-bottom: 24px;">RICERCA E SVILUPPO</h2>
+            <p style="color: var(--gray-400); line-height: 1.7; margin-bottom: 24px;">
+                Da oltre 50 anni investiamo nella ricerca di materiali e tecniche di lavorazione avanzate. Conosciamo
+                ogni densità, ogni taglio, ogni applicazione — perché ci lavoriamo ogni giorno dal 1973. Prima di ogni
+                produzione, sviluppiamo e testiamo soluzioni per rispondere con precisione alle esigenze del cliente.
+            </p>
+            <div style="color: var(--blue); font-weight: 600; font-size: 0.95rem;">
+                ✓ Materiali innovativi &nbsp;&nbsp; ✓ Test su campioni &nbsp;&nbsp; ✓ Know-how dal 1973
+            </div>
+        </div>
+        <div class="split-image reveal">
+            <div class="img-placeholder" style="width: 100%; height: 100%;">IMG R&D</div>
+        </div>
+    </section>
+
+    <!-- SEZIONE 4 — LE NOSTRE LAVORAZIONI -->
+    <section class="section" style="background: var(--white);">
+        <div class="container">
+            <div class="text-center reveal">
+                <h2 style="color: var(--charcoal); margin-bottom: 16px;">LE NOSTRE <span
+                        class="text-blue">LAVORAZIONI</span></h2>
+                <p style="color: var(--gray-400); max-width: 700px; margin: 0 auto;">Ogni fase del processo produttivo è
+                    eseguita con macchinari di precisione e operatori specializzati.</p>
+            </div>
+
+            <div class="services-grid-v3">
+
+                <div class="service-card-v3 reveal" data-id="1" data-title="Taglio e Sagomatura Poliuretano"
+                    data-subtitle="Precisione millimetrica su ogni dimensione, spessore e sagomatura"
+                    data-img="https://placehold.co/800x600/0d1f3c/ffffff?text=Taglio+Poliuretano"
+                    data-body="Il taglio del poliuretano espanso avviene con tre tecnologie complementari, scelte in base alla forma e alla complessità richiesta.|La spacca blocchi trasforma i grandi blocchi grezzi in blocchi di dimensioni lavorabili, tagliando fette dritte con precisione e velocità.|Le taglierine manuali di ultima generazione — sia dritte che inclinate in più direzioni — consentono tagli personalizzati e sagomature complesse impossibili da replicare con il taglio computerizzato. Ogni pezzo è lavorato da operatori qualificati con massima flessibilità.|Il pantografo CNC è la soluzione per le produzioni ripetitive: garantisce precisione millimetrica e ripetibilità assoluta anche su grandi serie, ottimizzando i tempi e riducendo gli scarti.">
+                    <h3>Taglio e Sagomatura Poliuretano</h3>
+                    <p>Dal blocco grezzo al pezzo finito: tre tecnologie di taglio per ogni forma e complessità.</p>
+                    <span class="service-link">Scopri di più &rarr;</span>
+                </div>
+
+                <div class="service-card-v3 reveal" data-id="2" data-title="Cucito Puntato"
+                    data-subtitle="La lavorazione portante del nostro reparto cuciture"
+                    data-img="https://placehold.co/800x600/0d1f3c/ffffff?text=Cucito+Puntato"
+                    data-body="Il cucito puntato è la lavorazione portante del nostro reparto e copre la quasi totalità delle commesse di cucitura: sacche imbottite, sedute, schienali, componenti strutturali e ogni tipo di assemblaggio tessile destinato all'imbottitura.|È una tecnica versatile e produttiva, affidata a un team ampio di operatori specializzati che garantiscono costanza qualitativa, tenuta delle cuciture e uniformità dimensionale su ogni lotto — dal pezzo singolo alla grande serie.">
+                    <h3>Cucito Puntato</h3>
+                    <p>La lavorazione principale per sacche, sedute e componenti imbottiti: versatilità e produttività
+                        su ogni commessa.</p>
+                    <span class="service-link">Scopri di più &rarr;</span>
+                </div>
+
+                <div class="service-card-v3 reveal" data-id="3" data-title="Cucitura Lineare"
+                    data-subtitle="Precisione superiore per il cotone e le lavorazioni di alto livello"
+                    data-img="https://placehold.co/800x600/0d1f3c/ffffff?text=Cucitura+Lineare"
+                    data-body="La cucitura lineare è una lavorazione tecnicamente più complessa che richiede una competenza superiore. Il suo impiego principale è la cucitura degli involucri in cotone destinati alla costruzione dei cuscini, che verranno poi riempiti con piuma, fibra o miscele personalizzate.|Per clienti di fascia alta e produzioni di lusso, la cucitura lineare viene impiegata anche su lavorazioni più ampie — come imbottiture e componenti che normalmente sarebbero gestiti con il cucito puntato. In questi casi, la lineare garantisce un tratto molto più fine e preciso, con una qualità di cucitura visibilmente superiore. Il ritmo di produzione è più lento, ma il risultato finale è di eccellenza assoluta.">
+                    <h3>Cucitura Lineare</h3>
+                    <p>Cucitura ad alta precisione per involucri in cotone e lavorazioni di lusso che richiedono un
+                        tratto più fine.</p>
+                    <span class="service-link">Scopri di più &rarr;</span>
+                </div>
+
+                <div class="service-card-v3 reveal" data-id="4" data-title="Incollaggio"
+                    data-subtitle="Controllo artigianale su ogni giunto, per geometrie semplici e complesse"
+                    data-img="https://placehold.co/800x600/0d1f3c/ffffff?text=Cabina+Incollaggio"
+                    data-body="L'incollaggio viene eseguito interamente a mano da operatori qualificati all'interno di una cabina dedicata, con pistole a mastice che utilizzano colle a base acqua o solvente in base alle specifiche tecniche di ogni prodotto.|Lavoriamo l'incollaggio tra gomma piuma e gomma piuma, tra gomma e resinati, e tra altri materiali. La lavorazione manuale garantisce un controllo diretto su ogni pezzo, assicurando qualità e uniformità anche su geometrie complesse che i sistemi automatizzati non riescono a gestire con la stessa affidabilità.">
+                    <h3>Incollaggio</h3>
+                    <p>Incollaggio manuale in cabina dedicata tra poliuretano, resinati e materiali compositi.</p>
+                    <span class="service-link">Scopri di più &rarr;</span>
+                </div>
+
+                <div class="service-card-v3 reveal" data-id="5" data-title="Riempimento con Piuma e Fibra"
+                    data-subtitle="Ogni miscela calibrata sulle esigenze specifiche del cliente"
+                    data-img="https://placehold.co/800x600/0d1f3c/ffffff?text=Riempimento+Piuma"
+                    data-body="Realizziamo cuscini e imbottiture riempiti con piuma naturale, Fiocco Synthetic e miscele miste personalizzate in base alle esigenze tecniche ed estetiche del cliente.|Insieme al nostro team tecnico, sviluppiamo miscele specifiche per ogni cliente, calibrando la composizione per ottenere le caratteristiche di comfort, morbidezza e resilienza desiderate. Un lavoro su misura che parte dall'ascolto e arriva al prodotto ideale.|Gestiamo il riempimento con attrezzature dedicate che garantiscono uniformità e dosaggio preciso su ogni prodotto.">
+                    <h3>Riempimento con Piuma e Fibra</h3>
+                    <p>Riempimento di cuscini e sacche con piuma, Fiocco Synthetic e miscele personalizzate.</p>
+                    <span class="service-link">Scopri di più &rarr;</span>
+                </div>
+
+                <div class="service-card-v3 reveal" data-id="6" data-title="Taglio Tessuti e Ovatte"
+                    data-subtitle="Precisione millimetrica e ottimizzazione dei materiali per ogni componente tessile"
+                    data-img="https://placehold.co/800x600/0d1f3c/ffffff?text=Taglio+Tessuti"
+                    data-body="Il nostro banco da taglio a controllo numerico (CNC) di grandi dimensioni con testa traslante permette di tagliare con estrema precisione tessuti, ovatte, resinati e imbottiture.|Gestiamo agilmente geometrie complesse e grandi metrature, garantendo ripetibilità assoluta su ogni lotto produttivo.|Grazie all'impiego di software di nesting avanzati, ottimizziamo la disposizione dei pezzi sul materiale: questo riduce gli scarti e abbatte i tempi di lavorazione, assicurando massima efficienza.">
+                    <h3>Taglio Tessuti e Ovatte</h3>
+                    <p>Banco CNC di grandi dimensioni per il taglio di precisione su tessuti, ovatte, resinati e
+                        imbottiture.</p>
+                    <span class="service-link">Scopri di più &rarr;</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SEZIONE 5 — LINK GREEN VISION -->
+    <section class="section" style="background:#f8f9fa; padding: 80px 0;">
+        <div class="container">
+            <div class="text-center reveal">
+                <span class="label">Sostenibilità</span>
+                <h2
+                    style="font-family:var(--font-heading);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--charcoal);text-transform:uppercase;margin-bottom:16px;">
+                    Il nostro impegno <span class="text-blue">Green</span></h2>
+                <p style="color:var(--gray-400);max-width:600px;margin:0 auto 32px;">Scarti quasi azzerati, energia
+                    solare e materiali certificati: scopri come integriamo la sostenibilità in ogni fase della nostra
+                    produzione.</p>
+                <a href="green-vision.html" class="btn btn-primary">Scopri la Green Vision &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEZIONE 6 — COUNTER (Style 'Chi Siamo') -->
+    <section class="stats-section-custom">
+        <div class="container">
+            <div class="stats-grid-custom">
+                <!-- Added divider div to match chi-siamo style -->
+                <div class="stat-item-custom reveal">
+                    <h3>400+</h3>
+                    <div class="stat-divider-custom"></div>
+                    <p class="stat-label-custom">Modelli Realizzati</p>
+                </div>
+                <div class="stat-item-custom reveal">
+                    <h3>50+</h3>
+                    <div class="stat-divider-custom"></div>
+                    <p class="stat-label-custom">Anni di Esperienza</p>
+                </div>
+                <div class="stat-item-custom reveal">
+                    <h3>100%</h3>
+                    <div class="stat-divider-custom"></div>
+                    <p class="stat-label-custom">Produzione su Misura</p>
+                </div>
+                <div class="stat-item-custom reveal">
+                    <h3>3</h3>
+                    <div class="stat-divider-custom"></div>
+                    <p class="stat-label-custom">Generazioni</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEZIONE 7 — CTA -->
+    <section class="section" style="background: var(--white); padding: 100px 0;">
+        <div class="container text-center reveal">
+            <h2 style="margin-bottom: 16px;">HAI UN PROGETTO IN MENTE?</h2>
+            <p style="color: var(--gray-400); max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem;">
+                Contattaci per una consulenza gratuita. Il nostro team è pronto ad ascoltarti e trovare la soluzione
+                perfetta per le tue esigenze.
+            </p>
+            <div class="flex-center gap-md" style="flex-wrap: wrap;">
+                <!-- Using global button classes -->
+                <a href="contatti.html" class="btn btn-primary">Richiedi consulenza gratuita</a>
+                <a href="contatti.html" class="btn btn-outline-blue">Contattaci</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="img/logo.png" alt="R.F. Resina Forlivese" class="logo-img" style="height: 54px;">
+                    </div>
+                    <p class="tagline">Gli esperti delle imbottiture in poliuretano dal 1973.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Link Rapidi</h4>
+                    <ul>
+                        <li><a href="chi-siamo.html">Chi Siamo</a></li>
+                        <li><a href="settori.html">Settori</a></li>
+                        <li><a href="prodotti.html">Prodotti</a></li>
+                        <li><a href="lavorazioni.html">Lavorazioni</a></li>
+                        <li><a href="qualita.html">Qualità</a></li>
+                        <li><a href="green-vision.html">Green Vision</a></li>
+                        <li><a href="contatti.html">Contatti</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contatti</h4>
+                    <ul>
+                        <li>0543 700047</li>
+                        <li style="margin-top:8px;">rf@resinaforlivese.it</li>
+                        <li style="margin-top:8px;">resinaforlivese@pec.it</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Certificazioni</h4>
+                    <div class="footer-badges">
+                        <span class="footer-badge">ISO 9001</span>
+                        <span class="footer-badge">Parità Genere</span>
+                        <img src="img/italia-imbottiti.png" alt="Italia Imbottiti"
+                            style="height:30px; opacity:0.8; background:#fff; padding:2px; border-radius:4px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-row">
+                    <p>© 2025 R.F. Resina Forlivese S.r.l. — Tutti i diritti riservati</p>
+                    <div style="display:flex;gap:16px;"><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a>
+                    </div>
+                </div>
+                <div class="footer-legal">
+                    <p>R.F. Resina Forlivese S.r.l. — Via Pitagora, 2 — 47121 Forlì (FC) — P.IVA: IT 00309120400 — REA:
+                        FO 148977 — SDI: A4707H7</p>
+                    <p>Sottoposta a direzione e coordinamento di Valli Holding S.r.l. — Via Ossi 10, Forlì (FC) — P.IVA:
+                        IT 04679600405</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL OVERLAY (V3 — Technical Sheet) -->
+    <div class="modal-overlay" id="serviceModal">
+        <div class="modal-container">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-img-wrapper">
+                <img src="" alt="Dettaglio Lavorazione" class="modal-img" id="modalImg">
+            </div>
+            <div class="modal-content-wrapper">
+                <div class="modal-content">
+                    <span class="modal-tag">Lavorazione</span>
+                    <h3 id="modalTitle">Titolo</h3>
+                    <div class="modal-separator"></div>
+                    <p class="modal-subtitle" id="modalSubtitle"></p>
+                    <div id="modalBody"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.18/lenis.min.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // ===== INTERACTIVE PROCESS STEPS (GSAP ENHANCED) =====
+            const processData = [
+                {
+                    title: 'ASCOLTO',
+                    desc: 'Incontriamo il cliente per comprendere le sue esigenze tecniche, estetiche e produttive. Analizziamo specifiche, quantità e tempistiche per costruire la proposta migliore.',
+                    detail: '✓ Incontro conoscitivo &nbsp; ✓ Analisi tecnica &nbsp; ✓ Proposta personalizzata',
+                    icon: '01'
+                },
+                {
+                    title: 'PROGETTO',
+                    desc: 'Il nostro team sviluppa modelli personalizzati con software CAD, ottimizzando ogni dettaglio in funzione delle specifiche tecniche e degli standard qualitativi richiesti.',
+                    detail: '✓ Modellazione 3D &nbsp; ✓ Disegni tecnici &nbsp; ✓ Revisioni incluse',
+                    icon: '02'
+                },
+                {
+                    title: 'PROTOTIPO',
+                    desc: 'Realizziamo prototipi fisici per permettere al cliente di valutare e testare la soluzione prima della produzione in serie, minimizzando rischi e costi.',
+                    detail: '✓ Prototipo fisico &nbsp; ✓ Test e validazione &nbsp; ✓ Modifiche rapide',
+                    icon: '03'
+                },
+                {
+                    title: 'PRODUZIONE',
+                    desc: 'Avviamo la produzione con macchinari di ultima generazione, mantenendo il controllo qualità in ogni fase per garantire costanza e affidabilità su ogni lotto.',
+                    detail: '✓ Controllo qualità &nbsp; ✓ Tracciabilità &nbsp; ✓ Tempistiche garantite',
+                    icon: '04'
+                },
+                {
+                    title: 'CONSEGNA',
+                    desc: 'Gestiamo la logistica e la consegna del prodotto finito, rimanendo a disposizione per qualsiasi necessità post-vendita e future collaborazioni.',
+                    detail: '✓ Logistica gestita &nbsp; ✓ Assistenza post-vendita &nbsp; ✓ Forniture continue',
+                    icon: '05'
+                }
+            ];
+
+            const items = document.querySelectorAll('.process-item');
+            const panelText = document.getElementById('panelText');
+            const panelTitle = document.getElementById('panelTitle');
+            const panelDesc = document.getElementById('panelDesc');
+            const panelDetail = document.getElementById('panelDetail');
+            const panelIcon = document.getElementById('panelIcon');
+            const progressFill = document.querySelector('.progress-fill');
+
+            let currentStep = 0;
+            let progressTween;
+            let autoPlayTimer;
+            const STEP_DURATION = 5; // seconds
+
+            // Initialize Title/Desc for animation
+            gsap.set([panelTitle, panelDesc, panelDetail], { opacity: 1, y: 0 });
+
+            function updatePanelContent(idx) {
+                // Animate Out
+                const tl = gsap.timeline();
+
+                tl.to([panelTitle, panelDesc, panelDetail, panelIcon], {
+                    opacity: 0,
+                    y: 10,
+                    duration: 0.3,
+                    stagger: 0.05,
+                    ease: "power2.in"
+                })
+                    .add(() => {
+                        // Change Content
+                        panelTitle.textContent = processData[idx].title;
+                        panelDesc.textContent = processData[idx].desc;
+                        panelDetail.innerHTML = processData[idx].detail;
+                        panelIcon.textContent = processData[idx].icon;
+                    })
+                    .to([panelTitle, panelDesc, panelDetail, panelIcon], {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.5,
+                        stagger: 0.1,
+                        ease: "power2.out"
+                    });
+            }
+
+            function goToStep(idx, animateProgress = true) {
+                if (idx === currentStep && !animateProgress) return;
+
+                // Update dots
+                items.forEach((item, i) => {
+                    if (i <= idx) item.classList.add('active');
+                    else item.classList.remove('active');
+                });
+
+                // If Wrapping around or manual click, handle progress
+                if (animateProgress) {
+                    const totalSteps = items.length - 1;
+                    const prevWidth = ((currentStep) / totalSteps) * 100; // Start
+                    const nextWidth = ((idx) / totalSteps) * 100; // End
+
+                    if (idx < currentStep) {
+                        gsap.set(progressFill, { width: nextWidth + '%' });
+                    }
+
+                    updatePanelContent(idx);
+                    currentStep = idx;
+
+                    if (progressTween) progressTween.kill();
+
+                    let startW = (currentStep / totalSteps) * 100;
+                    let endW = ((currentStep + 1) / totalSteps) * 100;
+
+                    if (currentStep === totalSteps) {
+                        progressTween = gsap.to({}, { duration: STEP_DURATION, onComplete: nextSlide });
+                    } else {
+                        gsap.set(progressFill, { width: startW + '%' });
+                        progressTween = gsap.to(progressFill, {
+                            width: endW + '%',
+                            duration: STEP_DURATION,
+                            ease: "linear",
+                            onComplete: nextSlide
+                        });
+                    }
+                }
+            }
+
+            function nextSlide() {
+                const next = (currentStep + 1) % items.length;
+                if (next === 0) {
+                    gsap.set(progressFill, { width: '0%' });
+                }
+                goToStep(next, true);
+            }
+
+            // Manual Click
+            items.forEach((item, idx) => {
+                item.addEventListener('click', () => {
+                    if (progressTween) progressTween.kill();
+
+                    const totalSteps = items.length - 1;
+                    const w = (idx / totalSteps) * 100;
+                    gsap.set(progressFill, { width: w + '%' });
+
+                    currentStep = idx; // Update state
+                    goToStep(idx, true); // Restart flow from here
+                });
+            });
+
+            // Init
+            items[0].classList.add('active');
+            gsap.set(progressFill, { width: '0%' });
+            goToStep(0, true);
+
+            // ===== MODAL LOGIC V3 (Technical Sheet) =====
+            const modal = document.getElementById('serviceModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalSubtitle = document.getElementById('modalSubtitle');
+            const modalBody = document.getElementById('modalBody');
+            const modalImg = document.getElementById('modalImg');
+            const modalClose = document.getElementById('modalClose');
+            const serviceCards = document.querySelectorAll('.service-card-v3');
+
+            serviceCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const title = card.getAttribute('data-title');
+                    const subtitle = card.getAttribute('data-subtitle') || '';
+                    const body = card.getAttribute('data-body') || '';
+                    const imgUrl = card.getAttribute('data-img');
+
+                    // Populate title & subtitle
+                    modalTitle.textContent = title;
+                    modalSubtitle.textContent = subtitle;
+                    modalSubtitle.style.display = subtitle ? 'block' : 'none';
+
+                    // Split body on '|' to create multiple paragraphs
+                    const paragraphs = body.split('|').map(s => s.trim()).filter(Boolean);
+                    modalBody.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
+
+                    // Image
+                    modalImg.src = imgUrl || 'https://placehold.co/800x600?text=Lavorazione';
+
+                    // Show
+                    modal.classList.add('active');
+                });
+            });
+
+            modalClose.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

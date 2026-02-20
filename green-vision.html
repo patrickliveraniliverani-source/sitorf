@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Vision — Sostenibilità | R.F. Resina Forlivese</title>
+    <meta name="description"
+        content="La sostenibilità è il nostro metodo di lavoro quotidiano: scarti quasi azzerati, energia solare e materiali certificati. Scopri la Green Vision di R.F. Resina Forlivese.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* ===== GREEN VISION HERO ===== */
+        .hero-gv {
+            background: linear-gradient(135deg, #0d2b1a 0%, #0d1f3c 60%, #0a1628 100%);
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 120px 24px 80px;
+        }
+
+        .hero-gv::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 60%, rgba(34, 197, 94, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(17, 61, 172, 0.12) 0%, transparent 50%);
+        }
+
+        .hero-gv-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero-gv-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(34, 197, 94, 0.12);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 50px;
+            color: #4ade80;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .hero-gv-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #4ade80;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #4ade80;
+        }
+
+        .hero-gv h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            margin-bottom: 24px;
+        }
+
+        .hero-gv h1 span {
+            color: #4ade80;
+        }
+
+        .hero-gv p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== INTRO SECTION ===== */
+        .gv-intro {
+            background: var(--white);
+            padding: 100px 0;
+        }
+
+        .gv-intro-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .gv-intro-inner .label {
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .gv-intro-inner h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            color: var(--charcoal);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+
+        .gv-intro-inner p {
+            color: var(--gray-400);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* ===== PILLARS GRID ===== */
+        .gv-pillars {
+            background: #f8f9fa;
+            padding: 100px 0;
+        }
+
+        .gv-pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .gv-pillar {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 48px 36px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gv-pillar:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+        }
+
+        .gv-pillar-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(34, 197, 94, 0.1);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            color: #16a34a;
+        }
+
+        .gv-pillar h3 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--charcoal);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .gv-pillar p {
+            color: var(--gray-400);
+            line-height: 1.75;
+            font-size: 0.97rem;
+        }
+
+        /* ===== DETAIL SECTIONS ===== */
+        .gv-detail {
+            padding: 100px 0;
+        }
+
+        .gv-detail.alt {
+            background: #f8f9fa;
+        }
+
+        .gv-detail-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .gv-detail.alt .gv-detail-inner {
+            direction: rtl;
+        }
+
+        .gv-detail.alt .gv-detail-inner>* {
+            direction: ltr;
+        }
+
+        .gv-detail-img {
+            background: linear-gradient(135deg, #0d2b1a, #0d1f3c);
+            border-radius: 16px;
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .gv-detail-text .label {
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .gv-detail-text h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 900;
+            color: var(--charcoal);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+
+        .gv-detail-text p {
+            color: var(--gray-400);
+            line-height: 1.8;
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+
+        .gv-detail-text p:last-of-type {
+            margin-bottom: 0;
+        }
+
+        /* ===== TAGS ===== */
+        .gv-tags {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 32px;
+        }
+
+        .gv-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            border: 1px solid rgba(22, 163, 74, 0.4);
+            border-radius: 50px;
+            color: #16a34a;
+            font-size: 0.85rem;
+            font-weight: 700;
+            gap: 10px;
+            background: rgba(22, 163, 74, 0.05);
+        }
+
+        /* ===== CTA ===== */
+        .gv-cta {
+            background: var(--blue);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .gv-cta h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .gv-cta p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 1.05rem;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 992px) {
+            .gv-pillars-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gv-detail-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .gv-detail.alt .gv-detail-inner {
+                direction: ltr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scroll-progress"></div>
+    <div class="custom-cursor"></div>
+
+    <header class="site-header">
+        <div class="container header-inner"><a href="index.html" class="logo">
+                <img src="img/logo_new.png" alt="R.F. Resina Forlivese" class="logo-img">
+            </a>
+            <nav class="nav-links">
+                <a href="chi-siamo.html">Chi Siamo</a>
+                <a href="settori.html">Settori</a>
+                <div class="nav-item-dropdown">
+                    <a href="prodotti.html" class="nav-link-parent">Prodotti</a>
+                    <div class="dropdown-menu">
+                        <a href="prodotti.html?modal=poliuretani" class="dropdown-item">Poliuretani Espansi</a>
+                        <a href="prodotti.html?modal=ovatte" class="dropdown-item">Ovatte e Resinati</a>
+                        <a href="prodotti.html?modal=piuma" class="dropdown-item">Piuma e Misti</a>
+                        <a href="prodotti.html?modal=microfibra" class="dropdown-item">Microfibra</a>
+                        <a href="prodotti.html?modal=memory" class="dropdown-item">Memory Foam</a>
+                    </div>
+                </div>
+                <a href="lavorazioni.html">Lavorazioni</a>
+                <div class="nav-item-dropdown">
+                    <a href="qualita.html" class="nav-link-parent">Qualità</a>
+                    <div class="dropdown-menu">
+                        <a href="qualita.html" class="dropdown-item">Qualità</a>
+                        <a href="green-vision.html" class="dropdown-item">Green Vision 🌿</a>
+                    </div>
+                </div>
+            </nav><a href="contatti.html" class="header-cta">Contatti</a><button class="hamburger"
+                aria-label="Menu"><span></span><span></span><span></span></button>
+        </div>
+    </header>
+    <div class="mobile-nav"><a href="chi-siamo.html">Chi Siamo</a><a href="settori.html">Settori</a><a
+            href="prodotti.html">Prodotti</a><a href="lavorazioni.html">Lavorazioni</a><a
+            href="qualita.html">Qualità</a><a href="green-vision.html" style="color:#22c55e;">Green Vision 🌿</a>
+        <a href="contatti.html">Contatti</a>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero-gv">
+        <div class="hero-gv-content">
+            <div class="hero-gv-badge">Sostenibilità</div>
+            <h1>GREEN <span>VISION</span></h1>
+            <p>La sostenibilità non è un obiettivo. È il nostro metodo di lavoro, ogni giorno.</p>
+        </div>
+    </section>
+
+
+    <!-- PILLARS -->
+    <section class="gv-pillars">
+        <div class="container">
+            <div class="text-center reveal">
+                <span class="label">I Tre Pilastri</span>
+                <h2
+                    style="font-family:var(--font-heading);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--charcoal);text-transform:uppercase;margin-bottom:0;">
+                    Il nostro approccio alla <span class="text-blue">sostenibilità</span></h2>
+            </div>
+            <div class="gv-pillars-grid">
+                <div class="gv-pillar reveal">
+                    <div class="gv-pillar-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                        </svg>
+                    </div>
+                    <h3>Scarti quasi azzerati</h3>
+                    <p>Quasi tutte le materie prime che lavoriamo — gomma piuma, ovatta e molti altri materiali — non
+                        escono dalla nostra azienda come rifiuto. Vengono recuperate come semilavorati, riciclate o
+                        reintrodotte in nuovi cicli produttivi.</p>
+                </div>
+                <div class="gv-pillar reveal">
+                    <div class="gv-pillar-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </div>
+                    <h3>Energia solare</h3>
+                    <p>Il nostro stabilimento funziona con energia solare, coprendo la quasi totalità del fabbisogno
+                        energetico. Una scelta che riflette la nostra visione: produrre bene, consumare meno.</p>
+                </div>
+                <div class="gv-pillar reveal">
+                    <div class="gv-pillar-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 22s5.5-5.5 12-5.5 8 6 8 6"></path>
+                            <path d="M2 2a15.4 15.4 0 0 1 10 2s5 3 5 10c0 0-4.5 4-10 6"></path>
+                        </svg>
+                    </div>
+                    <h3>Materiali certificati</h3>
+                    <p>Scegliamo materie prime certificate e sostenibili anche dove la legge non lo richiede, perché
+                        riteniamo sia semplicemente la cosa giusta da fare.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAIL 1: Scarti -->
+    <section class="gv-detail">
+        <div class="container">
+            <div class="gv-detail-inner">
+                <div class="gv-detail-img reveal">IMG SCARTI</div>
+                <div class="gv-detail-text reveal">
+                    <span class="label">Economia Circolare</span>
+                    <h2>Scarti quasi azzerati</h2>
+                    <p>Quasi tutte le materie prime che lavoriamo — gomma piuma, ovatta e molti altri materiali — non
+                        escono dalla nostra azienda come rifiuto. Vengono recuperate come semilavorati, riciclate o
+                        reintrodotte in nuovi cicli produttivi, riducendo gli scarti quasi a zero.</p>
+                    <p>Questo approccio non è solo una scelta ambientale: è anche un vantaggio competitivo che ci
+                        permette di ottimizzare i costi e offrire ai clienti prezzi più competitivi senza compromettere
+                        la qualità.</p>
+                    <div class="gv-tags">
+                        <div class="gv-tag">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                            </svg>
+                            Scarti quasi azzerati
+                        </div>
+                        <div class="gv-tag">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                            </svg>
+                            Economia circolare
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAIL 2: Energia -->
+    <section class="gv-detail alt">
+        <div class="container">
+            <div class="gv-detail-inner">
+                <div class="gv-detail-img reveal">IMG ENERGIA SOLARE</div>
+                <div class="gv-detail-text reveal">
+                    <span class="label">Energia Rinnovabile</span>
+                    <h2>Energia solare</h2>
+                    <p>Il nostro stabilimento funziona con energia solare, coprendo la quasi totalità del fabbisogno
+                        energetico. Una scelta che riflette la nostra visione: produrre bene, consumare meno.</p>
+                    <p>L'impianto fotovoltaico installato sul tetto del nostro stabilimento produce energia pulita che
+                        alimenta i macchinari, l'illuminazione e tutti i sistemi produttivi, riducendo drasticamente
+                        le emissioni di CO₂ associate alla nostra attività.</p>
+                    <div class="gv-tags">
+                        <div class="gv-tag">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                            </svg>
+                            Energia solare
+                        </div>
+                        <div class="gv-tag">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2v20M2 12h20"></path>
+                            </svg>
+                            CO₂ ridotta
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DETAIL 3: Fornitori -->
+    <section class="gv-detail">
+        <div class="container">
+            <div class="gv-detail-inner">
+                <div class="gv-detail-img reveal">IMG MATERIALI</div>
+                <div class="gv-detail-text reveal">
+                    <span class="label">Filiera Responsabile</span>
+                    <h2>Materiali certificati</h2>
+                    <p>Scegliamo materie prime certificate e sostenibili anche dove la legge non lo richiede, perché
+                        riteniamo sia semplicemente la cosa giusta da fare.</p>
+                    <p>E questo impegno lo estendiamo ai nostri fornitori: il nostro ufficio acquisti e i nostri tecnici
+                        lavorano ogni giorno per selezionare materiali certificati — come gomma piuma eco-compatibile —
+                        da proporre ai nostri clienti come standard, non come opzione.</p>
+                    <div class="gv-tags">
+                        <div class="gv-tag">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 22s5.5-5.5 12-5.5 8 6 8 6"></path>
+                                <path d="M2 2a15.4 15.4 0 0 1 10 2s5 3 5 10c0 0-4.5 4-10 6"></path>
+                            </svg>
+                            Materiali certificati
+                        </div>
+                        <div class="gv-tag">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                            Fornitori selezionati
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="gv-cta">
+        <div class="container">
+            <div class="reveal">
+                <h2>Costruiamo insieme un futuro più sostenibile</h2>
+                <p>Scegliere R.F. Resina Forlivese significa scegliere un partner che condivide i tuoi valori.</p>
+                <a href="contatti.html" class="btn btn-primary"
+                    style="background:#fff;color:var(--blue);">Contattaci</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="img/logo.png" alt="R.F. Resina Forlivese" class="logo-img" style="height: 54px;">
+                    </div>
+                    <p class="tagline">Gli esperti delle imbottiture in poliuretano dal 1973.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Link Rapidi</h4>
+                    <ul>
+                        <li><a href="chi-siamo.html">Chi Siamo</a></li>
+                        <li><a href="settori.html">Settori</a></li>
+                        <li><a href="prodotti.html">Prodotti</a></li>
+                        <li><a href="lavorazioni.html">Lavorazioni</a></li>
+                        <li><a href="qualita.html">Qualità</a></li>
+                        <li><a href="green-vision.html">Green Vision</a></li>
+                        <li><a href="contatti.html">Contatti</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contatti</h4>
+                    <ul>
+                        <li>0543 700047</li>
+                        <li style="margin-top:8px;">rf@resinaforlivese.it</li>
+                        <li style="margin-top:8px;">resinaforlivese@pec.it</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Certificazioni</h4>
+                    <div class="footer-badges">
+                        <span class="footer-badge">ISO 9001</span>
+                        <span class="footer-badge">Parità Genere</span>
+                        <img src="img/italia-imbottiti.png" alt="Italia Imbottiti"
+                            style="height:30px; opacity:0.8; background:#fff; padding:2px; border-radius:4px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-row">
+                    <p>© 2025 R.F. Resina Forlivese S.r.l. — Tutti i diritti riservati</p>
+                    <div style="display:flex;gap:16px;"><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.18/lenis.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

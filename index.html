@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R.F. Resina Forlivese — Imbottiture in Poliuretano Espanso dal 1973 | Forlì</title>
+  <meta name="description"
+    content="Leader nella lavorazione del poliuretano espanso e imbottiture su misura. Qualità certificata ISO 9001, produzione 100% Made in Italy dal 1973.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* ===== VIDEO HERO ===== */
+    .video-hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .yt-bg-wrap {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 100vh;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .yt-bg-wrap iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      /* Scale up to cover and hide black bars */
+      width: 177.78vh;
+      /* 16:9 ratio */
+      height: 100vh;
+      min-width: 100vw;
+      min-height: 56.25vw;
+      /* 16:9 ratio */
+      transform: translate(-50%, -50%);
+      border: 0;
+    }
+
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+          rgba(10, 22, 40, 0.35) 0%,
+          rgba(10, 22, 40, 0.55) 40%,
+          rgba(10, 22, 40, 0.80) 100%);
+      z-index: 1;
+    }
+
+    .video-hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: #fff;
+      max-width: 900px;
+      padding: 0 24px;
+    }
+
+    .video-hero-content .hero-badge {
+      display: inline-flex;
+      padding: 10px 24px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .video-hero-content h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+      text-transform: uppercase;
+      color: #fff !important;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .video-hero-content h1 span {
+      background: linear-gradient(135deg, #f7d77c, #f0c45a, #ffe8a0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 10px rgba(240, 196, 90, 0.5));
+    }
+
+    .video-hero-content .subtitle {
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      font-weight: 400;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 620px;
+      margin: 0 auto 44px;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      animation: scrollBounce 2s infinite;
+    }
+
+    .hero-scroll-indicator .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, transparent 100%);
+    }
+
+    @keyframes scrollBounce {
+
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(10px);
+      }
+    }
+
+    /* ===== FEATURE CARDS (ALTERNATING) ===== */
+    .feature-section {
+      padding: 120px 0;
+    }
+
+    .feature-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-bottom: 120px;
+    }
+
+    .feature-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .feature-card.reverse .feature-visual {
+      order: -1;
+    }
+
+    .feature-text {
+      opacity: 0;
+      transform: translateX(-60px);
+    }
+
+    .feature-card.reverse .feature-text {
+      transform: translateX(60px);
+    }
+
+    .feature-text .label {
+      margin-bottom: 16px;
+    }
+
+    .feature-text h2 {
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+
+    .feature-text p {
+      color: var(--gray-400);
+      margin-bottom: 24px;
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+
+    .feature-visual {
+      opacity: 0;
+      transform: translateX(60px);
+    }
+
+    .feature-card.reverse .feature-visual {
+      transform: translateX(-60px);
+    }
+
+    .feature-visual .img-placeholder {
+      height: 450px;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      transition: transform 0.6s var(--ease);
+    }
+
+    .feature-visual .img-placeholder:hover {
+      transform: scale(1.02) translateY(-5px);
+    }
+
+    /* ===== NUMBERS SECTION ENHANCED ===== */
+    .numbers-enhanced {
+      background: var(--dark-navy);
+      padding: 100px 0;
+      color: #fff;
+    }
+
+    .numbers-enhanced .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+    }
+
+    .numbers-enhanced .stat-item {
+      text-align: center;
+      padding: 40px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      transition: all 0.4s var(--ease);
+    }
+
+    .numbers-enhanced .stat-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-5px);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .numbers-enhanced .stat-number {
+      font-family: var(--font-heading);
+      font-size: 3.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff, #4a8eff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+
+    .numbers-enhanced .stat-label {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ===== QUALITY BANNER ===== */
+    .quality-banner {
+      background: var(--white);
+      padding: 80px 0;
+      color: var(--charcoal);
+      text-align: center;
+    }
+
+    .quality-banner h2 {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--charcoal);
+      margin-bottom: 24px;
+    }
+
+    .quality-banner p {
+      max-width: 600px;
+      margin: 0 auto 40px;
+      color: var(--gray-400);
+    }
+
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto 40px;
+      text-align: left;
+    }
+
+    .badge-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 32px;
+      border-radius: 12px;
+      transition: all 0.3s var(--ease);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .badge-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      border-color: var(--blue);
+    }
+
+    .badge-icon {
+      font-size: 2rem;
+      color: var(--blue);
+      background: #eff6ff;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-bottom: 8px;
+    }
+
+    .badge-card h3 {
+      font-size: 1.15rem;
+      margin: 0;
+      color: var(--charcoal);
+    }
+
+    .badge-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--gray-400);
+      line-height: 1.5;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .feature-card {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-bottom: 80px;
+      }
+
+      .feature-card.reverse .feature-visual {
+        order: 0;
+      }
+
+      .feature-visual .img-placeholder {
+        height: 300px;
+      }
+
+      .numbers-enhanced .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero-cta-row {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="scroll-progress"></div>
+  <div class="custom-cursor"></div>
+  <div class="page-transition"></div>
+
+  <header class="site-header">
+    <div class="container header-inner"><a href="index.html" class="logo">
+        <img src="img/logo_new.png" alt="R.F. Resina Forlivese" class="logo-img">
+      </a>
+      <nav class="nav-links">
+        <a href="chi-siamo.html">Chi Siamo</a>
+        <a href="settori.html">Settori</a>
+        <div class="nav-item-dropdown">
+          <a href="prodotti.html" class="nav-link-parent">Prodotti</a>
+          <div class="dropdown-menu">
+            <a href="prodotti.html?modal=poliuretani" class="dropdown-item">Poliuretani Espansi</a>
+            <a href="prodotti.html?modal=ovatte" class="dropdown-item">Ovatte e Resinati</a>
+            <a href="prodotti.html?modal=piuma" class="dropdown-item">Piuma e Misti</a>
+            <a href="prodotti.html?modal=microfibra" class="dropdown-item">Microfibra</a>
+            <a href="prodotti.html?modal=memory" class="dropdown-item">Memory Foam</a>
+          </div>
+        </div>
+        <a href="lavorazioni.html">Lavorazioni</a>
+        <div class="nav-item-dropdown">
+          <a href="qualita.html" class="nav-link-parent">Qualità</a>
+          <div class="dropdown-menu">
+            <a href="qualita.html" class="dropdown-item">Qualità</a>
+            <a href="green-vision.html" class="dropdown-item">Green Vision 🌿</a>
+          </div>
+        </div>
+      </nav><a href="contatti.html" class="header-cta">Contatti</a><button class="hamburger"
+        aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  <div class="mobile-nav"><a href="chi-siamo.html">Chi Siamo</a><a href="settori.html">Settori</a><a
+      href="prodotti.html">Prodotti</a><a href="lavorazioni.html">Lavorazioni</a><a href="qualita.html">Qualità</a><a
+      href="green-vision.html" style="color:#22c55e;">Green Vision 🌿</a><a href="contatti.html">Contatti</a></div>
+
+  <!-- ==================== VIDEO HERO ==================== -->
+  <section class="video-hero">
+    <div class="yt-bg-wrap">
+      <iframe
+        src="https://www.youtube.com/embed/_ljvexk2EjU?autoplay=1&mute=1&loop=1&playlist=_ljvexk2EjU&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3&enablejsapi=1"
+        frameborder="0" allow="autoplay; encrypted-media" allowfullscreen title="R.F. Resina Forlivese Video"></iframe>
+    </div>
+    <div class="video-overlay"></div>
+
+    <div class="video-hero-content">
+      <h1>IL COMFORT <br><span>NASCE QUI</span></h1>
+      <p class="subtitle">Tecnologia avanzata e artigianalità italiana <br>al servizio del mobile imbottito, dal
+        1973.
+      </p>
+
+    </div>
+
+    <div class="hero-scroll-indicator">
+      <span>Scorri</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ==================== MARQUEE ==================== -->
+  <div class="marquee-section">
+    <div class="marquee-track"><span>QUALITÀ</span><span>•</span><span>INNOVAZIONE</span><span>•</span><span>MADE
+        IN
+        ITALY</span><span>•</span><span>DAL
+        1973</span><span>•</span><span>ARTIGIANALITÀ</span><span>•</span><span>POLIURETANO
+        ESPANSO</span><span>•</span><span>QUALITÀ</span><span>•</span><span>INNOVAZIONE</span><span>•</span><span>MADE
+        IN ITALY</span><span>•</span><span>DAL
+        1973</span><span>•</span><span>ARTIGIANALITÀ</span><span>•</span><span>POLIURETANO
+        ESPANSO</span><span>•</span>
+    </div>
+  </div>
+
+  <!-- ==================== STORIA (White, Expanded) ==================== -->
+  <section class="feature-section" style="background: #ffffff; padding: 180px 0;">
+    <div class="container">
+      <div class="feature-card" style="margin-bottom: 0; align-items: flex-start;">
+        <div class="feature-text" style="padding-right: 60px;">
+          <span class="label"
+            style="font-size: 0.9rem; letter-spacing: 3px; margin-bottom: 24px; display: block; color: var(--gold);">LA
+            NOSTRA STORIA</span>
+          <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.4rem); margin-bottom: 32px; line-height: 1.1;">UNA STORIA
+            DI
+            FAMIGLIA, <br><span class="text-blue">VISIONE E MATERIA</span></h2>
+          <p style="font-size: 1.2rem; line-height: 1.8; color: var(--charcoal); opacity: 0.8; margin-bottom: 40px;">
+            Nel 1973, Frediano Casalboni e Giovanni Valli fondarono R.F. Resina Forlivese con un'idea chiara:
+            trasformare il poliuretano espanso in eccellenza industriale. Oggi, alla terza generazione, Riccardo
+            Valli,
+            Michele Valli e Simona Ghetti portano avanti quella visione con innovazione, sostenibilità e passione
+            artigianale.</p>
+          <a href="chi-siamo.html" class="cta-link" style="font-size: 1.1rem;">Scopri la nostra storia completa
+            <span class="arrow">→</span></a>
+        </div>
+        <div class="feature-visual">
+          <div class="img-placeholder" style="height: 500px; background: #e2e8f0; border-radius: 20px;">FOTO
+            STABILIMENTO / TEAM</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MATERIALI (Grid Layout) ==================== -->
+  <section class="materials-grid-section" style="background: #f5f5f5; padding: 160px 0;">
+    <div class="container">
+      <div class="section-header text-center" style="margin-bottom: 80px;">
+        <span class="label"
+          style="font-size: 0.9rem; letter-spacing: 3px; color: var(--gold); display: block; margin-bottom: 16px;">I
+          NOSTRI MATERIALI</span>
+        <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--charcoal);">ECCELLENZA NEI <span
+            class="text-blue">MATERIALI</span></h2>
+      </div>
+
+      <div class="materials-grid"
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+        <!-- Card 1 -->
+        <a href="prodotti.html?modal=poliuretani" class="material-card">
+          <h3>Poliuretano Espanso</h3>
+          <p>Oltre 50 tipologie flessibili per ogni esigenza di comfort e durata.</p>
+        </a>
+        <!-- Card 2 -->
+        <a href="prodotti.html?modal=ovatte" class="material-card">
+          <h3>Ovatte e Resinati</h3>
+          <p>Morbidezza e volume per imbottiture di alta qualità.</p>
+        </a>
+        <!-- Card 3 -->
+        <a href="prodotti.html?modal=piuma" class="material-card">
+          <h3>Piuma e Misti</h3>
+          <p>Il tocco naturale e pregiato per il massimo del comfort.</p>
+        </a>
+        <!-- Card 4 -->
+        <a href="prodotti.html?modal=memory" class="material-card">
+          <h3>Memory Foam</h3>
+          <p>Materiali tecnici che si adattano perfettamente alle forme.</p>
+        </a>
+      </div>
+
+      <div class="text-center" style="margin-top: 60px;">
+        <a href="prodotti.html" class="cta-link" style="font-size: 1.1rem;">Scopri tutti i prodotti <span
+            class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SETTORI (Navy Tags) ==================== -->
+  <section class="sectors-tags-section" style="background: var(--blue); padding: 160px 0; color: #fff;">
+    <div class="container text-center">
+      <span class="label"
+        style="font-size: 0.9rem; letter-spacing: 3px; color: var(--gold); display: block; margin-bottom: 16px; opacity: 0.9;">SETTORI
+        DI APPLICAZIONE</span>
+      <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); color: #fff; margin-bottom: 60px;">SOLUZIONI PER OGNI
+        <span style="color: var(--gold);">INDUSTRIA</span>
+      </h2>
+
+      <div class="tags-container"
+        style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; max-width: 900px; margin: 0 auto;">
+        <a href="settori.html" class="sector-tag">Arredamento</a>
+        <a href="settori.html" class="sector-tag">Nautica</a>
+        <a href="settori.html" class="sector-tag">Automotive</a>
+        <a href="settori.html" class="sector-tag">Medicale</a>
+        <a href="settori.html" class="sector-tag">Edilizia</a>
+      </div>
+
+      <div class="text-center" style="margin-top: 60px;">
+        <a href="settori.html" class="btn btn-sectors">Esplora i settori</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== LAVORAZIONI (Split Full Height) ==================== -->
+  <section class="process-split-section" style="display: flex; min-height: 80vh;">
+    <div class="split-image" style="flex: 1; background: #ccc; position: relative; min-height: 400px;">
+      <div class="img-placeholder"
+        style="width: 100%; height: 100%; background: url('https://placehold.co/1000x1000/cccccc/ffffff?text=FOTO+LAVORAZIONI') center/cover;">
+      </div>
+    </div>
+    <div class="split-content"
+      style="flex: 1; background: #f5f5f5; padding: 80px; display: flex; align-items: center; justify-content: center;">
+      <div class="content-wrapper" style="max-width: 500px;">
+        <h2
+          style="font-size: clamp(2rem, 3vw, 2.8rem); margin-bottom: 32px; line-height: 1.1; color: var(--dark-navy);">
+          DAL PROGETTO AL <br><span class="text-blue">PRODOTTO FINITO</span></h2>
+        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--charcoal); opacity: 0.8; margin-bottom: 40px;">
+          Accompagniamo il cliente in ogni fase: dall'ascolto iniziale alla progettazione CAD, dalla
+          prototipazione
+          fisica alla produzione in serie. Taglio, cucito, puntatura, incollaggio, riempimento — ogni lavorazione
+          è
+          eseguita internamente con macchinari di precisione e operatori specializzati.</p>
+        <a href="lavorazioni.html" class="btn btn-primary">Scopri le nostre lavorazioni</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MARQUEE 2 (Navy Color Fix) ==================== -->
+  <div class="marquee-section" style="background: var(--blue);">
+    <div class="marquee-track"><span>QUALITÀ</span><span>•</span><span>INNOVAZIONE</span><span>•</span><span>MADE
+        IN
+        ITALY</span><span>•</span><span>DAL
+        1973</span><span>•</span><span>ARTIGIANALITÀ</span><span>•</span><span>POLIURETANO
+        ESPANSO</span><span>•</span><span>QUALITÀ</span><span>•</span><span>INNOVAZIONE</span><span>•</span><span>MADE
+        IN ITALY</span><span>•</span><span>DAL
+        1973</span><span>•</span><span>ARTIGIANALITÀ</span><span>•</span><span>POLIURETANO
+        ESPANSO</span><span>•</span>
+    </div>
+  </div>
+
+  <!-- ==================== CERTIFICAZIONI (White) ==================== -->
+  <section class="quality-banner" style="background: #ffffff; padding: 100px 0;">
+    <div class="container">
+      <h2 class="reveal">LA QUALITÀ CREA REPUTAZIONE E AFFIDABILITÀ</h2>
+      <div class="badge-grid reveal" style="margin-top: 48px;">
+        <div class="badge-card">
+          <div class="badge-icon">✓</div>
+          <h3>ISO 9001:2015</h3>
+          <p>Sistema di gestione della qualità certificato a livello internazionale.</p>
+        </div>
+        <div class="badge-card">
+          <div class="badge-icon">⚖️</div>
+          <h3>Parità di Genere</h3>
+          <p>Certificazione UNI/PdR 125:2022 per un ambiente di lavoro inclusivo ed equo.</p>
+        </div>
+        <div class="badge-card">
+          <div class="badge-icon" style="background:none; border-radius:0; width:auto; height:60px;">
+            <img src="img/italia-imbottiti.png" alt="Italia Imbottiti"
+              style="height:100%; width:auto; object-fit:contain;">
+          </div>
+          <h3>Italia Imbottiti</h3>
+          <p>Membri del consorzio a tutela della filiera produttiva nazionale.</p>
+        </div>
+      </div>
+      <div class="text-center reveal" style="margin-top: 40px;">
+        <a href="qualita.html" class="btn btn-primary">Scopri le certificazioni</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA FINALE (Navy) ==================== -->
+  <section class="cta-section" style="background: var(--blue);">
+    <div class="container">
+      <h2 class="reveal">HAI UN PROGETTO? PARLIAMONE.</h2>
+      <p class="reveal">Contattaci per una consulenza gratuita e un preventivo personalizzato.</p>
+      <div class="flex-center gap-md reveal" style="flex-wrap:wrap;">
+        <a href="contatti.html" class="btn btn-white" style="color: var(--blue);">Contattaci</a>
+        <a href="https://wa.me/393333269000" target="_blank" class="btn btn-whatsapp"
+          style="background: transparent; border: 1px solid #fff; display: inline-flex; align-items: center; gap: 8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg> WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* Chip styles for Materiali section */
+    .chip {
+      display: inline-block;
+      padding: 6px 16px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .chip:hover {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+      transform: translateY(-2px);
+    }
+  </style>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="img/logo.png" alt="R.F. Resina Forlivese" class="logo-img" style="height: 54px;">
+          </div>
+          <p class="tagline">Gli esperti delle imbottiture in poliuretano dal 1973.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Link Rapidi</h4>
+          <ul>
+            <li><a href="chi-siamo.html">Chi Siamo</a></li>
+            <li><a href="settori.html">Settori</a></li>
+            <li><a href="prodotti.html">Prodotti</a></li>
+            <li><a href="lavorazioni.html">Lavorazioni</a></li>
+            <li><a href="qualita.html">Qualità</a></li>
+            <li><a href="green-vision.html">Green Vision</a></li>
+            <li><a href="contatti.html">Contatti</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contatti</h4>
+          <ul>
+            <li>0543 700047</li>
+            <li style="margin-top:8px;">rf@resinaforlivese.it</li>
+            <li style="margin-top:8px;">resinaforlivese@pec.it</li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Certificazioni</h4>
+          <div class="footer-badges">
+            <span class="footer-badge">ISO 9001</span>
+            <span class="footer-badge">Parità Genere</span>
+            <img src="img/italia-imbottiti.png" alt="Italia Imbottiti"
+              style="height:30px; opacity:0.8; background:#fff; padding:2px; border-radius:4px;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="footer-bottom-row">
+          <p>© 2025 R.F. Resina Forlivese S.r.l. — Tutti i diritti riservati</p>
+          <div style="display:flex;gap:16px;"><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a></div>
+        </div>
+        <div class="footer-legal">
+          <p>R.F. Resina Forlivese S.r.l. — Via Pitagora, 2 — 47121 Forlì (FC) — P.IVA: IT 00309120400 — REA: FO
+            148977
+            — SDI: A4707H7</p>
+          <p>Sottoposta a direzione e coordinamento di Valli Holding S.r.l. — Via Ossi 10, Forlì (FC) — P.IVA: IT
+            04679600405</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/393333269000" target="_blank" class="floating-whatsapp" aria-label="WhatsApp"><svg
+      viewBox="0 0 24 24">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg></a>
+  <button class="scroll-top-btn" aria-label="Torna su"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2.5">
+      <path d="M18 15l-6-6-6 6" />
+    </svg></button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.18/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- HOMEPAGE ANIMATIONS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Hero entrance animation
+      const heroContent = document.querySelector('.video-hero-content');
+      if (heroContent) {
+        const tl = gsap.timeline({ delay: 0.3 });
+        tl.from('.hero-badge', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out' })
+          .from('.video-hero-content h1', { opacity: 0, y: 50, duration: 1, ease: 'power3.out' }, '-=0.4')
+          .from('.video-hero-content .subtitle', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out' }, '-=0.5')
+          .from('.hero-scroll-indicator', { opacity: 0, duration: 0.6 }, '-=0.2');
+      }
+
+      // Feature cards scroll animations (CSS sets opacity:0, so we animate TO visible)
+      gsap.utils.toArray('.feature-card').forEach((card) => {
+        const text = card.querySelector('.feature-text');
+        const visual = card.querySelector('.feature-visual');
+
+        if (text) {
+          gsap.to(text, {
+            opacity: 1,
+            x: 0,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 75%',
+              toggleActions: 'play none none none'
+            }
+          });
+        }
+
+        if (visual) {
+          gsap.to(visual, {
+            opacity: 1,
+            x: 0,
+            duration: 1,
+            delay: 0.2,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 75%',
+              toggleActions: 'play none none none'
+            }
+          });
+        }
+      });
+
+      // Materials Grid Animation — use ScrollTrigger.batch for reliable reveal
+      const matCards = gsap.utils.toArray('.materials-grid .material-card');
+      if (matCards.length) {
+        gsap.set(matCards, { opacity: 0, y: 40 });
+        ScrollTrigger.batch(matCards, {
+          onEnter: (batch) => gsap.to(batch, {
+            opacity: 1, y: 0, stagger: 0.12, duration: 0.8, ease: 'power3.out', overwrite: true
+          }),
+          start: 'top 90%',
+        });
+      }
+
+      // Sectors Tags Animation — reliable reveal
+      const sectorTags = gsap.utils.toArray('.sector-tag');
+      if (sectorTags.length) {
+        gsap.set(sectorTags, { opacity: 0, scale: 0.85 });
+        ScrollTrigger.batch(sectorTags, {
+          onEnter: (batch) => gsap.to(batch, {
+            opacity: 1, scale: 1, stagger: 0.06, duration: 0.6, ease: 'back.out(1.7)', overwrite: true
+          }),
+          start: 'top 95%',
+        });
+      }
+
+      // Sectors heading + button
+      const sectorHeading = document.querySelector('.sectors-tags-section h2');
+      const sectorBtn = document.querySelector('.sectors-tags-section .btn-sectors');
+      if (sectorHeading) {
+        gsap.set(sectorHeading, { opacity: 0, y: 30 });
+        ScrollTrigger.create({
+          trigger: '.sectors-tags-section',
+          start: 'top 80%',
+          onEnter: () => gsap.to(sectorHeading, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
+        });
+      }
+      if (sectorBtn) {
+        gsap.set(sectorBtn, { opacity: 0, y: 20 });
+        ScrollTrigger.create({
+          trigger: '.sectors-tags-section',
+          start: 'top 70%',
+          onEnter: () => gsap.to(sectorBtn, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' })
+        });
+      }
+
+      // Process Split Animation — reliable reveal
+      const splitWrapper = document.querySelector('.split-content .content-wrapper');
+      if (splitWrapper) {
+        gsap.set(splitWrapper, { opacity: 0, x: 50 });
+        ScrollTrigger.create({
+          trigger: '.process-split-section',
+          start: 'top 75%',
+          onEnter: () => gsap.to(splitWrapper, { opacity: 1, x: 0, duration: 1, ease: 'power3.out' })
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
