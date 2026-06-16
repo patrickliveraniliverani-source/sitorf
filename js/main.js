@@ -27,23 +27,22 @@ let lenis;
 function initLenis() {
     if (typeof Lenis === 'undefined') return;
     lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        duration: 0.9,
+        easing: (t) => 1 - Math.pow(1 - t, 3),
         orientation: 'vertical',
         smoothWheel: true,
     });
 
-    function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    // Connect Lenis to GSAP ScrollTrigger
+    // Drive Lenis exclusively via GSAP ticker to keep ScrollTrigger in sync.
+    // A separate requestAnimationFrame loop would call lenis.raf() twice per
+    // frame and corrupt the scroll position that ScrollTrigger reads.
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => { lenis.raf(time * 1000); });
         gsap.ticker.lagSmoothing(0);
+    } else {
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
     }
 }
 
@@ -407,6 +406,11 @@ function initGSAP() {
             }
         }
     }
+
+    // Recalculate all trigger positions after Lenis has taken over scroll.
+    // Without this, triggers registered before Lenis's first tick use stale
+    // native scroll offsets and may never fire.
+    ScrollTrigger.refresh();
 }
 
 // ========== COUNTER ANIMATION ==========
