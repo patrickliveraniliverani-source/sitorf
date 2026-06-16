@@ -1,11 +1,16 @@
 /* ========================================
    R.F. RESINA FORLIVESE — MAIN JS
-   GSAP + ScrollTrigger + Lenis + All Animations
+   GSAP + ScrollTrigger + Custom Smooth Scroll
    ======================================== */
+
+// Register ScrollTrigger immediately so it's ready before any scroll fires
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+}
 
 // ========== INITIALIZATION ==========
 document.addEventListener('DOMContentLoaded', () => {
-    initLenis();
+    initSmoothScroll();
     initScrollProgress();
     initCustomCursor();
     initHeader();
@@ -13,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initPageTransitions();
     initMarquee();
 
-    // Wait for fonts & layout
+    // Wait for fonts & layout before calculating trigger positions
     setTimeout(() => {
         initGSAP();
         initCounters();
@@ -22,28 +27,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 100);
 });
 
-// ========== LENIS SMOOTH SCROLL ==========
-let lenis;
-function initLenis() {
-    if (typeof Lenis === 'undefined') return;
-    lenis = new Lenis({
-        duration: 0.9,
-        easing: (t) => 1 - Math.pow(1 - t, 3),
-        orientation: 'vertical',
-        smoothWheel: true,
+// ========== SMOOTH SCROLL ==========
+let smoothScroll = null;
+function initSmoothScroll() {
+    // Touch/trackpad devices use native momentum scroll — don't override
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+
+    let targetY = window.scrollY;
+    let currentY = window.scrollY;
+
+    const getMax = () => document.documentElement.scrollHeight - window.innerHeight;
+
+    window.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        targetY = Math.max(0, Math.min(targetY + e.deltaY, getMax()));
+    }, { passive: false });
+
+    window.addEventListener('keydown', (e) => {
+        const max = getMax();
+        switch (e.key) {
+            case 'ArrowDown': targetY = Math.min(targetY + 80, max); break;
+            case 'ArrowUp':   targetY = Math.max(0, targetY - 80); break;
+            case 'PageDown':  targetY = Math.min(targetY + window.innerHeight * 0.9, max); break;
+            case 'PageUp':    targetY = Math.max(0, targetY - window.innerHeight * 0.9); break;
+            case 'Home':      targetY = 0; break;
+            case 'End':       targetY = max; break;
+        }
     });
 
-    // Drive Lenis exclusively via GSAP ticker to keep ScrollTrigger in sync.
-    // A separate requestAnimationFrame loop would call lenis.raf() twice per
-    // frame and corrupt the scroll position that ScrollTrigger reads.
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-        gsap.ticker.lagSmoothing(0);
-    } else {
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
+    function tick() {
+        currentY += (targetY - currentY) * 0.09;
+        if (Math.abs(targetY - currentY) < 0.1) currentY = targetY;
+        window.scrollTo(0, currentY);
+        requestAnimationFrame(tick);
     }
+    requestAnimationFrame(tick);
+
+    smoothScroll = { scrollTo: (y) => { targetY = Math.max(0, Math.min(y, getMax())); } };
 }
 
 // ========== SCROLL PROGRESS BAR ==========
@@ -130,7 +150,7 @@ function initHeader() {
     // Scroll to top
     if (scrollTopBtn) {
         scrollTopBtn.addEventListener('click', () => {
-            if (lenis) { lenis.scrollTo(0); }
+            if (smoothScroll) { smoothScroll.scrollTo(0); }
             else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
         });
     }
@@ -204,8 +224,6 @@ function initPageTransitions() {
 // ========== GSAP SCROLL ANIMATIONS ==========
 function initGSAP() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-
-    gsap.registerPlugin(ScrollTrigger);
 
     // --- Page Load Cascade ---
     const loadTl = gsap.timeline();
