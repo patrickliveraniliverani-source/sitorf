@@ -3,6 +3,10 @@
    GSAP + ScrollTrigger + Custom Smooth Scroll
    ======================================== */
 
+// Mark that JS is running so CSS can safely hide elements before reveal.
+// Without JS the .js-scoped hidden styles never apply → content stays visible.
+document.documentElement.classList.add('js');
+
 // Register ScrollTrigger immediately so it's ready before any scroll fires
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
@@ -17,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initPageTransitions();
     initMarquee();
+    initSectorReveal();
 
     // Wait for fonts & layout before calculating trigger positions
     setTimeout(() => {
@@ -26,6 +31,31 @@ document.addEventListener('DOMContentLoaded', () => {
         initRevealLines();
     }, 100);
 });
+
+// ========== SECTOR CARDS REVEAL ==========
+// IntersectionObserver-based reveal — independent of scroll mechanism and of
+// ScrollTrigger's refresh timing, so cards always appear (even if already in
+// view on load). CSS handles the diagonal-converge transition.
+function initSectorReveal() {
+    const cards = document.querySelectorAll('.sector-anim');
+    if (!cards.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+        cards.forEach(c => c.classList.add('revealed'));
+        return;
+    }
+
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                io.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    cards.forEach(c => io.observe(c));
+}
 
 // ========== SMOOTH SCROLL ==========
 let smoothScroll = null;
@@ -55,10 +85,15 @@ function initSmoothScroll() {
         }
     });
 
+    const hasST = typeof ScrollTrigger !== 'undefined';
     function tick() {
         currentY += (targetY - currentY) * 0.09;
         if (Math.abs(targetY - currentY) < 0.1) currentY = targetY;
         window.scrollTo(0, currentY);
+        // Keep ScrollTrigger in sync — programmatic scrollTo() does not reliably
+        // dispatch scroll events that ScrollTrigger catches, so push updates
+        // every frame (same role Lenis's scroll handler used to play).
+        if (hasST) ScrollTrigger.update();
         requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
@@ -380,55 +415,17 @@ function initGSAP() {
         }
     });
 
-    // --- Sector Cards Animation (Diagonal Converge, Pair by Pair) ---
-    // Cards are in a 2-column grid. Each pair (row) animates together.
-    // Left card: enters from bottom-left (x: -120, y: 120)
-    // Right card: enters from bottom-right (x: +120, y: 120)
-    // They converge diagonally to their final position.
-    // Each pair triggers independently as it enters the viewport.
-    const sectorCards = gsap.utils.toArray('.sector-anim');
-    if (sectorCards.length) {
-        // Group into pairs (rows of 2)
-        for (let i = 0; i < sectorCards.length; i += 2) {
-            const leftCard = sectorCards[i];
-            const rightCard = sectorCards[i + 1];
-            if (!leftCard) continue;
+    // NOTE: Sector cards use IntersectionObserver (initSectorReveal), not
+    // ScrollTrigger. A GSAP .from() reveal would leave cards stuck at opacity:0
+    // whenever its onEnter didn't fire (already past the start at refresh, or a
+    // missed programmatic-scroll update). IntersectionObserver reveals reliably
+    // for any element entering — or already in — the viewport.
 
-            // Use the left card as the scroll trigger anchor for the pair
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: leftCard,
-                    start: 'top 85%',
-                    toggleActions: 'play none none none'
-                }
-            });
-
-            // Left card: diagonal from bottom-left
-            tl.from(leftCard, {
-                opacity: 0,
-                x: -60,
-                y: 60,
-                duration: 0.8,
-                ease: 'power2.out',
-            }, 0);
-
-            // Right card: diagonal from bottom-right (same timeline = same trigger)
-            if (rightCard) {
-                tl.from(rightCard, {
-                    opacity: 0,
-                    x: 60,
-                    y: 60,
-                    duration: 0.8,
-                    ease: 'power2.out',
-                }, 0); // Start at same time as left card
-            }
-        }
-    }
-
-    // Recalculate all trigger positions after Lenis has taken over scroll.
-    // Without this, triggers registered before Lenis's first tick use stale
-    // native scroll offsets and may never fire.
+    // Recalculate all trigger positions now that everything is initialised,
+    // and again once late assets (fonts, CDN images) finish loading and shift
+    // the layout — otherwise triggers use stale offsets and may never fire.
     ScrollTrigger.refresh();
+    window.addEventListener('load', () => ScrollTrigger.refresh());
 }
 
 // ========== COUNTER ANIMATION ==========

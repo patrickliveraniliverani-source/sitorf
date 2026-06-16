@@ -192,6 +192,36 @@
     </section>
 
     <style>
+        /* Diagonal-converge reveal, driven by IntersectionObserver (.revealed).
+           Hidden state is scoped to .js so content stays visible without JS. */
+        .js .sector-anim {
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .js .grid-2 .sector-anim:nth-child(odd) {
+            transform: translate(-50px, 50px);
+        }
+
+        .js .grid-2 .sector-anim:nth-child(even) {
+            transform: translate(50px, 50px);
+        }
+
+        .js .sector-anim.revealed {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .js .sector-anim {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none;
+            }
+        }
+
         .sector-card-premium {
             background: var(--white);
             border: 1px solid var(--gray-200);
