@@ -695,7 +695,7 @@
       <div class="container">
         <div class="footer-bottom-row">
           <p>© 2025 R.F. Resina Forlivese S.r.l. — Tutti i diritti riservati</p>
-          <div style="display:flex;gap:16px;"><a href="#">Privacy Policy</a><a href="#">Cookie Policy</a></div>
+          <div style="display:flex;gap:16px;"><a href="privacy.html">Privacy Policy</a><a href="cookie.html">Cookie Policy</a></div>
         </div>
         <div class="footer-legal">
           <p>R.F. Resina Forlivese S.r.l. — Via Pitagora, 2 — 47121 Forlì (FC) — P.IVA: IT 00309120400 — REA: FO
@@ -729,7 +729,9 @@
       const heroContent = document.querySelector('.video-hero-content');
       if (heroContent) {
         const tl = gsap.timeline({ delay: 0.3 });
-        tl.from('.hero-badge', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out' })
+        if (document.querySelector('.hero-badge')) {
+          tl.from('.hero-badge', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out' });
+        }
           .from('.video-hero-content h1', { opacity: 0, y: 50, duration: 1, ease: 'power3.out' }, '-=0.4')
           .from('.video-hero-content .subtitle', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out' }, '-=0.5')
           .from('.hero-scroll-indicator', { opacity: 0, duration: 0.6 }, '-=0.2');

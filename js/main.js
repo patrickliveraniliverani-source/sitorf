@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initPageTransitions();
     initMarquee();
     initSectorReveal();
+    initRevealAnimations();
 
     // Wait for fonts & layout before calculating trigger positions
     setTimeout(() => {
@@ -31,6 +32,47 @@ document.addEventListener('DOMContentLoaded', () => {
         initRevealLines();
     }, 100);
 });
+
+// ========== REVEAL ANIMATIONS (IntersectionObserver) ==========
+// All scroll-reveal effects use IO instead of GSAP ScrollTrigger so they fire
+// reliably with any scroll mechanism and handle the "already in viewport on
+// load" case correctly.
+function initRevealAnimations() {
+    if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.reveal, .reveal-scale').forEach(el => el.classList.add('revealed'));
+        document.querySelectorAll('.stagger-cards').forEach(c => {
+            Array.from(c.children).forEach(ch => ch.classList.add('revealed'));
+        });
+        return;
+    }
+
+    const opts = { threshold: 0.1, rootMargin: '0px 0px -6% 0px' };
+
+    // .reveal — fade up
+    const ioReveal = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); ioReveal.unobserve(e.target); } });
+    }, opts);
+    document.querySelectorAll('.reveal').forEach(el => ioReveal.observe(el));
+
+    // .reveal-scale — scale in
+    const ioScale = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); ioScale.unobserve(e.target); } });
+    }, opts);
+    document.querySelectorAll('.reveal-scale').forEach(el => ioScale.observe(el));
+
+    // .stagger-cards — children stagger in sequence
+    const ioStagger = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                Array.from(e.target.children).forEach((child, i) => {
+                    setTimeout(() => child.classList.add('revealed'), i * 120);
+                });
+                ioStagger.unobserve(e.target);
+            }
+        });
+    }, opts);
+    document.querySelectorAll('.stagger-cards').forEach(c => ioStagger.observe(c));
+}
 
 // ========== SECTOR CARDS REVEAL ==========
 // IntersectionObserver-based reveal — independent of scroll mechanism and of
@@ -326,49 +368,8 @@ function initGSAP() {
         });
     });
 
-    // --- Scroll Reveal: fade-up ---
-    gsap.utils.toArray('.reveal').forEach(el => {
-        gsap.from(el, {
-            opacity: 0, y: 40,
-            duration: 0.8,
-            ease: 'power2.out',
-            scrollTrigger: {
-                trigger: el,
-                start: 'top 88%',
-                toggleActions: 'play none none none',
-            }
-        });
-    });
-
-    // --- Scroll Reveal: scale in ---
-    gsap.utils.toArray('.reveal-scale').forEach(el => {
-        gsap.from(el, {
-            opacity: 0, scale: 0.85,
-            duration: 0.9,
-            ease: 'power2.out',
-            scrollTrigger: {
-                trigger: el,
-                start: 'top 85%',
-                toggleActions: 'play none none none',
-            }
-        });
-    });
-
-    // --- Stagger Cards ---
-    document.querySelectorAll('.stagger-cards').forEach(container => {
-        const cards = container.children;
-        gsap.from(cards, {
-            opacity: 0, y: 50,
-            stagger: 0.15,
-            duration: 0.7,
-            ease: 'power2.out',
-            scrollTrigger: {
-                trigger: container,
-                start: 'top 85%',
-                toggleActions: 'play none none none',
-            }
-        });
-    });
+    // NOTE: .reveal, .reveal-scale, .stagger-cards are handled by
+    // initRevealAnimations() via IntersectionObserver — not ScrollTrigger.
 
     // --- Parallax images ---
     gsap.utils.toArray('.parallax').forEach(el => {

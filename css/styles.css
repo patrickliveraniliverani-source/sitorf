@@ -2337,200 +2337,53 @@ select.form-control {
         padding: 12px 24px;
     }
 }
+   INTERSECTION OBSERVER REVEALS
+   Hidden state scoped under .js — without
+   JS the content stays visible by default.
+   ======================================== */
 
-/* ================================
-   HOMEPAGE REDESIGN (PHASE 2 - RE-APPLY)
-   ================================ */
-
-/* --- Materiali Grid --- */
-.materials-grid-section .label {
-    letter-spacing: 3px;
-    font-weight: 700;
+/* .reveal — fade up */
+.js .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js .reveal.revealed {
+    opacity: 1;
+    transform: none;
 }
 
-.materials-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+/* .reveal-scale — scale in */
+.js .reveal-scale {
+    opacity: 0;
+    transform: scale(0.88);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js .reveal-scale.revealed {
+    opacity: 1;
+    transform: none;
 }
 
-.material-card {
-    background: #fff;
-    padding: 40px 32px;
-    border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    height: 100%;
+/* .stagger-cards children */
+.js .stagger-cards > * {
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.js .stagger-cards > *.revealed {
+    opacity: 1;
+    transform: none;
 }
 
-.material-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    border-color: var(--blue);
-}
-
-.material-card h3 {
-    font-size: 1.4rem;
-    color: var(--dark-navy);
-    margin-bottom: 16px;
-    font-weight: 700;
-}
-
-.material-card p {
-    font-size: 0.95rem;
-    color: #666;
-    line-height: 1.6;
-    margin: 0;
-}
-
-/* --- Sectors Tags (Navy) --- */
-.sectors-tags-section {
-    position: relative;
-    overflow: hidden;
-}
-
-.sectors-tags-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
-    pointer-events: none;
-}
-
-.tags-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.sector-tag {
-    display: inline-block;
-    padding: 16px 32px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 100px;
-    color: #fff;
-    font-size: 1.1rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-}
-
-.sector-tag:hover {
-    background: #fff;
-    color: var(--dark-navy);
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.btn-white-outline {
-    display: inline-block;
-    padding: 16px 40px;
-    border: 1px solid #fff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-}
-
-.btn-white-outline:hover {
-    background: #fff;
-    color: var(--dark-navy);
-}
-
-/* --- Process Split (Lavorazioni) --- */
-.process-split-section {
-    position: relative;
-    overflow: hidden;
-}
-
-.split-image {
-    min-height: 600px;
-}
-
-.split-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* --- Responsive Adjustments for New Sections --- */
-@media (max-width: 1024px) {
-    .materials-grid {
-        grid-template-columns: repeat(2, 1fr);
+@media (prefers-reduced-motion: reduce) {
+    .js .reveal,
+    .js .reveal-scale,
+    .js .stagger-cards > * {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none;
     }
-
-    .process-split-section {
-        flex-direction: column;
-    }
-
-    .split-image {
-        min-height: 400px;
-        width: 100%;
-    }
-
-    .split-content {
-        padding: 60px 24px !important;
-        width: 100%;
-    }
-}
-
-@media (max-width: 600px) {
-    .materials-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .feature-card {
-        flex-direction: column;
-    }
-
-    .feature-text {
-        padding-right: 0 !important;
-        margin-bottom: 40px;
-    }
-
-    .tags-container {
-        gap: 10px !important;
-    }
-
-    .sector-tag {
-        font-size: 0.95rem;
-        padding: 12px 24px;
-    }
-}
-
-/* --- Button Sectors (Requested Style) --- */
-.btn-sectors {
-    display: inline-block;
-    padding: 16px 40px;
-    background: #e5e7eb;
-    /* Light gray slightly darker than white for contrast if needed, or var(--light) */
-    background: var(--light);
-    color: var(--blue);
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-    border: none;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.btn-sectors:hover {
-    background: var(--gold);
-    color: var(--white);
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(233, 176, 91, 0.4);
 }
