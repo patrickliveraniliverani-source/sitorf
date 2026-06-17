@@ -180,13 +180,19 @@
       order: -1;
     }
 
-    .feature-text {
+    .js .feature-text {
       opacity: 0;
       transform: translateX(-60px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .feature-card.reverse .feature-text {
+    .js .feature-card.reverse .feature-text {
       transform: translateX(60px);
+    }
+
+    .js .feature-text.revealed {
+      opacity: 1;
+      transform: none;
     }
 
     .feature-text .label {
@@ -206,13 +212,23 @@
       font-size: 1.05rem;
     }
 
-    .feature-visual {
+    .js .feature-visual {
       opacity: 0;
       transform: translateX(60px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
     }
 
-    .feature-card.reverse .feature-visual {
+    .js .feature-card.reverse .feature-visual {
       transform: translateX(-60px);
+    }
+
+    .js .feature-visual.revealed {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .js .feature-text, .js .feature-visual { opacity: 1 !important; transform: none !important; transition: none; }
     }
 
     .feature-visual .img-placeholder {
@@ -732,45 +748,25 @@
         if (document.querySelector('.hero-badge')) {
           tl.from('.hero-badge', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out' });
         }
-          .from('.video-hero-content h1', { opacity: 0, y: 50, duration: 1, ease: 'power3.out' }, '-=0.4')
+        tl.from('.video-hero-content h1', { opacity: 0, y: 50, duration: 1, ease: 'power3.out' }, '-=0.4')
           .from('.video-hero-content .subtitle', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out' }, '-=0.5')
           .from('.hero-scroll-indicator', { opacity: 0, duration: 0.6 }, '-=0.2');
       }
 
-      // Feature cards scroll animations (CSS sets opacity:0, so we animate TO visible)
-      gsap.utils.toArray('.feature-card').forEach((card) => {
-        const text = card.querySelector('.feature-text');
-        const visual = card.querySelector('.feature-visual');
-
-        if (text) {
-          gsap.to(text, {
-            opacity: 1,
-            x: 0,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 75%',
-              toggleActions: 'play none none none'
+      // Feature cards — IntersectionObserver (CSS transitions handle the animation)
+      if ('IntersectionObserver' in window) {
+        const ioFeature = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('revealed');
+              ioFeature.unobserve(e.target);
             }
           });
-        }
-
-        if (visual) {
-          gsap.to(visual, {
-            opacity: 1,
-            x: 0,
-            duration: 1,
-            delay: 0.2,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 75%',
-              toggleActions: 'play none none none'
-            }
-          });
-        }
-      });
+        }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
+        document.querySelectorAll('.feature-text, .feature-visual').forEach(el => ioFeature.observe(el));
+      } else {
+        document.querySelectorAll('.feature-text, .feature-visual').forEach(el => el.classList.add('revealed'));
+      }
 
       // Materials Grid Animation — use ScrollTrigger.batch for reliable reveal
       const matCards = gsap.utils.toArray('.materials-grid .material-card');
