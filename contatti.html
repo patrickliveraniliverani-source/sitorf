@@ -77,26 +77,35 @@
                         <p>Compila il modulo e ti risponderemo entro 24 ore lavorative.</p>
                     </div>
 
-                    <form id="contactForm" action="#" method="POST">
+                    <form id="contactForm" method="POST" novalidate>
                         <div class="grid grid-2" style="gap: 24px;">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Il tuo nome *" required>
+                                <label for="f-nome">Il tuo nome <abbr title="obbligatorio">*</abbr></label>
+                                <input type="text" id="f-nome" name="nome" class="form-control"
+                                    autocomplete="name" placeholder="Mario Rossi" required>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Azienda">
+                                <label for="f-azienda">Azienda</label>
+                                <input type="text" id="f-azienda" name="azienda" class="form-control"
+                                    autocomplete="organization" placeholder="Ragione sociale">
                             </div>
                         </div>
                         <div class="grid grid-2" style="gap: 24px;">
                             <div class="form-group">
-                                <input type="email" class="form-control" placeholder="Email *" required>
+                                <label for="f-email">Email <abbr title="obbligatorio">*</abbr></label>
+                                <input type="email" id="f-email" name="email" class="form-control"
+                                    autocomplete="email" placeholder="mario.rossi@azienda.it" required>
                             </div>
                             <div class="form-group">
-                                <input type="tel" class="form-control" placeholder="Telefono">
+                                <label for="f-telefono">Telefono</label>
+                                <input type="tel" id="f-telefono" name="telefono" class="form-control"
+                                    autocomplete="tel" placeholder="333 1234567">
                             </div>
                         </div>
                         <div class="form-group">
-                            <select class="form-control" required>
-                                <option value="" disabled selected>Tipo di richiesta *</option>
+                            <label for="f-tipo">Tipo di richiesta <abbr title="obbligatorio">*</abbr></label>
+                            <select id="f-tipo" name="tipo_richiesta" class="form-control" required>
+                                <option value="" disabled selected>Seleziona…</option>
                                 <option value="preventivo">Richiesta Preventivo</option>
                                 <option value="info">Informazioni Prodotti</option>
                                 <option value="campionatura">Campionatura</option>
@@ -106,14 +115,33 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control textarea" placeholder="Il tuo messaggio *"
-                                required></textarea>
+                            <label for="f-messaggio">Il tuo messaggio <abbr title="obbligatorio">*</abbr></label>
+                            <textarea id="f-messaggio" name="messaggio" class="form-control textarea"
+                                placeholder="Raccontaci di cosa hai bisogno…" required></textarea>
                         </div>
+
+                        <!-- Trappola per i bot: invisibile e fuori dal giro del Tab.
+                             Se arriva compilata, la richiesta non è di una persona. -->
+                        <div class="campo-nascosto" aria-hidden="true">
+                            <label for="f-sito">Non compilare questo campo</label>
+                            <input type="text" id="f-sito" name="sito_web" tabindex="-1" autocomplete="off">
+                        </div>
+
+                        <div class="form-group form-consenso">
+                            <input type="checkbox" id="f-privacy" name="consenso_privacy" value="si" required>
+                            <label for="f-privacy">Ho letto l'<a href="privacy.html">informativa privacy</a> e
+                                acconsento al trattamento dei miei dati per rispondere a questa richiesta.
+                                <abbr title="obbligatorio">*</abbr></label>
+                        </div>
+
                         <button type="submit" class="btn btn-primary"
                             style="width: 100%; justify-content: center;">Invia Messaggio</button>
+
+                        <p id="formEsito" class="form-esito" role="status" aria-live="polite" hidden></p>
+
                         <p style="margin-top: 12px; font-size: 12px; color: var(--gray-300);">* Campi obbligatori. I
-                            tuoi dati sono trattati secondo la nostra <a href="#" style="color: var(--blue);">Privacy
-                                Policy</a>.</p>
+                            tuoi dati sono trattati secondo la nostra <a href="privacy.html"
+                                style="color: var(--blue);">Privacy Policy</a>.</p>
                     </form>
                 </div>
 
@@ -212,9 +240,9 @@
                 <div class="footer-col">
                     <h4>Contatti</h4>
                     <ul>
-                        <li>0543 700047</li>
-                        <li style="margin-top:8px;">rf@resinaforlivese.it</li>
-                        <li style="margin-top:8px;">resinaforlivese@pec.it</li>
+                        <li><a href="tel:+390543700047">0543 700047</a></li>
+                        <li style="margin-top:8px;"><a href="mailto:rf@resinaforlivese.it">rf@resinaforlivese.it</a></li>
+                        <li style="margin-top:8px;"><a href="mailto:resinaforlivese@pec.it">resinaforlivese@pec.it</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -231,7 +259,7 @@
         <div class="footer-bottom">
             <div class="container">
                 <div class="footer-bottom-row">
-                    <p>© 2025 R.F. Resina Forlivese S.r.l. — Tutti i diritti riservati</p>
+                    <p>© 2026 R.F. Resina Forlivese S.r.l. — Tutti i diritti riservati</p>
                     <div style="display:flex;gap:16px;"><a href="privacy.html">Privacy Policy</a><a href="cookie.html">Cookie Policy</a>
                     </div>
                 </div>
@@ -243,9 +271,160 @@
         </div>
     </footer>
 
+  <a href="https://wa.me/393333269000" target="_blank" rel="noopener noreferrer" class="floating-whatsapp" aria-label="Scrivici su WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg></a>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="js/main.js"></script>
+
+    <!-- MODULO DI CONTATTO -->
+    <script>
+        /* ------------------------------------------------------------------
+           L'UNICA RIGA DA CAMBIARE PER METTERE IL MODULO IN PRODUZIONE.
+
+           Ci va l'indirizzo a cui il modulo deve mandare i dati (POST). Va bene
+           qualsiasi servizio che accetti una POST e risponda 2xx — Formspree,
+           Web3Forms, Basin, un endpoint proprio. Esempio:
+
+             const ENDPOINT_MODULO = 'https://formspree.io/f/xxxxxxxx';
+
+           Finché resta vuota il modulo NON invia niente: valida i campi e poi
+           dice a chi scrive di usare email o telefono, invece di far sparire
+           il messaggio come faceva prima.
+           ------------------------------------------------------------------ */
+        const ENDPOINT_MODULO = '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contactForm');
+            if (!form) return;
+
+            const esito = document.getElementById('formEsito');
+            const bottone = form.querySelector('button[type="submit"]');
+            const testoBottone = bottone ? bottone.textContent : '';
+
+            if (ENDPOINT_MODULO) form.setAttribute('action', ENDPOINT_MODULO);
+
+            function mostraEsito(testo, tipo) {
+                esito.innerHTML = testo;
+                esito.className = 'form-esito ' + tipo;
+                esito.hidden = false;
+            }
+
+            function pulisciErrori() {
+                form.querySelectorAll('.in-errore').forEach(c => {
+                    c.classList.remove('in-errore');
+                    c.removeAttribute('aria-invalid');
+                });
+                form.querySelectorAll('.messaggio-errore').forEach(m => m.remove());
+            }
+
+            function segnalaErrore(campo, testo) {
+                campo.classList.add('in-errore');
+                campo.setAttribute('aria-invalid', 'true');
+                const p = document.createElement('span');
+                p.className = 'messaggio-errore';
+                p.textContent = testo;
+                (campo.closest('.form-group') || campo.parentNode).appendChild(p);
+            }
+
+            // Validazione nostra invece di quella del browser (il form è
+            // novalidate) così i messaggi sono in italiano, restano visibili e
+            // vengono annunciati dagli screen reader.
+            function valida() {
+                pulisciErrori();
+                const problemi = [];
+
+                const obbligatori = [
+                    ['f-nome', 'Inserisci il tuo nome.'],
+                    ['f-email', 'Inserisci la tua email.'],
+                    ['f-tipo', 'Scegli il tipo di richiesta.'],
+                    ['f-messaggio', 'Scrivi il tuo messaggio.'],
+                ];
+
+                obbligatori.forEach(([id, testo]) => {
+                    const campo = document.getElementById(id);
+                    if (!campo.value.trim()) {
+                        segnalaErrore(campo, testo);
+                        problemi.push(campo);
+                    }
+                });
+
+                const email = document.getElementById('f-email');
+                if (email.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) {
+                    segnalaErrore(email, 'Questa email non sembra valida.');
+                    problemi.push(email);
+                }
+
+                const privacy = document.getElementById('f-privacy');
+                if (!privacy.checked) {
+                    segnalaErrore(privacy, 'Serve il consenso per poterti rispondere.');
+                    problemi.push(privacy);
+                }
+
+                if (problemi.length) {
+                    problemi[0].focus();
+                    return false;
+                }
+                return true;
+            }
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                esito.hidden = true;
+
+                // Il campo esca è compilato: è un bot. Fingiamo che sia andata
+                // bene e non mandiamo niente.
+                if (form.elements.sito_web && form.elements.sito_web.value) {
+                    mostraEsito('Grazie, abbiamo ricevuto la tua richiesta.', 'ok');
+                    return;
+                }
+
+                if (!valida()) return;
+
+                if (!ENDPOINT_MODULO) {
+                    mostraEsito(
+                        'Il modulo non è ancora collegato. Scrivici a ' +
+                        '<a href="mailto:rf@resinaforlivese.it">rf@resinaforlivese.it</a> ' +
+                        'oppure chiamaci allo <a href="tel:+390543700047">0543 700047</a>: ' +
+                        'ti rispondiamo entro 24 ore lavorative.',
+                        'ko');
+                    console.warn('[contatti] ENDPOINT_MODULO è vuoto: nessun invio effettuato.');
+                    return;
+                }
+
+                bottone.disabled = true;
+                bottone.textContent = 'Invio in corso…';
+
+                try {
+                    const risposta = await fetch(ENDPOINT_MODULO, {
+                        method: 'POST',
+                        headers: { 'Accept': 'application/json' },
+                        body: new FormData(form),
+                    });
+
+                    if (!risposta.ok) throw new Error('HTTP ' + risposta.status);
+
+                    form.reset();
+                    mostraEsito(
+                        'Grazie, abbiamo ricevuto la tua richiesta. Ti rispondiamo entro 24 ore lavorative.',
+                        'ok');
+                } catch (err) {
+                    console.error('[contatti] invio fallito:', err);
+                    mostraEsito(
+                        'Non siamo riusciti a inviare la richiesta. Riprova, oppure scrivici a ' +
+                        '<a href="mailto:rf@resinaforlivese.it">rf@resinaforlivese.it</a> ' +
+                        'o chiamaci allo <a href="tel:+390543700047">0543 700047</a>.',
+                        'ko');
+                } finally {
+                    bottone.disabled = false;
+                    bottone.textContent = testoBottone;
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

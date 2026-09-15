@@ -13,23 +13,35 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 }
 
 // ========== INITIALIZATION ==========
+// Ogni init gira isolato: se uno solleva un'eccezione (una CDN che non risponde,
+// un browser senza una API) gli altri devono partire lo stesso. Prima erano in
+// fila nello stesso handler e il primo errore zittiva tutto quello che seguiva.
+function avvia(nome, fn) {
+    try {
+        fn();
+    } catch (err) {
+        console.error(`[main.js] ${nome} non è partita:`, err);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    initSmoothScroll();
-    initScrollProgress();
-    initCustomCursor();
-    initHeader();
-    initMobileMenu();
-    initPageTransitions();
-    initMarquee();
-    initSectorReveal();
-    initRevealAnimations();
+    avvia('initSmoothScroll', initSmoothScroll);
+    avvia('initScrollProgress', initScrollProgress);
+    avvia('initCustomCursor', initCustomCursor);
+    avvia('initHeader', initHeader);
+    avvia('initMobileMenu', initMobileMenu);
+    avvia('initSagomeTracciate', initSagomeTracciate);
+    avvia('initPageTransitions', initPageTransitions);
+    avvia('initMarquee', initMarquee);
+    avvia('initSectorReveal', initSectorReveal);
+    avvia('initRevealAnimations', initRevealAnimations);
 
     // Wait for fonts & layout before calculating trigger positions
     setTimeout(() => {
-        initGSAP();
-        initCounters();
-        initMagneticButtons();
-        initRevealLines();
+        avvia('initGSAP', initGSAP);
+        avvia('initCounters', initCounters);
+        avvia('initMagneticButtons', initMagneticButtons);
+        avvia('initRevealLines', initRevealLines);
     }, 100);
 });
 
@@ -72,6 +84,35 @@ function initRevealAnimations() {
         });
     }, opts);
     document.querySelectorAll('.stagger-cards').forEach(c => ioStagger.observe(c));
+
+    // Rete di sicurezza.
+    // Da quando la regola `.js .reveal { opacity: 0 }` è tornata a funzionare
+    // (prima un commento CSS malformato la faceva scartare dal parser, quindi
+    // il contenuto restava visibile per conto suo) questi elementi dipendono
+    // davvero dall'observer. Se per qualsiasi ragione non scatta — pagina
+    // aperta in una tab di sfondo, rendering sospeso, un bug del browser —
+    // il testo resterebbe invisibile per sempre. Qui, dopo tre secondi,
+    // controlliamo se almeno un elemento in campo si è rivelato: se no,
+    // l'observer non sta lavorando e si mostra tutto senza animazione.
+    setTimeout(() => {
+        const candidati = document.querySelectorAll('.reveal, .reveal-scale');
+        if (!candidati.length) return;
+
+        const inCampo = Array.from(candidati).filter(el => {
+            const r = el.getBoundingClientRect();
+            return r.top < window.innerHeight && r.bottom > 0;
+        });
+        // Nessun elemento è ancora arrivato in campo: non c'è niente da
+        // diagnosticare, l'observer avrà il suo momento più giù nella pagina.
+        if (!inCampo.length) return;
+        if (inCampo.some(el => el.classList.contains('revealed'))) return;
+
+        console.warn('[main.js] IntersectionObserver silenzioso: contenuto mostrato senza animazione.');
+        candidati.forEach(el => el.classList.add('revealed'));
+        document.querySelectorAll('.stagger-cards').forEach(c => {
+            Array.from(c.children).forEach(ch => ch.classList.add('revealed'));
+        });
+    }, 3000);
 }
 
 // ========== SECTOR CARDS REVEAL ==========
@@ -99,6 +140,40 @@ function initSectorReveal() {
     cards.forEach(c => io.observe(c));
 }
 
+// ========== SAGOME TRACCIATE ==========
+// Il contorno si completa quando la sezione entra in campo, come se qualcuno
+// seguisse il bordo della dima col pennarello prima del taglio.
+// Nessuna dipendenza da GSAP: qui finisce solo la lunghezza del tracciato in una
+// custom property, il resto lo fa la transition CSS. Senza JS `--len` non viene
+// mai scritta, `stroke-dasharray` decade e il contorno resta pieno — non esiste
+// uno stato in cui il disegno rimane invisibile.
+function initSagomeTracciate() {
+    const sagome = document.querySelectorAll('.sagoma-tracciata');
+    if (!sagome.length) return;
+
+    sagome.forEach(s => {
+        s.querySelectorAll('path').forEach(p => {
+            p.style.setProperty('--len', p.getTotalLength());
+        });
+    });
+
+    if (!('IntersectionObserver' in window)) {
+        sagome.forEach(s => s.classList.add('tracciata'));
+        return;
+    }
+
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('tracciata');
+                io.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.25, rootMargin: '0px 0px -8% 0px' });
+
+    sagome.forEach(s => io.observe(s));
+}
+
 // ========== SMOOTH SCROLL ==========
 let smoothScroll = null;
 function initSmoothScroll() {
@@ -107,16 +182,50 @@ function initSmoothScroll() {
 
     let targetY = window.scrollY;
     let currentY = window.scrollY;
+    let loopAttivo = false;
 
     const getMax = () => document.documentElement.scrollHeight - window.innerHeight;
 
+    // Se il puntatore è sopra un contenitore che può ancora scorrere nella
+    // direzione richiesta (il testo di un modale, per esempio), la rotellina
+    // deve restare al browser. Senza questo controllo il preventDefault qui
+    // sotto blocca lo scroll dentro le schede prodotto e le schede lavorazione.
+    function scorrevoleSotto(el, delta) {
+        while (el && el.nodeType === 1 && el !== document.body) {
+            const oy = getComputedStyle(el).overflowY;
+            if ((oy === 'auto' || oy === 'scroll') && el.scrollHeight > el.clientHeight) {
+                if (delta < 0 && el.scrollTop > 0) return true;
+                if (delta > 0 && el.scrollTop + el.clientHeight < el.scrollHeight - 1) return true;
+            }
+            el = el.parentElement;
+        }
+        return false;
+    }
+
     window.addEventListener('wheel', (e) => {
+        // ctrl/cmd + rotellina è lo zoom del browser, ed è anche quello che il
+        // trackpad manda quando si fa pinch. Rubarglielo significa togliere a
+        // chi ci vede poco l'unico modo di ingrandire la pagina.
+        if (e.ctrlKey || e.metaKey) return;
+        // shift + rotellina è scroll orizzontale: non ci riguarda.
+        if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+        if (scorrevoleSotto(e.target, e.deltaY)) return;
         e.preventDefault();
         targetY = Math.max(0, Math.min(targetY + e.deltaY, getMax()));
+        avviaLoop();
     }, { passive: false });
 
     window.addEventListener('keydown', (e) => {
+        // le frecce appartengono a chi ha il focus: campi, select, modali aperti
+        // e.target non è sempre un elemento: su un evento diretto a document
+        // vale document, che .matches() non ce l'ha e faceva saltare tutto.
+        const t = e.target;
+        if (t instanceof Element &&
+            (t.matches('input, textarea, select, [contenteditable]') ||
+                t.closest('.modal-overlay.active'))) return;
+
         const max = getMax();
+        const prima = targetY;
         switch (e.key) {
             case 'ArrowDown': targetY = Math.min(targetY + 80, max); break;
             case 'ArrowUp':   targetY = Math.max(0, targetY - 80); break;
@@ -125,9 +234,27 @@ function initSmoothScroll() {
             case 'Home':      targetY = 0; break;
             case 'End':       targetY = max; break;
         }
+        if (targetY !== prima) avviaLoop();
     });
 
+    // Qualsiasi scorrimento che non sia nato qui — la scrollbar trascinata col
+    // mouse, un salto a un'ancora, il "trova nella pagina", il focus che porta
+    // in vista un campo — deve diventare la nuova posizione di riferimento.
+    // Senza questo il loop qui sotto riportava la pagina indietro al frame dopo.
+    window.addEventListener('scroll', () => {
+        if (loopAttivo) return;          // il movimento è nostro: niente da risincronizzare
+        targetY = currentY = window.scrollY;
+    }, { passive: true });
+
+    window.addEventListener('resize', () => {
+        targetY = Math.min(targetY, getMax());
+    }, { passive: true });
+
     const hasST = typeof ScrollTrigger !== 'undefined';
+
+    // Il loop gira solo mentre c'è distanza da colmare. Prima restava acceso a
+    // 60fps per tutta la visita, chiamando scrollTo() e ScrollTrigger.update()
+    // anche con la pagina ferma.
     function tick() {
         currentY += (targetY - currentY) * 0.09;
         if (Math.abs(targetY - currentY) < 0.1) currentY = targetY;
@@ -136,11 +263,26 @@ function initSmoothScroll() {
         // dispatch scroll events that ScrollTrigger catches, so push updates
         // every frame (same role Lenis's scroll handler used to play).
         if (hasST) ScrollTrigger.update();
+
+        if (currentY === targetY) {
+            loopAttivo = false;          // arrivati: la prossima spinta lo riaccende
+            return;
+        }
         requestAnimationFrame(tick);
     }
-    requestAnimationFrame(tick);
 
-    smoothScroll = { scrollTo: (y) => { targetY = Math.max(0, Math.min(y, getMax())); } };
+    function avviaLoop() {
+        if (loopAttivo) return;
+        loopAttivo = true;
+        requestAnimationFrame(tick);
+    }
+
+    smoothScroll = {
+        scrollTo: (y) => {
+            targetY = Math.max(0, Math.min(y, getMax()));
+            avviaLoop();
+        }
+    };
 }
 
 // ========== SCROLL PROGRESS BAR ==========
@@ -239,13 +381,24 @@ function initMobileMenu() {
     const mobileNav = document.querySelector('.mobile-nav');
     if (!hamburger || !mobileNav) return;
 
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.setAttribute('aria-controls', mobileNav.id || (mobileNav.id = 'mobile-nav'));
+
+    function chiudi() {
+        hamburger.classList.remove('open');
+        mobileNav.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    }
+
     hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('open');
-        mobileNav.classList.toggle('open');
-        document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+        const aperto = mobileNav.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', String(aperto));
+        document.body.style.overflow = aperto ? 'hidden' : '';
 
         // Stagger mobile nav links
-        if (mobileNav.classList.contains('open')) {
+        if (aperto) {
             const links = mobileNav.querySelectorAll('a');
             links.forEach((link, i) => {
                 link.style.transitionDelay = (i * 0.08) + 's';
@@ -255,11 +408,15 @@ function initMobileMenu() {
 
     // Close on link click
     mobileNav.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            hamburger.classList.remove('open');
-            mobileNav.classList.remove('open');
-            document.body.style.overflow = '';
-        });
+        link.addEventListener('click', chiudi);
+    });
+
+    // Escape chiude il menu, come già fa nei modali.
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+            chiudi();
+            hamburger.focus();
+        }
     });
 }
 
@@ -268,15 +425,31 @@ function initPageTransitions() {
     const overlay = document.querySelector('.page-transition');
     if (!overlay) return;
 
+    // Senza GSAP la tendina non si ritirerebbe mai e resterebbe a coprire tutta
+    // la pagina (z-index 100000): meglio non alzarla affatto. Il sito perde
+    // l'effetto, non la sua unica via d'accesso.
+    if (typeof gsap === 'undefined') {
+        overlay.style.display = 'none';
+        return;
+    }
+
     // Fade in on page load
     overlay.style.transformOrigin = 'top';
     overlay.style.transform = 'scaleY(1)';
+
+    // Rete di sicurezza: se per qualsiasi ragione la timeline non arriva in
+    // fondo (tab aperta in secondo piano, ticker in pausa, animazione persa),
+    // dopo un secondo la tendina se ne va comunque.
+    const tolgoLaTendina = setTimeout(() => {
+        overlay.style.transform = 'scaleY(0)';
+    }, 1000);
 
     gsap.to(overlay, {
         scaleY: 0,
         duration: 0.5,
         ease: 'power2.inOut',
         delay: 0.1,
+        onComplete: () => clearTimeout(tolgoLaTendina),
     });
 
     // Intercept navigation links
@@ -285,6 +458,9 @@ function initPageTransitions() {
         // Only intercept local .html links, not anchors or external
         if (href && (href.endsWith('.html') || href.includes('.html?')) && !href.startsWith('http') && !href.startsWith('#')) {
             link.addEventListener('click', (e) => {
+                // cmd/ctrl/shift-click e tasto centrale aprono in un'altra tab:
+                // quelli devono restare al browser, non diventare una tendina.
+                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
                 e.preventDefault();
                 overlay.style.transformOrigin = 'bottom';
                 gsap.to(overlay, {

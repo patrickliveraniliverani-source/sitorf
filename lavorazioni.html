@@ -178,6 +178,13 @@
             cursor: pointer;
         }
 
+        /* i passi sono raggiungibili con Tab: il focus deve vedersi */
+        .process-item:focus-visible {
+            outline: 2px solid var(--blue);
+            outline-offset: 6px;
+            border-radius: 6px;
+        }
+
         .process-dot {
             width: 50px;
             height: 50px;
@@ -377,6 +384,12 @@
             overflow: hidden;
             display: grid;
             grid-template-columns: 45% 55%;
+            /* La riga deve poter stare dentro max-height, altrimenti cresce
+               fino all'altezza del testo e `overflow:hidden` qui sopra taglia
+               via la parte eccedente, che diventa irraggiungibile.
+               Con minmax(0,1fr) la riga si comprime e lo scroll del pannello
+               entra davvero in funzione. */
+            grid-template-rows: minmax(0, 1fr);
         }
 
         .modal-overlay.active .modal-container {
@@ -409,6 +422,9 @@
             flex-direction: column;
             justify-content: flex-start;
             overflow-y: auto;
+            /* senza questo un grid item non scende sotto la dimensione del
+               proprio contenuto, e overflow-y:auto resta lettera morta */
+            min-height: 0;
         }
 
         .modal-close {
@@ -498,6 +514,9 @@
                 max-width: 560px;
                 max-height: 92vh;
                 overflow-y: auto;
+                /* qui scorre l'intero contenitore, quindi le righe tornano
+                   a dimensionarsi sul contenuto */
+                grid-template-rows: auto auto;
             }
 
             .modal-img-wrapper {
@@ -569,6 +588,7 @@
 <body>
     <div class="scroll-progress"></div>
     <div class="custom-cursor"></div>
+    <div class="page-transition"></div>
 
     <header class="site-header">
         <div class="container header-inner"><a href="index.html" class="logo">
@@ -681,7 +701,23 @@
             </div>
         </div>
         <div class="split-image reveal">
-            <div class="img-placeholder" style="width: 100%; height: 100%;">IMG R&D</div>
+            <!-- Segnaposto in attesa dello shooting: la sagoma si traccia da sola
+                 quando la sezione entra in campo. Quando arriva la foto prende il
+                 posto dell'SVG, dentro lo stesso riquadro. -->
+            <div class="sagoma-tracciata"
+                style="width:100%;height:100%;min-height:inherit;background:#eef1f6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:56px;">
+                <svg viewBox="-16 -14 512 372" style="width:100%;max-width:400px;height:auto;overflow:visible"
+                    role="img" aria-label="Sagoma di un cuscino di seduta">
+                    <path
+                        d="M78 18 L402 18 C426 18 440 30 444 52 L468 258 C472 292 452 314 418 318 C316 332 164 332 62 318 C28 314 8 292 12 258 L36 52 C40 30 54 18 78 18 Z"
+                        fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linejoin="round" />
+                    <path d="M0 34 L0 14 L20 14" fill="none" stroke="var(--gold)" stroke-width="2.5" />
+                    <path d="M480 300 L480 320 L460 320" fill="none" stroke="var(--gold)" stroke-width="2.5" />
+                    <circle cx="112" cy="52" r="13" fill="#eef1f6" stroke="var(--gold)" stroke-width="3" />
+                </svg>
+                <span style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gray-300);">Ricerca
+                    e sviluppo</span>
+            </div>
         </div>
     </section>
 
@@ -781,23 +817,26 @@
         <div class="container">
             <div class="stats-grid-custom">
                 <!-- Added divider div to match chi-siamo style -->
+                <!-- data-count/data-suffix: initCounters() in js/main.js li fa salire
+                     quando entrano in campo. Il testo dentro l'h3 resta il valore finale,
+                     così senza JS il numero è già quello giusto. -->
                 <div class="stat-item-custom reveal">
-                    <h3>400+</h3>
+                    <h3 data-count="400" data-suffix="+">400+</h3>
                     <div class="stat-divider-custom"></div>
                     <p class="stat-label-custom">Modelli Realizzati</p>
                 </div>
                 <div class="stat-item-custom reveal">
-                    <h3>50+</h3>
+                    <h3 data-count="50" data-suffix="+">50+</h3>
                     <div class="stat-divider-custom"></div>
                     <p class="stat-label-custom">Anni di Esperienza</p>
                 </div>
                 <div class="stat-item-custom reveal">
-                    <h3>100%</h3>
+                    <h3 data-count="100" data-suffix="%">100%</h3>
                     <div class="stat-divider-custom"></div>
                     <p class="stat-label-custom">Produzione su Misura</p>
                 </div>
                 <div class="stat-item-custom reveal">
-                    <h3>3</h3>
+                    <h3 data-count="3" data-suffix="">3</h3>
                     <div class="stat-divider-custom"></div>
                     <p class="stat-label-custom">Generazioni</p>
                 </div>
@@ -846,9 +885,9 @@
                 <div class="footer-col">
                     <h4>Contatti</h4>
                     <ul>
-                        <li>0543 700047</li>
-                        <li style="margin-top:8px;">rf@resinaforlivese.it</li>
-                        <li style="margin-top:8px;">resinaforlivese@pec.it</li>
+                        <li><a href="tel:+390543700047">0543 700047</a></li>
+                        <li style="margin-top:8px;"><a href="mailto:rf@resinaforlivese.it">rf@resinaforlivese.it</a></li>
+                        <li style="margin-top:8px;"><a href="mailto:resinaforlivese@pec.it">resinaforlivese@pec.it</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -865,7 +904,7 @@
         <div class="footer-bottom">
             <div class="container">
                 <div class="footer-bottom-row">
-                    <p>© 2025 R.F. Resina Forlivese S.r.l. — Tutti i diritti riservati</p>
+                    <p>© 2026 R.F. Resina Forlivese S.r.l. — Tutti i diritti riservati</p>
                     <div style="display:flex;gap:16px;"><a href="privacy.html">Privacy Policy</a><a href="cookie.html">Cookie Policy</a>
                     </div>
                 </div>
@@ -879,12 +918,19 @@
         </div>
     </footer>
 
+  <a href="https://wa.me/393333269000" target="_blank" rel="noopener noreferrer" class="floating-whatsapp" aria-label="Scrivici su WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg></a>
+
     <!-- MODAL OVERLAY (V3 — Technical Sheet) -->
     <div class="modal-overlay" id="serviceModal">
         <div class="modal-container">
             <button class="modal-close" id="modalClose">&times;</button>
             <div class="modal-img-wrapper">
-                <img src="" alt="Dettaglio Lavorazione" class="modal-img" id="modalImg">
+                <!-- src viene riempito all'apertura del modale: lasciarlo vuoto farebbe
+                     richiedere al browser la pagina stessa come immagine -->
+                <img alt="" class="modal-img" id="modalImg">
             </div>
             <div class="modal-content-wrapper">
                 <div class="modal-content">
@@ -906,6 +952,14 @@
         document.addEventListener('DOMContentLoaded', () => {
 
             // ===== INTERACTIVE PROCESS STEPS (GSAP ENHANCED) =====
+            // Il carosello è costruito su GSAP: se la libreria non risponde
+            // usciamo subito invece di sollevare un ReferenceError. I modali
+            // stanno in un handler separato qui sotto e restano funzionanti.
+            if (typeof gsap === 'undefined') {
+                console.warn('[lavorazioni] GSAP non disponibile: carosello processo disattivato.');
+                return;
+            }
+
             const processData = [
                 {
                     title: 'ASCOLTO',
@@ -1031,9 +1085,10 @@
                 goToStep(next, true);
             }
 
-            // Manual Click
+            // Manual Click — e tastiera: sono comandi a tutti gli effetti,
+            // devono essere raggiungibili con Tab e attivabili con Invio/Spazio.
             items.forEach((item, idx) => {
-                item.addEventListener('click', () => {
+                const vaiA = () => {
                     if (progressTween) progressTween.kill();
 
                     const totalSteps = items.length - 1;
@@ -1042,15 +1097,53 @@
 
                     currentStep = idx; // Update state
                     goToStep(idx, true); // Restart flow from here
+                };
+
+                item.setAttribute('role', 'button');
+                item.setAttribute('tabindex', '0');
+                item.addEventListener('click', vaiA);
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); vaiA(); }
                 });
             });
 
             // Init
             items[0].classList.add('active');
             gsap.set(progressFill, { width: '0%' });
-            goToStep(0, true);
 
-            // ===== MODAL LOGIC V3 (Technical Sheet) =====
+            const ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const sezioneProcesso = document.querySelector('.process-section');
+
+            if (ridotto) {
+                // niente ciclo automatico: si mostra il primo passo, i click restano attivi
+                goToStep(0, false);
+                updatePanelContent(0);
+            } else if ('IntersectionObserver' in window && sezioneProcesso) {
+                // Il ciclo parte quando la sezione entra in campo e si ferma quando esce.
+                // Prima partiva al caricamento: arrivandoci scrollando la si trovava
+                // già a metà, e continuava a girare a vuoto per tutta la pagina.
+                let avviato = false;
+                const ioProcesso = new IntersectionObserver((entries) => {
+                    entries.forEach(e => {
+                        if (e.isIntersecting) {
+                            if (!avviato) { avviato = true; goToStep(0, true); }
+                            else if (progressTween) progressTween.resume();
+                        } else if (progressTween) {
+                            progressTween.pause();
+                        }
+                    });
+                }, { threshold: 0.35 });
+                ioProcesso.observe(sezioneProcesso);
+            } else {
+                goToStep(0, true);
+            }
+
+        });
+
+        // ===== MODAL LOGIC V3 (Technical Sheet) =====
+        // Handler separato: non dipende da GSAP e non deve poter essere
+        // trascinato giù da un errore del carosello qui sopra.
+        document.addEventListener('DOMContentLoaded', () => {
             const modal = document.getElementById('serviceModal');
             const modalTitle = document.getElementById('modalTitle');
             const modalSubtitle = document.getElementById('modalSubtitle');
@@ -1075,8 +1168,9 @@
                     const paragraphs = body.split('|').map(s => s.trim()).filter(Boolean);
                     modalBody.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
 
-                    // Image
+                    // Image — l'alt segue il contenuto, non può stare nell'HTML
                     modalImg.src = imgUrl || 'https://placehold.co/800x600?text=Lavorazione';
+                    modalImg.alt = title ? `Lavorazione: ${title}` : 'Dettaglio lavorazione';
 
                     // Show
                     modal.classList.add('active');

@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="it" class="no-js">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prototipo «Sagome» — R.F. Resina Forlivese</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400..700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Martian+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <script>
+    /* Lo stato finale sta nel CSS. Lo stato iniziale lo scrive JS.
+       Se GSAP non carica entro 1,2s la classe .js viene tolta e la pagina
+       resta completa: niente contenuto bloccato a opacity 0, niente schermo pieno. */
+    document.documentElement.className = 'js';
+    setTimeout(function () {
+      if (!window.gsap) document.documentElement.className = 'no-gsap';
+    }, 1200);
+  </script>
+
+  <style>
+    /* ============================================================
+       R.F. RESINA FORLIVESE — PROTOTIPO DIREZIONE «SAGOME»
+       Tesi: il pezzo esiste come contorno prima di esistere come materia.
+       Il sito mostra il gesto — tracciare, tagliare, staccare — non il risultato.
+       ============================================================ */
+
+    /* ---------- REGOLA DI CONFINAMENTO DELLA PALETTE ----------
+       Zolfo e cartone NON sono mai fondo di sezione, mai pulsante pieno,
+       mai overlay. Compaiono solo DENTRO un contorno già tracciato.
+       Se una superficie è zolfo, vuol dire che è stata tagliata.
+       Violare questa regola fa collassare la direzione nel generico
+       "crema caldo + accento" nel giro di una settimana. Non discuterla. */
+
+    :root {
+      --banco: #E4E8E7;
+      /* acciaio del banco da taglio — fondo di tutto */
+      --banco-scuro: #1A1D1C;
+      /* stessa superficie in ombra — solo archivio e footer */
+      --poliuretano: #CBC96A;
+      /* zolfo: il materiale tagliato */
+      --cartone: #8A7A61;
+      /* la sagoma: fibra pressata, de-arancionata */
+      --pennarello: #113DAC;
+      /* BLU DEL LOGO, riassegnato: non più colore istituzionale, ma inchiostro */
+      --grafite: #191B1A;
+      /* testo, e la lama */
+      --registro: #E9B05B;
+      /* ORO DEL LOGO, riassegnato: ferramenta — fori, tacche, chiodi */
+
+      --kerf: 11px;
+      /* distanza minima fra due pezzi: unica unità di spazio del sito */
+
+      --t-h1: clamp(2.375rem, 1.5rem + 3.6vw, 4.375rem);
+      --t-h2: clamp(1.75rem, 1.15rem + 2.5vw, 3rem);
+      --t-h3: clamp(1.25rem, 1.05rem + .85vw, 1.625rem);
+      --t-lead: clamp(1.125rem, 1.02rem + .45vw, 1.3125rem);
+      --t-body: clamp(1rem, .96rem + .2vw, 1.0625rem);
+      --t-mono: clamp(.625rem, .6rem + .12vw, .6875rem);
+
+      --sagoma: 'Familjen Grotesk', system-ui, sans-serif;
+      --prosa: 'Alegreya Sans', system-ui, sans-serif;
+      --mano: 'Martian Mono', ui-monospace, monospace;
+
+      /* ombra dura: il cartone è rigido, non fa penombra.
+         blur 0 e spread 0 — la sfocatura è il cliché che tradirebbe tutto il resto */
+      --stacco: 3px 4px 0 0 rgba(25, 27, 26, .22);
+      --stacco-alto: 5px 7px 0 0 rgba(25, 27, 26, .26);
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--banco);
+      color: var(--grafite);
+      font: 400 var(--t-body)/1.65 var(--prosa);
+      overflow-x: hidden;
+    }
+
+    /* raggio 0 ovunque: la curvatura esiste solo dentro le silhouette SVG,
+       dove il pezzo vero ha un raggio vero */
+    h1,
+    h2,
+    h3 {
+      font-family: var(--sagoma);
+      font-weight: 600;
+      /* sentence case sempre: il maiuscolo esiste solo nel mono */
+    }
+
+    h1 {
+      font-size: var(--t-h1);
+      line-height: .98;
+      letter-spacing: -.018em;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: var(--t-h2);
+      line-height: 1.06;
+      letter-spacing: -.012em;
+    }
+
+    h3 {
+      font-size: var(--t-h3);
+      line-height: 1.15;
+      letter-spacing: -.006em;
+    }
+
+    p {
+      max-width: 62ch;
+    }
+
+    a {
+      color: var(--pennarello);
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+    }
+
+    /* il focus parla la lingua del sito: è un tracciato, non un anello di sistema */
+    :focus-visible {
+      outline: 2px dashed var(--pennarello);
+      outline-offset: 3px;
+    }
+
+    .m {
+      font: 500 var(--t-mono)/1.3 var(--mano);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .contenitore {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding-inline: calc(var(--kerf) * 2);
+    }
+
+    .salta-a {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--banco);
+      padding: var(--kerf);
+      z-index: 999;
+    }
+
+    .salta-a:focus {
+      left: var(--kerf);
+      top: var(--kerf);
+    }
+
+    /* ============ TESTATA ============ */
+    .testata {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: color-mix(in srgb, var(--banco) 92%, transparent);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid color-mix(in srgb, var(--grafite) 14%, transparent);
+    }
+
+    .testata-int {
+      display: flex;
+      align-items: center;
+      gap: calc(var(--kerf) * 3);
+      height: 72px;
+    }
+
+    .marchio img {
+      height: 34px;
+      width: auto;
+      display: block;
+    }
+
+    /* la nav è fatta di linguette di cartone: ognuna ha il suo contorno */
+    .nav {
+      display: flex;
+      gap: calc(var(--kerf) * 2);
+      margin-left: auto;
+    }
+
+    .nav a {
+      font: 500 var(--t-mono) var(--mano);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--grafite);
+      text-decoration: none;
+      padding: 6px 0;
+      border-bottom: 1.5px solid transparent;
+      transition: border-color .18s;
+    }
+
+    .nav a:hover,
+    .nav a[aria-current] {
+      border-bottom-color: var(--pennarello);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font: 600 var(--t-mono) var(--mano);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--grafite);
+      text-decoration: none;
+      padding: 12px 20px;
+      background: transparent;
+      border: 1.5px solid var(--grafite);
+      cursor: pointer;
+      transition: box-shadow .2s, transform .2s;
+    }
+
+    .btn:hover {
+      box-shadow: var(--stacco);
+      transform: translate(-1px, -2px);
+    }
+
+    .btn--ink {
+      border-color: var(--pennarello);
+      color: var(--pennarello);
+    }
+
+    /* ============ SEZIONI ============ */
+    .sezione {
+      padding-block: calc(var(--kerf) * 12);
+    }
+
+    .occhiello {
+      display: flex;
+      align-items: baseline;
+      gap: calc(var(--kerf) * 1.5);
+      margin-bottom: calc(var(--kerf) * 3);
+    }
+
+    .occhiello .codice {
+      color: var(--pennarello);
+    }
+
+    .occhiello .rigo {
+      flex: 1;
+      height: 1px;
+      background: repeating-linear-gradient(90deg, var(--grafite) 0 4px, transparent 4px 9px);
+      opacity: .35;
+    }
+
+    /* ============ IL PEZZO: la sagoma, ovunque ============ */
+    .pezzo {
+      position: relative;
+      display: block;
+    }
+
+    .pezzo svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+      /* l'ombra segue il profilo alfa della sagoma, non un rettangolo.
+         blur 0: il cartone è rigido e non fa penombra. */
+      filter: drop-shadow(5px 7px 0 rgba(25, 27, 26, .20));
+      transition: filter .24s ease-out;
+    }
+
+    /* con JS il pezzo è ancora attaccato al foglio: nessuna ombra finché non si stacca */
+    .js .pezzo svg {
+      filter: drop-shadow(0 0 0 rgba(25, 27, 26, 0));
+    }
+
+    .js .pezzo.staccato svg,
+    .no-gsap .pezzo svg {
+      filter: drop-shadow(5px 7px 0 rgba(25, 27, 26, .20));
+    }
+
+    .contorno {
+      fill: none;
+      stroke: var(--pennarello);
+      stroke-width: 2.5;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    /* il foro d'appensione: è ferramenta, quindi è oro — con un capello
+       di grafite di ridondanza, perché l'oro non porta mai informazione da solo */
+    .foro {
+      fill: var(--banco);
+      stroke: var(--registro);
+      stroke-width: 3;
+    }
+
+    .foro-ombra {
+      fill: none;
+      stroke: var(--grafite);
+      stroke-width: 1;
+      opacity: .45;
+    }
+
+    .registro {
+      fill: none;
+      stroke: var(--registro);
+      stroke-width: 2.5;
+      stroke-linecap: square;
+    }
+
+    /* ciò che sulla sagoma vera è scritto a pennarello: codice, densità, spessore */
+    .scritta {
+      font: 500 13px var(--mano);
+      letter-spacing: .1em;
+      fill: var(--pennarello);
+      opacity: .7;
+    }
+
+    /* la lama: una riga di grafite da 2px. Non è decorazione, è l'utensile */
+    .lama {
+      position: absolute;
+      left: -2%;
+      right: -2%;
+      top: var(--y, 100%);
+      height: 2px;
+      background: var(--grafite);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .lama::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: -5px;
+      width: 12px;
+      height: 12px;
+      background: var(--grafite);
+      clip-path: polygon(0 50%, 100% 0, 100% 100%);
+    }
+
+    /* ============ HERO ============ */
+    .hero {
+      padding-block: calc(var(--kerf) * 10) calc(var(--kerf) * 12);
+    }
+
+    .hero-griglia {
+      display: grid;
+      /* il testo prende più foglio del pezzo: è lui che deve reggere il titolo intero */
+      grid-template-columns: 1.08fr .92fr;
+      gap: calc(var(--kerf) * 5);
+      align-items: center;
+    }
+
+    .hero h1 {
+      margin-block: calc(var(--kerf) * 2);
+    }
+
+    .hero .lead {
+      font-size: var(--t-lead);
+      max-width: 46ch;
+      margin-bottom: calc(var(--kerf) * 3);
+    }
+
+    .annotazioni {
+      display: flex;
+      flex-wrap: wrap;
+      gap: calc(var(--kerf) * 2);
+      margin-top: calc(var(--kerf) * 3);
+      padding-top: calc(var(--kerf) * 2);
+      border-top: 1px dashed color-mix(in srgb, var(--grafite) 30%, transparent);
+    }
+
+    .annotazioni span {
+      color: color-mix(in srgb, var(--grafite) 65%, transparent);
+    }
+
+    .salta-anim {
+      position: absolute;
+      top: calc(var(--kerf) * -3);
+      right: 0;
+      font: 500 var(--t-mono) var(--mano);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: none;
+      border: 0;
+      border-bottom: 1px dashed var(--pennarello);
+      color: var(--pennarello);
+      cursor: pointer;
+      padding: 2px 0;
+    }
+
+    .no-js .salta-anim,
+    .no-gsap .salta-anim {
+      display: none;
+    }
+
+    /* ============ MATERIALE: il righello delle densità ============
+       Il passo del tratteggio è calcolato dalla densità reale:
+       passo = 14px − (kg/m³ − 18) × 0,2. D18 rado, D60 fitto.
+       Non è decorazione: è il dato, disegnato.                        */
+    .densita {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: var(--kerf);
+      margin-top: calc(var(--kerf) * 4);
+    }
+
+    .campione {
+      border: 1.5px solid var(--grafite);
+      padding: calc(var(--kerf) * 1.5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--kerf);
+      background: transparent;
+      transition: box-shadow .18s, transform .18s;
+    }
+
+    .campione:hover,
+    .campione:focus-within {
+      box-shadow: var(--stacco);
+      transform: translate(-1px, -2px);
+    }
+
+    .campione .barra {
+      height: 76px;
+      border: 1px solid color-mix(in srgb, var(--grafite) 45%, transparent);
+      background-image: repeating-linear-gradient(90deg,
+          color-mix(in srgb, var(--grafite) 70%, transparent) 0 1px,
+          transparent 1px var(--passo));
+    }
+
+    .campione:hover .barra {
+      background-color: var(--poliuretano);
+    }
+
+    .campione .valore {
+      font: 600 1.5rem/1 var(--sagoma);
+    }
+
+    /* ============ LAVORAZIONI: l'unica sequenza vera del sito ============ */
+    .fasi {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: calc(var(--kerf) * 2);
+      margin-top: calc(var(--kerf) * 4);
+    }
+
+    .fase {
+      border-top: 2px solid var(--grafite);
+      padding-top: calc(var(--kerf) * 1.5);
+    }
+
+    .fase .num {
+      color: var(--pennarello);
+      display: block;
+      margin-bottom: var(--kerf);
+    }
+
+    /* lo stesso pezzo attraverso le quattro lavorazioni: il contorno si ridisegna
+       a ogni fase, e quello che cambia è ciò che gli viene fatto sopra */
+    .fase svg {
+      display: block;
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      overflow: visible;
+      margin-block: calc(var(--kerf) * 1.5);
+    }
+
+    /* la cucitura è statica: un tratteggio non si può disegnare con dashoffset
+       senza perdere il tratteggio stesso */
+    .punto {
+      fill: none;
+      stroke: var(--pennarello);
+      stroke-width: 2;
+      stroke-dasharray: 7 5;
+      stroke-linecap: round;
+      opacity: .8;
+    }
+
+    .mastice {
+      fill: none;
+      stroke: var(--pennarello);
+      stroke-width: 4;
+      stroke-linecap: round;
+      opacity: .55;
+    }
+
+    .fase h3 {
+      margin-bottom: 8px;
+    }
+
+    .fase p {
+      font-size: .95rem;
+      color: color-mix(in srgb, var(--grafite) 78%, transparent);
+    }
+
+    /* ============ SETTORI: piazzamento, non griglia di card uguali ============ */
+    .piazzamento {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-auto-rows: 22px;
+      grid-auto-flow: dense;
+      gap: var(--kerf);
+      margin-top: calc(var(--kerf) * 4);
+    }
+
+    .tessera {
+      grid-column: span var(--c, 4);
+      grid-row: span var(--r, 9);
+      position: relative;
+      border: 1.5px solid var(--pennarello);
+      padding: calc(var(--kerf) * 1.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      text-decoration: none;
+      color: var(--grafite);
+      overflow: hidden;
+      /* la sagoma pende dal chiodo, non poggia: l'origine è il foro */
+      transform-origin: 22px 18px;
+      transition: transform .24s cubic-bezier(.34, 1.3, .64, 1), box-shadow .24s;
+    }
+
+    /* LO SLOT — oggi è la sagoma piena di cartone, domani è la fotografia.
+       Il ritaglio è definito in objectBoundingBox, quindi la stessa clipPath
+       serve un riquadro da 180px e un pezzo hero da 640px senza essere riscritta.
+       Quando arrivano le foto dello shooting basta sostituire il background
+       con un <img>: la cornice tracciata c'era già, non era un ripiego. */
+    .slot {
+      flex: 1;
+      min-height: 54px;
+      margin: calc(var(--kerf) * 2.5) 0 calc(var(--kerf) * 1.5);
+      /* color-mix invece di opacity: l'alpha su un fondo grigio freddo
+         spegne il kraft e lo fa diventare un beige morto */
+      background-color: color-mix(in srgb, var(--cartone) 62%, var(--banco));
+      /* fibra pressata: righe a 45° appena percettibili */
+      background-image: repeating-linear-gradient(45deg,
+          rgba(255, 255, 255, .13) 0 1px, transparent 1px 5px);
+      transition: background-color .24s;
+    }
+
+    .tessera:hover .slot,
+    .tessera:focus-visible .slot {
+      background-color: color-mix(in srgb, var(--cartone) 80%, var(--banco));
+    }
+
+    .slot--seduta {
+      clip-path: url(#sag-seduta);
+    }
+
+    .slot--rullo {
+      clip-path: url(#sag-rullo);
+    }
+
+    .slot--pannello {
+      clip-path: url(#sag-pannello);
+    }
+
+    .slot--materassino {
+      clip-path: url(#sag-materassino);
+    }
+
+    .tessera:hover,
+    .tessera:focus-visible {
+      transform: rotate(.4deg) translateY(1px);
+      box-shadow: var(--stacco-alto);
+    }
+
+    .tessera .cod {
+      position: absolute;
+      top: calc(var(--kerf) * 1.5);
+      left: calc(var(--kerf) * 4);
+      color: var(--pennarello);
+    }
+
+    .tessera .buco {
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2.5px solid var(--registro);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--grafite) 45%, transparent);
+    }
+
+    .tessera h3 {
+      font-size: 1.15rem;
+    }
+
+    .tessera p {
+      font-size: .9rem;
+      margin-top: 6px;
+      color: color-mix(in srgb, var(--grafite) 75%, transparent);
+    }
+
+    /* ============ CTA ============ */
+    .cta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: calc(var(--kerf) * 6);
+      align-items: center;
+    }
+
+    .sagoma-vuota {
+      border: 2px dashed var(--pennarello);
+      min-height: 260px;
+      display: grid;
+      place-content: center;
+      text-align: center;
+      gap: var(--kerf);
+      padding: calc(var(--kerf) * 3);
+    }
+
+    .sagoma-vuota .m {
+      color: color-mix(in srgb, var(--grafite) 60%, transparent);
+    }
+
+    /* ============ PIEDE ============ */
+    .piede {
+      background: var(--banco-scuro);
+      color: color-mix(in srgb, #fff 82%, transparent);
+      padding-block: calc(var(--kerf) * 6);
+      margin-top: calc(var(--kerf) * 8);
+    }
+
+    .piede a {
+      color: #fff;
+    }
+
+    .piede .m {
+      color: color-mix(in srgb, #fff 55%, transparent);
+    }
+
+    /* ============ STATI INIZIALI — SOLO CON JS VIVO ============
+       Regola costituzionale: IL TAGLIO AGGIUNGE INFORMAZIONE,
+       NON GESTISCE LA LEGGIBILITÀ.
+       Nessun testo è mai a opacity 0. Quello che si anima è il contorno,
+       il riempimento e la tacca — cioè il gesto, non il contenuto.       */
+    .js .contorno {
+      stroke-dasharray: var(--len);
+      stroke-dashoffset: var(--len);
+    }
+
+    .js .registro,
+    .js .foro,
+    .js .foro-ombra,
+    .js .scritta {
+      opacity: 0;
+    }
+
+    .no-gsap .contorno {
+      stroke-dasharray: none !important;
+      stroke-dashoffset: 0 !important;
+    }
+
+    .no-gsap .registro,
+    .no-gsap .foro,
+    .no-gsap .foro-ombra {
+      opacity: 1 !important;
+    }
+
+    .no-gsap .scritta {
+      opacity: .7 !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 900px) {
+
+      .hero-griglia,
+      .cta {
+        grid-template-columns: 1fr;
+        gap: calc(var(--kerf) * 4);
+      }
+
+      .hero-visuale {
+        order: -1;
+      }
+
+      /* sotto i 900px il titolo va a capo da solo: le interruzioni scelte
+         a mano valgono solo dove c'è la larghezza per rispettarle */
+      br.ampio {
+        display: none;
+      }
+
+      .fasi {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .fasi {
+        grid-template-columns: 1fr;
+      }
+
+      .piazzamento {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .tessera {
+        grid-column: span 4 !important;
+        grid-row: span 8 !important;
+      }
+
+      .sezione {
+        padding-block: calc(var(--kerf) * 7);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="salta-a" href="#principale">Salta al contenuto</a>
+
+  <!-- ARCHIVIO DELLE SAGOME — le clipPath in coordinate normalizzate (0–1).
+       Indipendenti dalle dimensioni: la stessa sagoma veste un riquadro da 180px
+       e un pezzo da 640px senza essere ri-disegnata per breakpoint. -->
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <defs>
+      <!-- Ogni profilo ha un evento angolare che sopravvive allo stiramento:
+           objectBoundingBox non conserva le proporzioni, quindi un'identità
+           affidata solo ai raggi d'angolo si perde in un riquadro largo. -->
+
+      <!-- seduta: angolo inferiore sinistro tagliato a 45°, dove incontra il fianco -->
+      <clipPath id="sag-seduta" clipPathUnits="objectBoundingBox">
+        <path
+          d="M.07,.05 C.02,.05 0,.10 0,.17 L0,.70 L.13,.99 L.88,.99 C.95,.99 1,.94 1,.86 L1,.17 C1,.10 .97,.05 .92,.05 Z" />
+      </clipPath>
+
+      <!-- rullo: capsula con una testa tonda e una tagliata netta -->
+      <clipPath id="sag-rullo" clipPathUnits="objectBoundingBox">
+        <path d="M.11,.10 C.04,.10 0,.28 0,.54 C0,.80 .04,.94 .11,.94 L1,.94 L1,.10 Z" />
+      </clipPath>
+
+      <!-- pannello: spigolo superiore destro smussato -->
+      <clipPath id="sag-pannello" clipPathUnits="objectBoundingBox">
+        <path d="M0,.04 L.66,.04 L1,.32 L1,.96 L0,.96 Z" />
+      </clipPath>
+
+      <!-- materassino: profilo pieno e simmetrico, senza eventi: è quello che è -->
+      <clipPath id="sag-materassino" clipPathUnits="objectBoundingBox">
+        <path
+          d="M.09,.06 C.035,.06 0,.16 0,.28 L0,.78 C0,.90 .035,.98 .09,.98 L.91,.98 C.965,.98 1,.90 1,.78 L1,.28 C1,.16 .965,.06 .91,.06 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+
+  <header class="testata">
+    <div class="contenitore testata-int">
+      <a class="marchio" href="index.html"><img src="img/logo_new.png" alt="R.F. Resina Forlivese"></a>
+      <nav class="nav">
+        <a href="#materiale">Materiale</a>
+        <a href="#lavorazioni">Lavorazioni</a>
+        <a href="#settori">Settori</a>
+        <a href="#preventivo">Preventivo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="principale">
+
+    <!-- ==================== HERO ==================== -->
+    <section class="hero contenitore">
+      <div class="hero-griglia">
+
+        <div class="hero-testo">
+          <p class="m" style="color:var(--pennarello)">Taglio poliuretano su misura · Forlì · dal 1973</p>
+          <h1>Tutto comincia<br class="ampio">da una linea<br class="ampio">tracciata a mano.</h1>
+          <p class="lead">Prima che la lama passi, il pezzo esiste già: è una sagoma di cartone appesa a un chiodo,
+            con sopra scritto il vostro nome.</p>
+          <a class="btn btn--ink" href="#preventivo">Richiedi un preventivo</a>
+
+          <div class="annotazioni m">
+            <span>Mat. PU esp.</span>
+            <span>D30</span>
+            <span>Sp. 120 mm</span>
+            <span>SX</span>
+            <span>12·1973</span>
+          </div>
+        </div>
+
+        <div class="hero-visuale" style="position:relative">
+          <button class="salta-anim" type="button" id="salta">Salta l'animazione</button>
+
+          <div class="pezzo" id="pezzo-hero">
+            <!-- Due pezzi piazzati sullo stesso foglio, separati dal kerf:
+                 un cuscino di seduta (rastremato verso lo schienale, fronte bombato)
+                 e un poggiatesta incastrato nella spalla libera in alto.
+                 Un banco da taglio non ha mai un pezzo solo. -->
+            <svg viewBox="-18 -14 598 472" role="img"
+              aria-label="Sagome di un cuscino di seduta e di un poggiatesta, piazzate sullo stesso foglio, tracciate e tagliate">
+              <defs>
+                <clipPath id="cp-seduta">
+                  <path
+                    d="M118 118 L442 118 C466 118 480 130 484 152 L508 358 C512 392 492 414 458 418 C356 432 204 432 102 418 C68 414 48 392 52 358 L76 152 C80 130 94 118 118 118 Z" />
+                </clipPath>
+                <clipPath id="cp-poggia">
+                  <path
+                    d="M330 22 L512 22 C532 22 546 34 546 54 L546 80 C546 98 532 108 512 110 L330 110 C310 108 298 98 298 80 L298 54 C298 34 310 22 330 22 Z" />
+                </clipPath>
+              </defs>
+
+              <!-- il riempimento: zolfo, rivelato dalla lama. Senza JS è già pieno. -->
+              <g clip-path="url(#cp-seduta)">
+                <rect class="riempimento" x="0" y="0" width="560" height="440" fill="var(--poliuretano)" />
+              </g>
+              <g clip-path="url(#cp-poggia)">
+                <rect class="riempimento" x="0" y="0" width="560" height="440" fill="var(--poliuretano)" />
+              </g>
+
+              <!-- i contorni: il tracciato a pennarello, un pezzo alla volta -->
+              <path class="contorno"
+                d="M118 118 L442 118 C466 118 480 130 484 152 L508 358 C512 392 492 414 458 418 C356 432 204 432 102 418 C68 414 48 392 52 358 L76 152 C80 130 94 118 118 118 Z" />
+              <path class="contorno"
+                d="M330 22 L512 22 C532 22 546 34 546 54 L546 80 C546 98 532 108 512 110 L330 110 C310 108 298 98 298 80 L298 54 C298 34 310 22 330 22 Z" />
+
+              <!-- tacche di registro: ferramenta, non decorazione -->
+              <g class="registri">
+                <path class="registro" d="M34 148 L34 128 L54 128" />
+                <path class="registro" d="M526 148 L526 128 L506 128" />
+                <path class="registro" d="M34 400 L34 420 L54 420" />
+                <path class="registro" d="M526 400 L526 420 L506 420" />
+              </g>
+
+              <!-- annotazione a pennarello sul pezzo, come sul cartone vero -->
+              <text class="scritta" x="150" y="292">SEDUTA · D30 · SP.120</text>
+              <text class="scritta" x="318" y="72">POGGIATESTA</text>
+
+              <!-- i fori d'appensione -->
+              <circle class="foro-ombra" cx="152" cy="152" r="15" />
+              <circle class="foro" cx="152" cy="152" r="13" />
+              <circle class="foro-ombra" cx="322" cy="46" r="11" />
+              <circle class="foro" cx="322" cy="46" r="9" />
+            </svg>
+            <div class="lama" aria-hidden="true"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== MATERIALE ==================== -->
+    <section class="sezione contenitore" id="materiale">
+      <div class="occhiello">
+        <span class="m codice">01 — Il materiale</span>
+        <span class="rigo"></span>
+      </div>
+      <h2>Sappiamo cosa vi serve perché lo tagliamo tutti i giorni.</h2>
+      <p style="margin-top:var(--kerf)">Oltre 50 tipologie di poliuretano espanso flessibile, densità da 18 a
+        60&nbsp;kg/m³. Ovatte da 100 a 600&nbsp;gr/m². Resinati, memory foam, piuma d'oca e miscele su misura.</p>
+
+      <div class="densita">
+        <div class="campione" tabindex="0" style="--passo:14px">
+          <div class="barra"></div>
+          <div><span class="valore">D18</span> <span class="m">kg/m³</span></div>
+          <p class="m" style="color:color-mix(in srgb,var(--grafite) 60%,transparent)">Schienali morbidi</p>
+        </div>
+        <div class="campione" tabindex="0" style="--passo:11.6px">
+          <div class="barra"></div>
+          <div><span class="valore">D30</span> <span class="m">kg/m³</span></div>
+          <p class="m" style="color:color-mix(in srgb,var(--grafite) 60%,transparent)">Sedute standard</p>
+        </div>
+        <div class="campione" tabindex="0" style="--passo:8.6px">
+          <div class="barra"></div>
+          <div><span class="valore">D45</span> <span class="m">kg/m³</span></div>
+          <p class="m" style="color:color-mix(in srgb,var(--grafite) 60%,transparent)">Alta resilienza</p>
+        </div>
+        <div class="campione" tabindex="0" style="--passo:5.6px">
+          <div class="barra"></div>
+          <div><span class="valore">D60</span> <span class="m">kg/m³</span></div>
+          <p class="m" style="color:color-mix(in srgb,var(--grafite) 60%,transparent)">Sedute indeformabili</p>
+        </div>
+      </div>
+      <p class="m" style="margin-top:var(--kerf);color:color-mix(in srgb,var(--grafite) 55%,transparent)">
+        La fittezza del tratteggio è proporzionale alla densità reale del materiale.
+      </p>
+    </section>
+
+    <!-- ==================== LAVORAZIONI ==================== -->
+    <section class="sezione contenitore" id="lavorazioni">
+      <div class="occhiello">
+        <span class="m codice">02 — Le lavorazioni</span>
+        <span class="rigo"></span>
+      </div>
+      <h2>Quattro passaggi, in questo ordine, sempre.</h2>
+
+      <div class="fasi">
+        <div class="fase">
+          <span class="m num">01</span>
+          <svg viewBox="-4 -4 208 112" aria-hidden="true">
+            <path class="contorno"
+              d="M24 22 L176 22 C188 22 194 30 194 42 L194 80 C194 92 188 100 176 100 L24 100 C12 100 6 92 6 80 L6 42 C6 30 12 22 24 22 Z" />
+          </svg>
+          <h3>Taglio</h3>
+          <p>Spacca blocchi, taglierine manuali dritte e inclinate, pantografo CNC. Il banco a controllo numerico con
+            testa traslante taglia tessuti, ovatte e resinati.</p>
+        </div>
+        <div class="fase">
+          <span class="m num">02</span>
+          <svg viewBox="-4 -4 208 112" aria-hidden="true">
+            <path class="contorno"
+              d="M24 22 L176 22 C188 22 194 30 194 42 L194 80 C194 92 188 100 176 100 L24 100 C12 100 6 92 6 80 L6 42 C6 30 12 22 24 22 Z" />
+            <path class="punto" d="M18 61 L182 61" />
+          </svg>
+          <h3>Cucito</h3>
+          <p>Il <em>cucito puntato</em> copre la quasi totalità delle commesse. La <em>cucitura lineare</em> è più lenta
+            e più fine: la usiamo dove il tratto si vede.</p>
+        </div>
+        <div class="fase">
+          <span class="m num">03</span>
+          <svg viewBox="-4 -4 208 112" aria-hidden="true">
+            <path class="contorno"
+              d="M24 22 L176 22 C188 22 194 30 194 42 L194 80 C194 92 188 100 176 100 L24 100 C12 100 6 92 6 80 L6 42 C6 30 12 22 24 22 Z" />
+            <path class="mastice" d="M100 24 L100 98" />
+          </svg>
+          <h3>Incollaggio</h3>
+          <p>Fatto interamente a mano, in cabina dedicata, con pistole a mastice. Su geometrie complesse è ancora
+            l'unico modo per avere un risultato uniforme.</p>
+        </div>
+        <div class="fase">
+          <span class="m num">04</span>
+          <svg viewBox="-4 -4 208 112" aria-hidden="true">
+            <!-- il pezzo è finito: adesso è pieno -->
+            <path fill="var(--poliuretano)"
+              d="M24 22 L176 22 C188 22 194 30 194 42 L194 80 C194 92 188 100 176 100 L24 100 C12 100 6 92 6 80 L6 42 C6 30 12 22 24 22 Z" />
+            <path class="contorno"
+              d="M24 22 L176 22 C188 22 194 30 194 42 L194 80 C194 92 188 100 176 100 L24 100 C12 100 6 92 6 80 L6 42 C6 30 12 22 24 22 Z" />
+          </svg>
+          <h3>Riempimento</h3>
+          <p>Piuma naturale, Fiocco Synthetic e miscele calibrate insieme al vostro ufficio tecnico, fino al comfort che
+            avete in mente.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SETTORI ==================== -->
+    <section class="sezione contenitore" id="settori">
+      <div class="occhiello">
+        <span class="m codice">03 — I settori</span>
+        <span class="rigo"></span>
+      </div>
+      <h2>Otto mestieri diversi, la stessa lama.</h2>
+
+      <!-- piazzamento: altezze disuguali che si incastrano, non una riga di card uguali.
+           Nessuna numerazione: i settori non sono una sequenza. -->
+      <div class="piazzamento">
+        <a class="tessera" href="#" style="--c:5;--r:11">
+          <span class="buco"></span><span class="m cod">SAL-01</span>
+          <span class="slot slot--seduta"></span>
+          <h3>Arredo salotto</h3>
+          <p>Il cuore della produzione: divani, poltrone e complementi delle migliori marche italiane.</p>
+        </a>
+        <a class="tessera" href="#" style="--c:4;--r:8">
+          <span class="buco"></span><span class="m cod">NAU-07</span>
+          <span class="slot slot--rullo"></span>
+          <h3>Nautica</h3>
+          <p>Cuscinerie e sedute per yacht. Materiali idrofughi e antimuffa.</p>
+        </a>
+        <a class="tessera" href="#" style="--c:3;--r:11">
+          <span class="buco"></span><span class="m cod">MED-02</span>
+          <span class="slot slot--materassino"></span>
+          <h3>Medicale</h3>
+          <p>Supporti ergonomici, materassi antidecubito, poltrone mediche.</p>
+        </a>
+        <a class="tessera" href="#" style="--c:4;--r:9">
+          <span class="buco"></span><span class="m cod">OUT-04</span>
+          <span class="slot slot--seduta"></span>
+          <h3>Outdoor</h3>
+          <p>Resistenti a raggi UV, umidità e intemperie.</p>
+        </a>
+        <a class="tessera" href="#" style="--c:5;--r:9">
+          <span class="buco"></span><span class="m cod">MAJ-05</span>
+          <span class="slot slot--rullo"></span>
+          <h3>Majlis</h3>
+          <p>Sedute tradizionali mediorientali: densità elevate per un supporto duraturo.</p>
+        </a>
+        <a class="tessera" href="#" style="--c:3;--r:6">
+          <span class="buco"></span><span class="m cod">AUT-03</span>
+          <span class="slot slot--seduta"></span>
+          <h3>Automotive</h3>
+          <p>Sedili auto, camper, veicoli commerciali.</p>
+        </a>
+        <a class="tessera" href="#" style="--c:4;--r:6">
+          <span class="buco"></span><span class="m cod">EDI-06</span>
+          <span class="slot slot--pannello"></span>
+          <h3>Edilizia</h3>
+          <p>Pannelli per isolamento termico e acustico.</p>
+        </a>
+        <a class="tessera" href="#" style="--c:5;--r:6">
+          <span class="buco"></span><span class="m cod">SPO-08</span>
+          <span class="slot slot--materassino"></span>
+          <h3>Sport e gioco</h3>
+          <p>Tappeti, materassini e protezioni: assorbimento degli urti.</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- ==================== CTA ==================== -->
+    <section class="sezione contenitore" id="preventivo">
+      <div class="occhiello">
+        <span class="m codice">04 — Il pezzo da fare</span>
+        <span class="rigo"></span>
+      </div>
+
+      <div class="cta">
+        <div>
+          <h2>Mandaci il disegno.<br>La sagoma la facciamo noi.</h2>
+          <p style="margin-block:calc(var(--kerf)*2)">DXF, DWG, PDF o anche solo la foto del pezzo che avete in mano.
+            Rispondiamo con una quotazione, non con un catalogo.</p>
+          <a class="btn btn--ink" href="contatti.html">Richiedi un preventivo</a>
+        </div>
+
+        <div class="sagoma-vuota">
+          <span class="m">Sagoma da tracciare</span>
+          <span class="m">DXF · DWG · PDF · JPG</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="piede">
+    <div class="contenitore">
+      <p class="m">Oltre 400 modelli a disegno del cliente. Le sagome sono ancora tutte in reparto.</p>
+      <p style="margin-top:var(--kerf)">R.F. Resina Forlivese S.r.l. — Via Pitagora, 2 — 47121 Forlì (FC) —
+        <a href="tel:0543700047">0543 700047</a> — <a href="mailto:rf@resinaforlivese.it">rf@resinaforlivese.it</a>
+      </p>
+      <p class="m" style="margin-top:var(--kerf)">Prototipo di direzione artistica — non è la pagina di produzione</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    (function () {
+      if (!window.gsap) return;                 // il watchdog nel <head> ha già ripulito
+      gsap.registerPlugin(ScrollTrigger);
+
+      var ridotto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---- misura ogni contorno e scrive la sua lunghezza come custom property.
+              Senza questo passo il tratteggio non parte, ma il CSS ha già il
+              fallback: dasharray none, contorno pieno. ---- */
+      function preparaContorni(radice) {
+        var out = [];
+        (radice || document).querySelectorAll('.contorno').forEach(function (p) {
+          var L = p.getTotalLength();
+          p.style.setProperty('--len', L);
+          out.push({ path: p, L: L });
+        });
+        return out;
+      }
+      var contorni = preparaContorni();
+
+      /* ================= HERO: tracciare → tagliare → staccare ================= */
+      var pezzo = document.getElementById('pezzo-hero');
+      var heroTl = null;
+
+      if (pezzo) {
+        var paths = pezzo.querySelectorAll('.contorno');
+        var riempimenti = pezzo.querySelectorAll('.riempimento');
+        var lama = pezzo.querySelector('.lama');
+        var registri = pezzo.querySelectorAll('.registro');
+        var fori = pezzo.querySelectorAll('.foro, .foro-ombra');
+        var scritte = pezzo.querySelectorAll('.scritta');
+        var ALTEZZA = 440;                        // = altezza del viewBox
+
+        gsap.set(riempimenti, { attr: { height: 0 } });
+
+        heroTl = gsap.timeline({ paused: true });
+
+        /* 1. IL TRACCIATO — ogni pezzo viene contornato a tratti di durata disuguale.
+              È la disuguaglianza che produce la mano: un solo tween a velocità
+              costante è una macchina, e si vede.
+              I due pezzi si tracciano uno dopo l'altro, come li traccerebbe
+              qualcuno che ha appena finito di piazzarli sul foglio. */
+        var tratti = [0.30, 0.48, 0.74, 1];
+        var durate = [[.52, .26, .60, .42], [.20, .12, .24, .16]];
+
+        Array.prototype.forEach.call(paths, function (p, pi) {
+          var L = p.getTotalLength();
+          tratti.forEach(function (s, i) {
+            heroTl.to(p, {
+              strokeDashoffset: L * (1 - s),
+              duration: durate[pi][i],
+              ease: i % 2 ? 'power1.inOut' : 'none'
+            }, pi === 1 && i === 0 ? '-=0.18' : '>');
+          });
+        });
+
+        /* 2. LE TACCHE E LE SCRITTE — arrivano dopo che i contorni sono chiusi */
+        heroTl.to(registri, { opacity: 1, duration: .12, stagger: .05 }, '-=0.2')
+          .to(fori, { opacity: 1, duration: .2 }, '-=0.1')
+          .to(scritte, { opacity: .7, duration: .25, stagger: .08 }, '-=0.15');
+
+        /* 3. LA LAMA — un solo valore guida insieme la riga e i due riempimenti,
+              così la sincronia è garantita per costruzione, non per coincidenza.
+              Una lama non decelera: ease 'none'. */
+        var taglio = { v: 0 };
+        heroTl.set(lama, { opacity: 1 }, '<')
+          .to(taglio, {
+            v: 1, duration: .62, ease: 'none',
+            onUpdate: function () {
+              var h = ALTEZZA * taglio.v;
+              Array.prototype.forEach.call(riempimenti, function (r) { r.setAttribute('height', h); });
+              lama.style.setProperty('--y', (taglio.v * 100) + '%');
+            }
+          })
+          .to(lama, { opacity: 0, duration: .18 });
+
+        /* 4. IL DISTACCO — i pezzi si staccano dal foglio.
+              L'ombra è un drop-shadow sul profilo alfa, non un box-shadow
+              rettangolare: segue la sagoma. Il leggero scarto è l'oscillazione. */
+        heroTl.to(pezzo, {
+          y: -5, x: -2, duration: .24, ease: 'back.out(1.6)',
+          onStart: function () { pezzo.classList.add('staccato'); }
+        }, '-=0.05');
+
+        var giaVisto = false;
+        try { giaVisto = sessionStorage.getItem('rf-sagome-visto') === '1'; } catch (e) { }
+
+        if (ridotto || giaVisto) {
+          heroTl.progress(1);                    // stato finale identico, zero movimento
+        } else {
+          heroTl.play();
+          try { sessionStorage.setItem('rf-sagome-visto', '1'); } catch (e) { }
+        }
+
+        var salta = document.getElementById('salta');
+        if (salta) salta.addEventListener('click', function () { heroTl.progress(1); salta.blur(); });
+      }
+
+      /* ================= INGRESSO SEZIONI =================
+         Solo il contorno si disegna. Il testo non si muove e non appare:
+         c'era già. Il taglio aggiunge informazione, non gestisce la leggibilità. */
+      contorni.forEach(function (c) {
+        if (pezzo && pezzo.contains(c.path)) return;      // l'hero ha la sua timeline
+        if (ridotto) { gsap.set(c.path, { strokeDashoffset: 0 }); return; }
+        gsap.to(c.path, {
+          strokeDashoffset: 0, duration: .42, ease: 'power2.out',
+          scrollTrigger: { trigger: c.path, start: 'top 80%', once: true }
+        });
+      });
+
+      /* ================= SETTORI: apertura in ordine di piazzamento =================
+         Lo stagger segue la posizione reale sul foglio, non l'ordine del DOM:
+         è l'ordine in cui il pantografo percorrerebbe il piano. */
+      var tessere = Array.prototype.slice.call(document.querySelectorAll('.tessera'));
+      if (tessere.length && !ridotto) {
+        ScrollTrigger.create({
+          trigger: '.piazzamento', start: 'top 78%', once: true,
+          onEnter: function () {
+            var ordinate = tessere.slice().sort(function (a, b) {
+              var ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+              return (ra.top - rb.top) || (ra.left - rb.left);
+            });
+            /* Nessuna opacity sulle tessere: dentro c'è il testo, e il testo
+               non si nasconde mai. Si muove il pezzo, non il contenuto.
+               L'unica cosa che sfuma è lo slot di cartone, che è decorativo
+               e non porta informazione. */
+            gsap.from(ordinate, {
+              y: 16, duration: .42, stagger: .06, ease: 'power2.out',
+              onStart: function () { ordinate.forEach(function (t) { t.style.willChange = 'transform'; }); },
+              onComplete: function () { ordinate.forEach(function (t) { t.style.willChange = ''; }); }
+            });
+            var slots = ordinate.map(function (t) { return t.querySelector('.slot'); }).filter(Boolean);
+            gsap.from(slots, { opacity: 0, duration: .5, stagger: .06, ease: 'power2.out' });
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+
+</html>

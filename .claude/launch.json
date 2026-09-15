@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "sito-rf",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "4400", "/Volumes/Extreme Pro/SITI INTERNET/SITO_RF"],
+      "port": 4400
+    }
+  ]
+}

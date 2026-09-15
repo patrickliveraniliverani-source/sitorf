@@ -158,21 +158,23 @@ select {
     border-color: var(--white);
 }
 
+/* Scoped under .js: senza JS il cursore custom non si muove mai, quindi
+   nascondere quello vero lascerebbe la pagina senza puntatore. */
 @media (pointer: fine) {
-    .custom-cursor {
+    .js .custom-cursor {
         display: block;
     }
 
-    body {
+    .js body {
         cursor: none;
     }
 
-    body a,
-    body button,
-    body input,
-    body textarea,
-    body select,
-    body label {
+    .js body a,
+    .js body button,
+    .js body input,
+    .js body textarea,
+    .js body select,
+    .js body label {
         cursor: none;
     }
 }
@@ -2337,6 +2339,8 @@ select.form-control {
         padding: 12px 24px;
     }
 }
+
+/* ========================================
    INTERSECTION OBSERVER REVEALS
    Hidden state scoped under .js — without
    JS the content stays visible by default.
@@ -2386,4 +2390,238 @@ select.form-control {
         transform: none !important;
         transition: none;
     }
+}
+
+/* ============================================================
+   SAGOME
+   Accenti che richiamano le dime di cartone con cui si traccia
+   il poliuretano prima del taglio.
+   Blocco puramente additivo: non modifica nessuna regola qui
+   sopra e si può rimuovere in un pezzo solo senza toccare altro.
+   ============================================================ */
+
+.material-card,
+.badge-card,
+.service-card-v3 {
+    position: relative;
+}
+
+/* --- Ombra dura ---
+   Il cartone è rigido: appoggiato su un piano proietta un'ombra
+   netta e sfalsata, non una penombra sfocata. Cambia solo il blur. */
+.material-card:hover,
+.badge-card:hover,
+.service-card-v3:hover {
+    box-shadow: 7px 9px 0 0 rgba(10, 22, 40, 0.10);
+}
+
+/* --- Foro d'appensione ---
+   Sulla dima vera è il buco con cui la si appende al chiodo in reparto.
+   Sta in alto a destra per non finire sotto l'icona delle certificazioni
+   né sul bordo blu delle schede lavorazione. */
+.material-card::before,
+.badge-card::before,
+.service-card-v3::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity var(--duration) var(--ease);
+}
+
+.material-card:hover::before,
+.badge-card:hover::before,
+.service-card-v3:hover::before {
+    opacity: 1;
+}
+
+/* --- Tacche di registro ---
+   Due angoli soli, in diagonale: bastano a far leggere "sagoma"
+   senza incorniciare la card. */
+.material-card::after,
+.badge-card::after,
+.service-card-v3::after {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    pointer-events: none;
+    background:
+        linear-gradient(var(--gold), var(--gold)) left top / 12px 1.5px no-repeat,
+        linear-gradient(var(--gold), var(--gold)) left top / 1.5px 12px no-repeat,
+        linear-gradient(var(--gold), var(--gold)) right bottom / 12px 1.5px no-repeat,
+        linear-gradient(var(--gold), var(--gold)) right bottom / 1.5px 12px no-repeat;
+    opacity: 0.45;
+    transition: opacity var(--duration) var(--ease);
+}
+
+.material-card:hover::after,
+.badge-card:hover::after,
+.service-card-v3:hover::after {
+    opacity: 0.9;
+}
+
+/* --- Contorno che si traccia ---
+   Il disegno si completa quando la sezione entra in campo, come se
+   qualcuno seguisse il bordo della dima col pennarello.
+   Senza JS la custom property --len non viene scritta, la dichiarazione
+   stroke-dasharray risulta invalida e il contorno resta pieno: non c'è
+   nessuno stato in cui il disegno rimane invisibile. */
+.sagoma-tracciata path {
+    stroke-dasharray: var(--len);
+    stroke-dashoffset: var(--len);
+    transition: stroke-dashoffset 1.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.sagoma-tracciata.tracciata path {
+    stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sagoma-tracciata path {
+        transition: none;
+        stroke-dashoffset: 0;
+    }
+}
+
+/* ========================================
+   FOCUS DA TASTIERA
+   Il cursore custom nasconde il puntatore del mouse; chi naviga col tasto
+   Tab non ha un puntatore da seguire e senza questo contorno non saprebbe
+   mai dove si trova. :focus-visible non scatta sui click col mouse.
+   ======================================== */
+:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+/* Sul blu e sul navy l'oro non stacca abbastanza: lì passa al bianco. */
+.site-footer :focus-visible,
+.page-hero :focus-visible,
+.cta-section :focus-visible,
+.mobile-nav :focus-visible {
+    outline-color: var(--white);
+}
+
+/* Le card materiale sono div con role="button": devono mostrare di essere
+   raggiungibili e cliccabili come tutto il resto. */
+.mat-card {
+    cursor: pointer;
+}
+
+.mat-card:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 4px;
+}
+
+/* ========================================
+   FORM CONTATTI
+   Le etichette prima stavano solo nei placeholder: sparivano appena si
+   iniziava a scrivere e gli screen reader non le leggevano affatto.
+   ======================================== */
+.form-group label {
+    display: block;
+    margin-bottom: 4px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-label);
+    color: var(--gray-400);
+}
+
+.form-group label abbr {
+    color: var(--blue);
+    text-decoration: none;
+    border: none;
+}
+
+.form-control::placeholder {
+    color: var(--gray-200);
+}
+
+/* Il campo esca per i bot: via dallo schermo ma non con display:none, che
+   alcuni bot riconoscono e saltano. */
+.campo-nascosto {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.form-consenso {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.form-consenso input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: var(--blue);
+    cursor: pointer;
+}
+
+.form-consenso label {
+    margin-bottom: 0;
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--gray-400);
+    cursor: pointer;
+}
+
+.form-consenso label a {
+    color: var(--blue);
+    text-decoration: underline;
+}
+
+/* Campo in errore: il bordo da solo non basta a chi non distingue i colori,
+   per questo ogni campo si porta dietro anche un messaggio scritto. */
+.form-control.in-errore {
+    border-bottom-color: var(--danger);
+}
+
+.messaggio-errore {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--danger);
+}
+
+.form-esito {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.form-esito.ok {
+    background: rgba(16, 185, 129, 0.1);
+    border-left: 3px solid var(--success);
+    color: #0b6b4f;
+}
+
+.form-esito.ko {
+    background: rgba(239, 68, 68, 0.08);
+    border-left: 3px solid var(--danger);
+    color: #a02121;
+}
+
+.form-esito a {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: underline;
 }
