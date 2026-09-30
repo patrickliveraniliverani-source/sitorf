@@ -2648,3 +2648,28 @@ html,
 body {
     overflow-x: clip;
 }
+
+/* Chi siamo: le foto della festa per i 50 anni */
+.festa-50-griglia {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 16px;
+}
+
+.festa-50-griglia img {
+    display: block;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: var(--radius);
+}
+
+@media (max-width: 768px) {
+    .festa-50-griglia {
+        grid-template-columns: 1fr;
+    }
+
+    .festa-50-griglia img {
+        height: 240px;
+    }
+}
