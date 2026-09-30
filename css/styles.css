@@ -2625,3 +2625,26 @@ select.form-control {
     font-weight: 600;
     text-decoration: underline;
 }
+
+/* Foto dei blocchi di Chi siamo: riempiono il riquadro come faceva il segnaposto */
+.content-foto {
+    display: block;
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    border-radius: var(--radius);
+}
+
+@media (max-width: 768px) {
+    .content-foto {
+        height: 260px;
+    }
+}
+
+/* Le animazioni di entrata partono spostate di lato: senza questo, sul
+   telefono la pagina scorreva in orizzontale finché non comparivano.
+   clip, non hidden: non crea un contenitore di scroll e non rompe sticky. */
+html,
+body {
+    overflow-x: clip;
+}
