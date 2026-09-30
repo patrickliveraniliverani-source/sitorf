@@ -292,15 +292,17 @@
       margin-bottom: 28px;
     }
 
-    /* numero di sezione: cifra vuota, solo contorno oro */
+    /* numero di sezione: cifra piena in oro chiaro. Niente contorno: col
+       solo stroke Montserrat mostra le giunture interne dei tratti (come
+       già corretto in .metodo-filigrana di lavorazioni.html). Colore
+       opaco, non trasparente, così le cifre accostate non si sommano. */
     .h-cifra {
       font-family: var(--font-heading);
       font-weight: 800;
       font-size: clamp(3.6rem, 6vw, 5.4rem);
       line-height: 0.8;
       letter-spacing: -0.03em;
-      color: transparent;
-      -webkit-text-stroke: 1.5px var(--gold);
+      color: #F4DCB4;
     }
 
     .h-storia__capo .h-occhiello {
@@ -441,8 +443,9 @@
       font-size: 2.8rem;
       line-height: 1;
       letter-spacing: -0.03em;
-      color: transparent;
-      -webkit-text-stroke: 1.2px var(--blue);
+      /* pieno azzurro chiaro al posto del contorno blu (vedi .h-cifra);
+         sul grigio caldo l'#EAF0FB sparirebbe, quindi un tono più deciso */
+      color: #D3DCF1;
       margin-bottom: 44px;
       transition: color 0.35s var(--ease);
     }
@@ -809,6 +812,28 @@
       line-height: 1.6;
     }
 
+    /* Quinta voce (Rating di legalità): con due colonne resterebbe sola a
+       metà riga, quindi chiude la griglia a tutta larghezza, icona a
+       sinistra e testo accanto. Sul telefono torna come le altre. */
+    .h-qualita .badge-card.h-qualita__largo {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 56px minmax(0, 1fr);
+      column-gap: 28px;
+      row-gap: 8px;
+      align-items: center;
+      border-left: 0;
+    }
+
+    .h-qualita__largo .badge-icon {
+      grid-row: span 2;
+      margin-bottom: 0;
+    }
+
+    .h-qualita__largo p {
+      max-width: 36em;
+    }
+
     /* ================= CTA — blu, frase grande a sinistra ================= */
     .h-cta.cta-section {
       position: relative;
@@ -979,6 +1004,16 @@
         border-left: 0;
       }
 
+      .h-qualita .badge-card.h-qualita__largo {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+      }
+
+      .h-qualita__largo .badge-icon {
+        margin-bottom: 10px;
+      }
+
       .h-qualita__capo {
         padding: 28px 22px 32px;
       }
@@ -1118,7 +1153,7 @@
         <p>
           Nel 1973 Giovanni Valli, falegname, e Frediano Casalboni, assicuratore, fondano a Forlì
           R.F. Resina Forlivese per preparare le imbottiture in poliuretano espanso ai mobilifici della zona.
-          Oggi l'azienda è alla terza generazione, con Simona Ghetti, Riccardo Valli e Michele Valli, che
+          Oggi siamo alla terza generazione, con Simona Ghetti, Riccardo Valli e Michele Valli, che
           investono in tecnologia senza perdere la cura artigianale e la qualità di sempre.</p>
         <a href="chi-siamo.html" class="cta-link">Scopri la nostra storia completa
           <span class="arrow">→</span></a>
@@ -1256,6 +1291,11 @@
           </div>
           <h3>Italia Imbottiti</h3>
           <p>Membri del consorzio a tutela della filiera produttiva nazionale.</p>
+        </div>
+        <div class="badge-card h-qualita__largo" data-h-rivela style="--d: .48s;">
+          <div class="badge-icon" aria-hidden="true">★</div>
+          <h3>Rating di legalità</h3>
+          <p>Riconoscimento dell'Autorità Garante della Concorrenza e del Mercato per legalità e trasparenza.</p>
         </div>
       </div>
     </div>
