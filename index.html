@@ -159,238 +159,876 @@
       }
     }
 
-    /* ===== FEATURE CARDS (ALTERNATING) ===== */
-    .feature-section {
-      padding: 120px 0;
+    /* ================================================================
+       RITMO DELLA HOME
+       Ogni sezione ha un fondo, un'impaginazione e un'intestazione sua:
+       bianco → grigio caldo → navy → blu/foto → nastro navy → bianco → blu.
+       Tutto è prefissato h- e vive solo qui: styles.css non si tocca, e
+       dove una sua regola intralcia la si sovrascrive con più specificità.
+       ================================================================ */
+
+    .h-wrap {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding-left: var(--section-pad-x);
+      padding-right: var(--section-pad-x);
     }
 
-    .feature-card {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
+    /* Occhiello: filo sottile + parola spaziata. Sostituisce l'etichetta
+       oro "nuda" che prima apriva tutte le sezioni allo stesso modo. */
+    .h-occhiello {
+      display: inline-flex;
       align-items: center;
-      margin-bottom: 120px;
+      gap: 14px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
     }
 
-    .feature-card:last-child {
-      margin-bottom: 0;
+    .h-occhiello::before {
+      content: "";
+      width: 40px;
+      height: 1px;
+      background: currentColor;
+      flex: none;
     }
 
-    .feature-card.reverse .feature-visual {
-      order: -1;
+    /* Tacche di registro: quattro angoli oro, come sulle dime di cartone.
+       Il colore si cambia con --tc. */
+    .h-tacche {
+      position: absolute;
+      inset: var(--ti, 18px);
+      pointer-events: none;
+      --tc: var(--gold);
+      --tl: 18px;
+      background:
+        linear-gradient(var(--tc), var(--tc)) left top / var(--tl) 1.5px no-repeat,
+        linear-gradient(var(--tc), var(--tc)) left top / 1.5px var(--tl) no-repeat,
+        linear-gradient(var(--tc), var(--tc)) right top / var(--tl) 1.5px no-repeat,
+        linear-gradient(var(--tc), var(--tc)) right top / 1.5px var(--tl) no-repeat,
+        linear-gradient(var(--tc), var(--tc)) left bottom / var(--tl) 1.5px no-repeat,
+        linear-gradient(var(--tc), var(--tc)) left bottom / 1.5px var(--tl) no-repeat,
+        linear-gradient(var(--tc), var(--tc)) right bottom / var(--tl) 1.5px no-repeat,
+        linear-gradient(var(--tc), var(--tc)) right bottom / 1.5px var(--tl) no-repeat;
     }
 
-    .js .feature-text {
+    /* ---------- Entrate ----------
+       Stato nascosto solo sotto .js (lo mette main.js): senza JS è tutto
+       visibile. Il ritardo arriva da --d, scritto inline dove serve. */
+    .js [data-h-rivela] {
       opacity: 0;
-      transform: translateX(-60px);
-      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(28px);
+      transition: opacity 0.9s var(--ease-out) var(--d, 0s),
+        transform 0.9s var(--ease-out) var(--d, 0s);
     }
 
-    .js .feature-card.reverse .feature-text {
-      transform: translateX(60px);
-    }
-
-    .js .feature-text.revealed {
+    .js [data-h-rivela].h-visto {
       opacity: 1;
       transform: none;
     }
 
-    .feature-text .label {
-      margin-bottom: 16px;
+    /* ================= 01 · CHI SIAMO — bianco, foto a filo pagina ================= */
+    .h-storia {
+      background: #fff;
+      overflow: hidden;
     }
 
-    .feature-text h2 {
-      font-size: clamp(1.8rem, 3vw, 2.8rem);
-      margin-bottom: 24px;
-      line-height: 1.1;
+    .h-storia__griglia {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      /* il testo si ferma dove finirebbe il container; la foto invece
+         esce fino al bordo sinistro della finestra */
+      padding-right: max(var(--section-pad-x), calc((100% - var(--container-max)) / 2 + var(--section-pad-x)));
+      align-items: stretch;
     }
 
-    .feature-text p {
-      color: var(--gray-400);
-      margin-bottom: 24px;
-      line-height: 1.8;
+    .h-storia__foto {
+      position: relative;
+      margin: 0;
+      min-height: clamp(520px, 52vw, 720px);
+    }
+
+    .h-storia__foto img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .h-storia__foto .h-tacche {
+      --tc: rgba(255, 255, 255, 0.85);
+      --ti: 22px;
+      --tl: 22px;
+    }
+
+    .js .h-storia__foto[data-h-rivela] {
+      opacity: 1;
+      transform: none;
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 1.4s cubic-bezier(0.7, 0, 0.2, 1);
+    }
+
+    .js .h-storia__foto[data-h-rivela].h-visto {
+      clip-path: inset(0 0 0 0);
+    }
+
+    .h-storia__testo {
+      padding: clamp(72px, 9vw, 150px) 0 clamp(72px, 9vw, 150px) clamp(40px, 6vw, 104px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .h-storia__capo {
+      display: flex;
+      align-items: flex-end;
+      gap: 22px;
+      margin-bottom: 28px;
+    }
+
+    /* numero di sezione: cifra vuota, solo contorno oro */
+    .h-cifra {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: clamp(3.6rem, 6vw, 5.4rem);
+      line-height: 0.8;
+      letter-spacing: -0.03em;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--gold);
+    }
+
+    .h-storia__capo .h-occhiello {
+      padding-bottom: 6px;
+    }
+
+    .h-storia h2 {
+      font-size: clamp(2.1rem, 3.6vw, 3.3rem);
+      line-height: 1.02;
+      letter-spacing: -0.01em;
+      color: var(--dark-navy);
+      margin-bottom: 36px;
+    }
+
+    /* titolo tutto scuro: l'accento è un filo oro che si traccia sotto */
+    .h-sottolinea {
+      background: linear-gradient(var(--gold), var(--gold)) left 100% / 0% 3px no-repeat;
+      padding-bottom: 4px;
+      transition: background-size 1.1s var(--ease-out) 0.5s;
+    }
+
+    .h-visto .h-sottolinea,
+    html:not(.js) .h-sottolinea {
+      background-size: 100% 3px;
+    }
+
+    .h-storia p {
+      font-size: 1.15rem;
+      line-height: 1.85;
+      color: var(--charcoal);
+      opacity: 0.82;
+      margin-bottom: 40px;
+      max-width: 34em;
+    }
+
+    .h-storia .cta-link {
       font-size: 1.05rem;
+      align-self: flex-start;
     }
 
-    .js .feature-visual {
-      opacity: 0;
-      transform: translateX(60px);
-      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+    /* ================= 02 · PRODOTTI — grigio caldo, indice numerato ================= */
+    .h-materiali {
+      background: #F2F0EB;
+      padding: clamp(96px, 11vw, 150px) 0 clamp(96px, 11vw, 140px);
     }
 
-    .js .feature-card.reverse .feature-visual {
-      transform: translateX(-60px);
+    .h-materiali__capo {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 32px 60px;
+      flex-wrap: wrap;
+      margin-bottom: clamp(48px, 6vw, 80px);
     }
 
-    .js .feature-visual.revealed {
-      opacity: 1;
+    .h-materiali__capo h2 {
+      font-size: clamp(2.3rem, 4.6vw, 4rem);
+      line-height: 1;
+      letter-spacing: -0.015em;
+      color: var(--dark-navy);
+      margin-top: 22px;
+    }
+
+    .h-materiali__capo .cta-link {
+      font-size: 1.05rem;
+      padding-bottom: 8px;
+    }
+
+    .h-materiali .materials-grid.h-materiali__lista {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+      border-bottom: 1px solid rgba(10, 22, 40, 0.14);
+    }
+
+    .h-materiali .material-card.h-mat {
+      background: transparent;
+      border: 0;
+      border-top: 1px solid rgba(10, 22, 40, 0.22);
+      border-radius: 0;
+      padding: 36px 30px 48px;
+      box-shadow: none;
+      height: auto;
       transform: none;
+      transition: opacity 0.8s var(--ease-out) var(--d, 0s),
+        transform 0.8s var(--ease-out) var(--d, 0s),
+        background-color 0.35s var(--ease);
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .js .feature-text, .js .feature-visual { opacity: 1 !important; transform: none !important; transition: none; }
+    .h-materiali .material-card.h-mat+.h-mat {
+      border-left: 1px solid rgba(10, 22, 40, 0.1);
     }
 
-    .feature-visual .img-placeholder {
-      height: 450px;
-      border-radius: 12px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-      transition: transform 0.6s var(--ease);
+    .js .h-materiali .material-card.h-mat[data-h-rivela]:not(.h-visto) {
+      opacity: 0;
+      transform: translateY(32px);
     }
 
-    .feature-visual .img-placeholder:hover {
-      transform: scale(1.02) translateY(-5px);
+    /* il ::before di styles.css (il foro della dima) qui diventa il filo
+       blu che si stende sopra la voce al passaggio del mouse */
+    .h-materiali .material-card.h-mat::before {
+      top: -1px;
+      left: 0;
+      right: 0;
+      width: auto;
+      height: 3px;
+      border: 0;
+      border-radius: 0;
+      background: var(--blue);
+      opacity: 1;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s var(--ease-out);
     }
 
-    /* ===== NUMBERS SECTION ENHANCED ===== */
-    .numbers-enhanced {
-      background: var(--dark-navy);
-      padding: 100px 0;
+    .h-materiali .material-card.h-mat::after {
+      opacity: 0;
+    }
+
+    .h-materiali .material-card.h-mat:hover {
+      background: #fff;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .h-materiali .material-card.h-mat:hover::before {
+      transform: scaleX(1);
+    }
+
+    .h-materiali .material-card.h-mat:hover::after {
+      opacity: 0.9;
+    }
+
+    .h-mat__n {
+      display: block;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 2.8rem;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: transparent;
+      -webkit-text-stroke: 1.2px var(--blue);
+      margin-bottom: 44px;
+      transition: color 0.35s var(--ease);
+    }
+
+    .h-mat:hover .h-mat__n {
+      color: var(--blue);
+    }
+
+    .h-materiali .material-card.h-mat h3 {
+      font-size: 1.3rem;
+      margin-bottom: 14px;
+    }
+
+    .h-materiali .material-card.h-mat p {
+      color: #5f6368;
+    }
+
+    /* ================= 03 · SETTORI — navy, elenco a tutta larghezza ================= */
+    .h-settori.sectors-tags-section {
+      padding: clamp(96px, 11vw, 150px) 0 clamp(80px, 9vw, 120px);
       color: #fff;
     }
 
-    .numbers-enhanced .stats-grid {
+    .h-settori.sectors-tags-section::before {
+      background: radial-gradient(ellipse at 85% 0%, rgba(17, 61, 172, 0.45) 0%, transparent 60%);
+    }
+
+    .h-settori__capo {
+      position: relative;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 40px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      gap: 24px 60px;
+      align-items: end;
+      margin-bottom: clamp(48px, 6vw, 72px);
     }
 
-    .numbers-enhanced .stat-item {
-      text-align: center;
-      padding: 40px 20px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.03);
-      transition: all 0.4s var(--ease);
+    .h-settori__capo .h-occhiello {
+      padding-bottom: 10px;
     }
 
-    .numbers-enhanced .stat-item:hover {
-      background: rgba(255, 255, 255, 0.08);
-      transform: translateY(-5px);
-      border-color: rgba(255, 255, 255, 0.2);
+    .h-settori__capo h2 {
+      font-size: clamp(2rem, 3.8vw, 3.3rem);
+      line-height: 1.05;
+      color: #fff;
     }
 
-    .numbers-enhanced .stat-number {
+    .h-settori .tags-container.h-settori__elenco {
+      display: block;
+      position: relative;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .h-settori .sector-tag.h-riga {
+      display: block;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 0;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      font-size: inherit;
+      color: #fff;
+      box-shadow: none;
+      transform: none;
+      transition: opacity 0.8s var(--ease-out) var(--d, 0s),
+        transform 0.8s var(--ease-out) var(--d, 0s),
+        background-color 0.35s var(--ease);
+    }
+
+    .js .h-settori .sector-tag.h-riga[data-h-rivela]:not(.h-visto) {
+      opacity: 0;
+      transform: translateX(-40px);
+    }
+
+    .h-settori .sector-tag.h-riga:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .h-riga__in {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      align-items: center;
+      padding-top: clamp(16px, 2.2vw, 26px);
+      padding-bottom: clamp(16px, 2.2vw, 26px);
+    }
+
+    .h-riga__n {
       font-family: var(--font-heading);
-      font-size: 3.5rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, #fff, #4a8eff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      color: var(--gold);
     }
 
-    .numbers-enhanced .stat-label {
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.6);
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    .h-riga__nome {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(2rem, 5.4vw, 4.8rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      transition: color 0.35s var(--ease), transform 0.5s var(--ease-out);
     }
 
-    /* ===== QUALITY BANNER ===== */
-    .quality-banner {
-      background: var(--white);
-      padding: 80px 0;
-      color: var(--charcoal);
-      text-align: center;
+    .h-riga__freccia {
+      font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+      color: var(--gold);
+      opacity: 0;
+      transform: translateX(-16px);
+      transition: opacity 0.35s var(--ease), transform 0.5s var(--ease-out);
     }
 
-    .quality-banner h2 {
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
-      color: var(--charcoal);
-      margin-bottom: 24px;
+    .h-riga:hover .h-riga__nome {
+      color: var(--gold);
+      transform: translateX(14px);
     }
 
-    .quality-banner p {
-      max-width: 600px;
-      margin: 0 auto 40px;
-      color: var(--gray-400);
+    .h-riga:hover .h-riga__freccia {
+      opacity: 1;
+      transform: none;
     }
 
-    .badge-grid {
+    .h-settori__piede {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 48px;
+    }
+
+    .h-settori .btn.btn-sectors {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+    }
+
+    .h-settori .btn.btn-sectors:hover {
+      background: var(--gold);
+      color: var(--dark-navy);
+    }
+
+    /* ================= 04 · LAVORAZIONI — pannello blu + foto a destra ================= */
+    .h-processo.process-split-section {
       display: grid;
-      /* 4 certificazioni: 2x2 su desktop e tablet, una colonna sul telefono */
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 30px;
-      max-width: 900px;
-      margin: 0 auto 40px;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      min-height: 86vh;
+    }
+
+    .h-processo .split-content.h-processo__pannello {
+      position: relative;
+      overflow: hidden;
+      background: var(--blue);
+      color: #fff;
+      padding: clamp(72px, 8vw, 120px) clamp(28px, 6vw, 96px);
+      justify-content: flex-start;
+    }
+
+    .h-processo__sagoma {
+      position: absolute;
+      width: clamp(110px, 11vw, 160px);
+      right: clamp(24px, 4vw, 56px);
+      top: clamp(24px, 4vw, 56px);
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 5;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .h-processo__sagoma .h-cucitura {
+      stroke: rgba(255, 255, 255, 0.35);
+      stroke-width: 3;
+    }
+
+    .h-processo__testo {
+      position: relative;
+      max-width: 500px;
+    }
+
+    .h-filo {
+      display: block;
+      width: 56px;
+      height: 3px;
+      background: var(--gold);
+      margin-bottom: 32px;
+    }
+
+    .h-processo h2 {
+      font-size: clamp(2rem, 2.9vw, 2.75rem);
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      color: #fff;
+      margin-bottom: 32px;
+    }
+
+    .h-processo p {
+      font-size: 1.1rem;
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.82);
+      margin-bottom: 44px;
+    }
+
+    .h-processo .btn.btn-primary {
+      background: #fff;
+      color: var(--blue);
+    }
+
+    .h-processo .btn.btn-primary:hover {
+      background: var(--gold);
+      color: var(--dark-navy);
+    }
+
+    .h-processo .split-image.h-processo__foto {
+      position: relative;
+      min-height: 0;
+      background: #d9d6cf;
+      overflow: hidden;
+    }
+
+    .h-processo__foto img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .js .h-processo__foto[data-h-rivela] {
+      opacity: 1;
+      transform: none;
+      clip-path: inset(0 0 0 100%);
+      transition: clip-path 1.4s cubic-bezier(0.7, 0, 0.2, 1);
+    }
+
+    .js .h-processo__foto[data-h-rivela].h-visto {
+      clip-path: inset(0 0 0 0);
+    }
+
+    /* ================= Nastro 2 — navy, puntini oro ================= */
+    .h-nastro-scuro {
+      border-top: 1px solid rgba(233, 176, 91, 0.35);
+    }
+
+    .h-nastro-scuro .marquee-track span {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .h-nastro-scuro .marquee-track span:nth-child(even) {
+      color: var(--gold);
+    }
+
+    /* ================= 05 · QUALITÀ — bianco, titolo fermo + griglia a fili ================= */
+    .h-qualita.quality-banner {
+      background: #fff;
+      padding: clamp(96px, 11vw, 150px) 0;
       text-align: left;
     }
 
-    .badge-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      padding: 32px;
-      border-radius: 12px;
-      transition: all 0.3s var(--ease);
+    .h-qualita__griglia {
+      display: grid;
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+      gap: 48px clamp(40px, 6vw, 96px);
+      align-items: start;
+    }
+
+    .h-qualita__capo {
+      position: sticky;
+      top: 130px;
+      padding: 36px 32px 40px;
+    }
+
+    .h-qualita__capo .h-tacche {
+      --ti: 0px;
+      --tl: 26px;
+    }
+
+    .h-qualita.quality-banner h2 {
+      font-size: clamp(2.3rem, 4.2vw, 3.8rem);
+      line-height: 1;
+      letter-spacing: -0.015em;
+      color: var(--dark-navy);
+      margin-bottom: 40px;
+    }
+
+    .h-qualita .badge-grid.h-qualita__badge {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+      max-width: none;
+      margin: 0;
+      border-top: 1px solid rgba(10, 22, 40, 0.16);
+    }
+
+    .h-qualita .badge-card {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 16px;
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid rgba(10, 22, 40, 0.16);
+      border-radius: 0;
+      padding: 40px 36px 44px;
+      gap: 14px;
+      transform: none;
+      box-shadow: none;
+      transition: opacity 0.8s var(--ease-out) var(--d, 0s),
+        transform 0.8s var(--ease-out) var(--d, 0s),
+        background-color 0.35s var(--ease);
     }
 
-    .badge-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-      border-color: var(--blue);
+    .h-qualita .badge-card:nth-child(even) {
+      border-left: 1px solid rgba(10, 22, 40, 0.16);
     }
 
-    .badge-icon {
-      font-size: 2rem;
-      color: var(--blue);
-      background: #eff6ff;
-      width: 60px;
-      height: 60px;
+    .js .h-qualita .badge-card[data-h-rivela]:not(.h-visto) {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
+    .h-qualita .badge-card:hover {
+      background: #F2F0EB;
+      transform: none;
+      box-shadow: none;
+      border-color: rgba(10, 22, 40, 0.16);
+    }
+
+    .h-qualita .badge-card::before {
+      display: none;
+    }
+
+    .h-qualita .badge-card::after {
+      opacity: 0;
+    }
+
+    .h-qualita .badge-card:hover::after {
+      opacity: 0.9;
+    }
+
+    .h-qualita .badge-icon {
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      margin-bottom: 8px;
+      color: var(--blue);
+      margin-bottom: 10px;
+      background: transparent;
+      border: 1px solid rgba(17, 61, 172, 0.25);
+      width: 56px;
+      height: 56px;
+      font-size: 1.6rem;
     }
 
-    .badge-card h3 {
-      font-size: 1.15rem;
+    .h-qualita .badge-card h3 {
       margin: 0;
-      color: var(--charcoal);
+      font-size: 1.2rem;
+      color: var(--dark-navy);
     }
 
-    .badge-card p {
+    .h-qualita .badge-card p {
       margin: 0;
-      font-size: 0.9rem;
       color: var(--gray-400);
-      line-height: 1.5;
+      font-size: 0.95rem;
+      line-height: 1.6;
     }
 
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 640px) {
-      .badge-grid {
+    /* ================= CTA — blu, frase grande a sinistra ================= */
+    .h-cta.cta-section {
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+      padding: clamp(96px, 11vw, 150px) 0;
+    }
+
+
+    .h-cta__griglia {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 40px clamp(40px, 6vw, 100px);
+      align-items: end;
+    }
+
+    .h-cta__cornice {
+      position: absolute;
+      inset: clamp(20px, 3vw, 40px);
+      pointer-events: none;
+    }
+
+    .h-cta__cornice .h-tacche {
+      --ti: 0px;
+      --tl: 26px;
+      --tc: rgba(233, 176, 91, 0.9);
+    }
+
+    .h-cta.cta-section h2 {
+      font-size: clamp(2.6rem, 6.2vw, 5.6rem);
+      line-height: 0.98;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .h-cta.cta-section h2 .text-gold {
+      display: inline-block;
+    }
+
+    .h-cta.cta-section p {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 32px;
+    }
+
+    .h-cta .flex-center {
+      justify-content: flex-start;
+    }
+
+    /* ================= Responsive ================= */
+    @media (max-width: 1024px) {
+      .h-storia__griglia {
         grid-template-columns: 1fr;
+        padding-right: 0;
+      }
+
+      .h-storia__foto {
+        min-height: clamp(300px, 60vw, 520px);
+      }
+
+      .h-storia__testo {
+        padding: 64px var(--section-pad-x) 80px;
+      }
+
+      .h-materiali .materials-grid.h-materiali__lista {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .h-materiali .material-card.h-mat:nth-child(3) {
+        border-left: 0;
+      }
+
+      .h-settori__capo {
+        grid-template-columns: 1fr;
+      }
+
+      .h-processo.process-split-section {
+        grid-template-columns: 1fr;
+        min-height: 0;
+      }
+
+      .h-processo .split-image.h-processo__foto {
+        order: -1;
+        min-height: clamp(300px, 62vw, 560px);
+      }
+
+      .h-processo .split-content.h-processo__pannello {
+        padding: 72px var(--section-pad-x) 96px !important;
+      }
+
+      .js .h-processo__foto[data-h-rivela] {
+        clip-path: inset(0 0 100% 0);
+      }
+
+      .h-qualita__griglia {
+        grid-template-columns: 1fr;
+      }
+
+      .h-qualita__capo {
+        position: relative;
+        top: 0;
+      }
+
+      .h-cta__griglia {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .h-storia__capo {
+        gap: 16px;
+      }
+
+      .h-materiali .materials-grid.h-materiali__lista {
+        grid-template-columns: 1fr;
+      }
+
+      .h-materiali .material-card.h-mat,
+      .h-materiali .material-card.h-mat+.h-mat {
+        border-left: 0;
+        display: grid;
+        grid-template-columns: 64px minmax(0, 1fr);
+        column-gap: 8px;
+        padding: 28px 8px 32px 0;
+      }
+
+      .h-mat__n {
+        grid-row: span 2;
+        font-size: 2.2rem;
+        margin: 0;
+      }
+
+      .h-materiali .material-card.h-mat h3 {
+        margin-bottom: 8px;
+      }
+
+      .h-riga__in {
+        grid-template-columns: 44px minmax(0, 1fr) auto;
+      }
+
+      .h-riga__freccia {
+        opacity: 0.8;
+        transform: none;
+        font-size: 1.2rem;
+      }
+
+      .h-settori__piede {
+        justify-content: flex-start;
+      }
+
+      .h-processo__sagoma {
+        width: 88px;
+        right: 20px;
+        top: 26px;
+      }
+
+      .h-qualita .badge-grid.h-qualita__badge {
+        grid-template-columns: 1fr;
+      }
+
+      .h-qualita .badge-card {
+        padding: 32px 4px 36px;
+      }
+
+      .h-qualita .badge-card:nth-child(even) {
+        border-left: 0;
+      }
+
+      .h-qualita__capo {
+        padding: 28px 22px 32px;
+      }
+
+
+      .h-cta .flex-center {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .h-cta .flex-center .btn {
+        justify-content: center;
       }
     }
 
     @media (max-width: 768px) {
-      .feature-card {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        margin-bottom: 80px;
-      }
-
-      .feature-card.reverse .feature-visual {
-        order: 0;
-      }
-
-      .feature-visual .img-placeholder {
-        height: 300px;
-      }
-
-      .numbers-enhanced .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
       .hero-cta-row {
         flex-direction: column;
         align-items: center;
+      }
+    }
+
+    /* ================= Movimento ridotto ================= */
+    @media (prefers-reduced-motion: reduce) {
+
+      .js [data-h-rivela],
+      .js [data-h-rivela]:not(.h-visto),
+      .js .h-materiali .material-card.h-mat[data-h-rivela]:not(.h-visto),
+      .js .h-settori .sector-tag.h-riga[data-h-rivela]:not(.h-visto),
+      .js .h-qualita .badge-card[data-h-rivela]:not(.h-visto) {
+        opacity: 1 !important;
+        transform: none !important;
+        clip-path: none !important;
+        transition: none !important;
+      }
+
+      .h-sottolinea {
+        background-size: 100% 3px;
+        transition: none;
+      }
+
+      .h-riga__nome,
+      .h-riga__freccia,
+      .h-mat__n {
+        transition: none;
+      }
+
+      /* in home i due nastri si fermano */
+      .marquee-track {
+        animation: none;
       }
     }
   </style>
@@ -463,146 +1101,156 @@
     </div>
   </div>
 
-  <!-- ==================== STORIA (White, Expanded) ==================== -->
-  <section class="feature-section" style="background: #ffffff; padding: 180px 0;">
-    <div class="container">
-      <div class="feature-card" style="margin-bottom: 0; align-items: flex-start;">
-        <div class="feature-text" style="padding-right: 60px;">
-          <span class="label"
-            style="font-size: 0.9rem; letter-spacing: 3px; margin-bottom: 24px; display: block; color: var(--gold);">CHI SIAMO</span>
-          <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.4rem); margin-bottom: 32px; line-height: 1.1;">UNA STORIA <br><span class="text-blue">DI FAMIGLIA</span></h2>
-          <p style="font-size: 1.2rem; line-height: 1.8; color: var(--charcoal); opacity: 0.8; margin-bottom: 40px;">
-            Nel 1973 Giovanni Valli, falegname, e Frediano Casalboni, assicuratore, fondano a Forlì
-            R.F. Resina Forlivese per preparare le imbottiture in poliuretano espanso ai mobilifici della zona.
-            Oggi l'azienda è alla terza generazione, con Simona Ghetti, Riccardo Valli e Michele Valli, che
-            investono in tecnologia senza perdere la cura artigianale e la qualità di sempre.</p>
-          <a href="chi-siamo.html" class="cta-link" style="font-size: 1.1rem;">Scopri la nostra storia completa
-            <span class="arrow">→</span></a>
+  <!-- ==================== 01 · STORIA (bianco, foto a filo pagina) ==================== -->
+  <section class="h-storia" aria-labelledby="h-storia-titolo">
+    <div class="h-storia__griglia">
+      <figure class="h-storia__foto" data-h-rivela>
+        <img src="img/chi-siamo/oggi.jpg" alt="Lo stabilimento R.F. Resina Forlivese in via Pitagora a Forlì"
+          loading="lazy" width="1400" height="1050">
+        <span class="h-tacche" aria-hidden="true"></span>
+      </figure>
+      <div class="h-storia__testo" data-h-rivela style="--d: .25s;">
+        <div class="h-storia__capo">
+          <span class="h-cifra" aria-hidden="true">01</span>
+          <span class="h-occhiello">CHI SIAMO</span>
         </div>
-        <div class="feature-visual">
-          <img src="img/chi-siamo/oggi.jpg" alt="Lo stabilimento R.F. Resina Forlivese in via Pitagora a Forlì"
-            loading="lazy" width="1400" height="1050"
-            style="display:block;width:100%;height:500px;object-fit:cover;border-radius:20px;">
-        </div>
+        <h2 id="h-storia-titolo">UNA STORIA <br><span class="h-sottolinea">DI FAMIGLIA</span></h2>
+        <p>
+          Nel 1973 Giovanni Valli, falegname, e Frediano Casalboni, assicuratore, fondano a Forlì
+          R.F. Resina Forlivese per preparare le imbottiture in poliuretano espanso ai mobilifici della zona.
+          Oggi l'azienda è alla terza generazione, con Simona Ghetti, Riccardo Valli e Michele Valli, che
+          investono in tecnologia senza perdere la cura artigianale e la qualità di sempre.</p>
+        <a href="chi-siamo.html" class="cta-link">Scopri la nostra storia completa
+          <span class="arrow">→</span></a>
       </div>
     </div>
   </section>
 
-  <!-- ==================== MATERIALI (Grid Layout) ==================== -->
-  <section class="materials-grid-section" style="background: #f5f5f5; padding: 160px 0;">
-    <div class="container">
-      <div class="section-header text-center" style="margin-bottom: 80px;">
-        <span class="label"
-          style="font-size: 0.9rem; letter-spacing: 3px; color: var(--gold); display: block; margin-bottom: 16px;">PRODOTTI</span>
-        <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--charcoal);">I MATERIALI <span class="text-blue">CHE LAVORIAMO</span></h2>
+  <!-- ==================== 02 · MATERIALI (grigio caldo, indice numerato) ==================== -->
+  <section class="materials-grid-section h-materiali">
+    <div class="h-wrap">
+      <div class="h-materiali__capo" data-h-rivela>
+        <div>
+          <span class="h-occhiello">PRODOTTI</span>
+          <h2>I MATERIALI <br><span class="text-blue">CHE LAVORIAMO</span></h2>
+        </div>
+        <a href="prodotti.html" class="cta-link">Scopri tutti i prodotti <span
+            class="arrow">→</span></a>
       </div>
 
-      <div class="materials-grid"
-        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
-        <!-- Card 1 -->
-        <a href="prodotti.html#poliuretani" class="material-card">
+      <div class="materials-grid h-materiali__lista">
+        <a href="prodotti.html#poliuretani" class="material-card h-mat" data-h-rivela style="--d: 0s;">
+          <span class="h-mat__n" aria-hidden="true">01</span>
           <h3>Poliuretano Espanso</h3>
           <p>Oltre 50 tipologie flessibili per ogni esigenza di comfort e durata.</p>
         </a>
-        <!-- Card 2 -->
-        <a href="prodotti.html#ovatte" class="material-card">
+        <a href="prodotti.html#ovatte" class="material-card h-mat" data-h-rivela style="--d: .12s;">
+          <span class="h-mat__n" aria-hidden="true">02</span>
           <h3>Ovatte e Resinati</h3>
           <p>Morbidezza e volume per imbottiture di alta qualità.</p>
         </a>
-        <!-- Card 3 -->
-        <a href="prodotti.html#piuma" class="material-card">
+        <a href="prodotti.html#piuma" class="material-card h-mat" data-h-rivela style="--d: .24s;">
+          <span class="h-mat__n" aria-hidden="true">03</span>
           <h3>Piuma e Misti</h3>
           <p>Il tocco naturale e pregiato per il massimo del comfort.</p>
         </a>
-        <!-- Card 4 -->
-        <a href="prodotti.html#memory" class="material-card">
+        <a href="prodotti.html#memory" class="material-card h-mat" data-h-rivela style="--d: .36s;">
+          <span class="h-mat__n" aria-hidden="true">04</span>
           <h3>Memory Foam</h3>
           <p>Materiali tecnici che si adattano perfettamente alle forme.</p>
         </a>
       </div>
-
-      <div class="text-center" style="margin-top: 60px;">
-        <a href="prodotti.html" class="cta-link" style="font-size: 1.1rem;">Scopri tutti i prodotti <span
-            class="arrow">→</span></a>
-      </div>
     </div>
   </section>
 
-  <!-- ==================== SETTORI (Navy Tags) ==================== -->
-  <section class="sectors-tags-section" style="background: var(--blue); padding: 160px 0; color: #fff;">
-    <div class="container text-center">
-      <span class="label"
-        style="font-size: 0.9rem; letter-spacing: 3px; color: var(--gold); display: block; margin-bottom: 16px; opacity: 0.9;">SETTORI
-        DI APPLICAZIONE</span>
-      <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); color: #fff; margin-bottom: 60px;">SOLUZIONI PER OGNI
-        <span style="color: var(--gold);">INDUSTRIA</span>
-      </h2>
+  <!-- ==================== 03 · SETTORI (navy, elenco a tutta larghezza) ==================== -->
+  <!-- lo sfondo resta inline: main.js riconosce i fondi scuri da [style*="dark-navy"]
+       e schiarisce il cursore -->
+  <section class="sectors-tags-section h-settori" style="background: var(--dark-navy);">
+    <div class="h-wrap h-settori__capo" data-h-rivela>
+      <span class="h-occhiello">SETTORI DI APPLICAZIONE</span>
+      <h2>SOLUZIONI PER OGNI <span class="text-gold">INDUSTRIA</span></h2>
+    </div>
 
-      <div class="tags-container"
-        style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; max-width: 900px; margin: 0 auto;">
-        <a href="settori.html" class="sector-tag">Arredamento</a>
-        <a href="settori.html" class="sector-tag">Nautica</a>
-        <a href="settori.html" class="sector-tag">Automotive</a>
-        <a href="settori.html" class="sector-tag">Medicale</a>
-        <a href="settori.html" class="sector-tag">Edilizia</a>
-      </div>
+    <div class="tags-container h-settori__elenco">
+      <a href="settori.html" class="sector-tag h-riga" data-h-rivela style="--d: 0s;"><span class="h-wrap h-riga__in"><span
+            class="h-riga__n" aria-hidden="true">01</span><span class="h-riga__nome">Arredamento</span><span
+            class="h-riga__freccia" aria-hidden="true">→</span></span></a>
+      <a href="settori.html" class="sector-tag h-riga" data-h-rivela style="--d: .08s;"><span class="h-wrap h-riga__in"><span
+            class="h-riga__n" aria-hidden="true">02</span><span class="h-riga__nome">Nautica</span><span
+            class="h-riga__freccia" aria-hidden="true">→</span></span></a>
+      <a href="settori.html" class="sector-tag h-riga" data-h-rivela style="--d: .16s;"><span class="h-wrap h-riga__in"><span
+            class="h-riga__n" aria-hidden="true">03</span><span class="h-riga__nome">Automotive</span><span
+            class="h-riga__freccia" aria-hidden="true">→</span></span></a>
+      <a href="settori.html" class="sector-tag h-riga" data-h-rivela style="--d: .24s;"><span class="h-wrap h-riga__in"><span
+            class="h-riga__n" aria-hidden="true">04</span><span class="h-riga__nome">Medicale</span><span
+            class="h-riga__freccia" aria-hidden="true">→</span></span></a>
+      <a href="settori.html" class="sector-tag h-riga" data-h-rivela style="--d: .32s;"><span class="h-wrap h-riga__in"><span
+            class="h-riga__n" aria-hidden="true">05</span><span class="h-riga__nome">Edilizia</span><span
+            class="h-riga__freccia" aria-hidden="true">→</span></span></a>
+    </div>
 
-      <div class="text-center" style="margin-top: 60px;">
-        <a href="settori.html" class="btn btn-sectors">Esplora i settori</a>
-      </div>
+    <div class="h-wrap h-settori__piede">
+      <a href="settori.html" class="btn btn-sectors">Esplora i settori</a>
     </div>
   </section>
 
-  <!-- ==================== LAVORAZIONI (Split Full Height) ==================== -->
-  <section class="process-split-section" style="display: flex; min-height: 80vh;">
-    <div class="split-image" style="flex: 1; background: #ccc; position: relative; min-height: 400px;">
-      <img src="img/home-cuscino.jpg" alt="Cuscino in poliuretano espanso rivestito di ovatta"
-        loading="lazy" width="1350" height="1080"
-        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-    </div>
-    <div class="split-content"
-      style="flex: 1; background: #f5f5f5; padding: 80px; display: flex; align-items: center; justify-content: center;">
-      <div class="content-wrapper" style="max-width: 500px;">
-        <h2
-          style="font-size: clamp(2rem, 3vw, 2.8rem); margin-bottom: 32px; line-height: 1.1; color: var(--dark-navy);">
-          DAL PROGETTO AL <br><span class="text-blue">PRODOTTO FINITO</span></h2>
-        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--charcoal); opacity: 0.8; margin-bottom: 40px;">
+  <!-- ==================== 04 · LAVORAZIONI (pannello blu + foto a destra) ==================== -->
+  <section class="process-split-section h-processo">
+    <div class="split-content h-processo__pannello">
+      <!-- la sagoma del cuscino, tracciata in oro quando entra in campo (initSagomeTracciate in main.js) -->
+      <svg class="h-processo__sagoma sagoma-tracciata" viewBox="0 0 480 340" aria-hidden="true" focusable="false">
+        <path d="M78 18 L402 18 C426 18 440 30 444 52 L468 258 C472 292 452 314 418 318 C316 332 164 332 62 318 C28 314 8 292 12 258 L36 52 C40 30 54 18 78 18 Z" />
+        <path class="h-cucitura" d="M94.2 33.6 L385.8 33.6 C407.4 33.6 420.0 44.4 423.6 64.2 L445.2 249.6 C448.8 280.2 430.8 300.0 400.2 303.6 C308.4 316.2 171.6 316.2 79.8 303.6 C49.2 300.0 31.2 280.2 34.8 249.6 L56.4 64.2 C60.0 44.4 72.6 33.6 94.2 33.6 Z" />
+      </svg>
+      <div class="content-wrapper h-processo__testo" data-h-rivela>
+        <span class="h-filo" aria-hidden="true"></span>
+        <h2>DAL PROGETTO AL <br>PRODOTTO FINITO</h2>
+        <p>
           Accompagniamo il cliente in ogni fase: dall'ascolto iniziale alla progettazione CAD, dalla
           prototipazione fisica alla produzione in serie. Taglio, cucito, puntatura, incollaggio, riempimento:
           ogni lavorazione è eseguita internamente con macchinari di precisione e operatori specializzati.</p>
         <a href="lavorazioni.html" class="btn btn-primary">Scopri le nostre lavorazioni</a>
       </div>
     </div>
+    <div class="split-image h-processo__foto" data-h-rivela>
+      <img src="img/home-cuscino.jpg" alt="Cuscino in poliuretano espanso rivestito di ovatta"
+        loading="lazy" width="1350" height="1080">
+    </div>
   </section>
 
-  <!-- ==================== MARQUEE 2 (Navy Color Fix) ==================== -->
-  <div class="marquee-section" style="background: var(--blue);">
+  <!-- ==================== MARQUEE 2 (navy) ==================== -->
+  <div class="marquee-section h-nastro-scuro" style="background: var(--dark-navy);">
     <div class="marquee-track"><span>TAGLIO</span><span>•</span><span>SAGOMATURA</span><span>•</span><span>CUCITO</span><span>•</span><span>INCOLLAGGIO</span><span>•</span><span>RIEMPIMENTO</span><span>•</span><span>TAGLIO CNC</span><span>•</span><span>PROTOTIPI E SERIE</span><span>•</span><span>TAGLIO</span><span>•</span><span>SAGOMATURA</span><span>•</span><span>CUCITO</span><span>•</span><span>INCOLLAGGIO</span><span>•</span><span>RIEMPIMENTO</span><span>•</span><span>TAGLIO CNC</span><span>•</span><span>PROTOTIPI E SERIE</span><span>•</span>
     </div>
   </div>
 
-  <!-- ==================== CERTIFICAZIONI (White) ==================== -->
-  <section class="quality-banner" style="background: #ffffff; padding: 100px 0;">
-    <div class="container">
-      <h2 class="reveal">QUALITÀ CERTIFICATA</h2>
-      <div class="badge-grid reveal" style="margin-top: 48px;">
-        <div class="badge-card">
+  <!-- ==================== 05 · CERTIFICAZIONI (bianco, titolo fermo + griglia a fili) ==================== -->
+  <section class="quality-banner h-qualita">
+    <div class="h-wrap h-qualita__griglia">
+      <div class="h-qualita__capo" data-h-rivela>
+        <span class="h-tacche" aria-hidden="true"></span>
+        <h2>QUALITÀ <br>CERTIFICATA</h2>
+        <a href="qualita.html" class="btn btn-primary">Scopri le certificazioni</a>
+      </div>
+      <div class="badge-grid h-qualita__badge">
+        <div class="badge-card" data-h-rivela style="--d: 0s;">
           <div class="badge-icon">✓</div>
           <h3>ISO 9001:2015</h3>
           <p>Sistema di gestione della qualità certificato a livello internazionale.</p>
         </div>
-        <div class="badge-card">
+        <div class="badge-card" data-h-rivela style="--d: .12s;">
           <div class="badge-icon">🌿</div>
           <h3>ISO 14001</h3>
           <p>Sistema di gestione ambientale certificato: rifiuti, emissioni e consumi sotto controllo.</p>
         </div>
-        <div class="badge-card">
+        <div class="badge-card" data-h-rivela style="--d: .24s;">
           <div class="badge-icon">⚖️</div>
           <h3>Parità di Genere</h3>
           <p>Certificazione UNI/PdR 125:2022 per un ambiente di lavoro inclusivo ed equo.</p>
         </div>
-        <div class="badge-card">
-          <div class="badge-icon" style="background:none; border-radius:0; width:auto; height:60px;">
+        <div class="badge-card" data-h-rivela style="--d: .36s;">
+          <div class="badge-icon" style="background:none; border:0; border-radius:0; width:auto; height:56px;">
             <img src="img/italia-imbottiti.png" alt="Italia Imbottiti"
               style="height:100%; width:auto; object-fit:contain;">
           </div>
@@ -610,52 +1258,29 @@
           <p>Membri del consorzio a tutela della filiera produttiva nazionale.</p>
         </div>
       </div>
-      <div class="text-center reveal" style="margin-top: 40px;">
-        <a href="qualita.html" class="btn btn-primary">Scopri le certificazioni</a>
-      </div>
     </div>
   </section>
 
-  <!-- ==================== CTA FINALE (Navy) ==================== -->
-  <section class="cta-section" style="background: var(--blue);">
-    <div class="container">
-      <h2 class="reveal">HAI UN PROGETTO? PARLIAMONE.</h2>
-      <p class="reveal">Contattaci per una consulenza gratuita e un preventivo personalizzato.</p>
-      <div class="flex-center gap-md reveal" style="flex-wrap:wrap;">
-        <a href="contatti.html" class="btn btn-white" style="color: var(--blue);">Contattaci</a>
-        <a href="https://wa.me/393333269000" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp"
-          style="background: transparent; border: 1px solid #fff; display: inline-flex; align-items: center; gap: 8px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-          </svg> WhatsApp
-        </a>
+  <!-- ==================== CTA FINALE (blu, frase grande) ==================== -->
+  <section class="cta-section h-cta" style="background: var(--blue);">
+    <div class="h-cta__cornice" aria-hidden="true"><span class="h-tacche"></span></div>
+    <div class="h-wrap h-cta__griglia">
+      <h2 data-h-rivela>HAI UN PROGETTO? <span class="text-gold">PARLIAMONE.</span></h2>
+      <div data-h-rivela style="--d: .2s;">
+        <p>Contattaci per una consulenza gratuita e un preventivo personalizzato.</p>
+        <div class="flex-center gap-md" style="flex-wrap:wrap;">
+          <a href="contatti.html" class="btn btn-white" style="color: var(--blue);">Contattaci</a>
+          <a href="https://wa.me/393333269000" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp"
+            style="background: transparent; border: 1px solid #fff; display: inline-flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg> WhatsApp
+          </a>
+        </div>
       </div>
     </div>
   </section>
-
-  <style>
-    /* Chip styles for Materiali section */
-    .chip {
-      display: inline-block;
-      padding: 6px 16px;
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--charcoal);
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    .chip:hover {
-      background: var(--blue);
-      color: #fff;
-      border-color: var(--blue);
-      transform: translateY(-2px);
-    }
-  </style>
 
   <!-- ==================== FOOTER ==================== -->
   <footer class="site-footer">
@@ -729,99 +1354,60 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
 
+
   <!-- HOMEPAGE ANIMATIONS -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Le feature card non dipendono da GSAP: stanno su IntersectionObserver e
-      // transizioni CSS, quindi girano per prime e in ogni caso.
-      if ('IntersectionObserver' in window) {
-        const ioFeature = new IntersectionObserver((entries) => {
+      // Entrate delle sezioni: IntersectionObserver + transizioni CSS, senza
+      // dipendere da GSAP. Chi chiede movimento ridotto vede tutto subito.
+      const daRivelare = document.querySelectorAll('[data-h-rivela]');
+      const mostra = el => el.classList.add('h-visto');
+      const fermo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (fermo || !('IntersectionObserver' in window)) {
+        daRivelare.forEach(mostra);
+      } else {
+        // Le due foto partono tagliate a zero da clip-path, e per l'observer
+        // un elemento tagliato del tutto non entra mai in campo: per loro si
+        // osserva il contenitore.
+        const perBersaglio = new Map();
+        daRivelare.forEach(el => {
+          const b = el.matches('.h-storia__foto, .h-processo__foto') ? el.parentElement : el;
+          if (!perBersaglio.has(b)) perBersaglio.set(b, []);
+          perBersaglio.get(b).push(el);
+        });
+        const io = new IntersectionObserver((entries) => {
           entries.forEach(e => {
             if (e.isIntersecting) {
-              e.target.classList.add('revealed');
-              ioFeature.unobserve(e.target);
+              perBersaglio.get(e.target).forEach(mostra);
+              io.unobserve(e.target);
             }
           });
-        }, { threshold: 0.15, rootMargin: '0px 0px -5% 0px' });
-        document.querySelectorAll('.feature-text, .feature-visual').forEach(el => ioFeature.observe(el));
-      } else {
-        document.querySelectorAll('.feature-text, .feature-visual').forEach(el => el.classList.add('revealed'));
+        }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+        perBersaglio.forEach((_, b) => io.observe(b));
+
+        // Rete di sicurezza, come in main.js: se dopo tre secondi un elemento
+        // già in campo non si è rivelato, l'observer non sta lavorando e si
+        // mostra tutto senza animazione.
+        setTimeout(() => {
+          const inCampo = Array.from(daRivelare).filter(el => {
+            const r = el.getBoundingClientRect();
+            return r.top < window.innerHeight && r.bottom > 0;
+          });
+          if (inCampo.length && !inCampo.some(el => el.classList.contains('h-visto'))) {
+            daRivelare.forEach(mostra);
+          }
+        }, 3000);
       }
 
-      // Da qui in giù si usa gsap.set(opacity: 0) e si conta su ScrollTrigger per
-      // rialzare l'opacità. Se una delle due librerie non c'è, gli elementi
-      // resterebbero invisibili per sempre: meglio saltare tutto e lasciarli
-      // visibili come li ha messi il CSS.
-      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-        console.warn('[index] GSAP/ScrollTrigger non disponibili: animazioni home saltate, contenuto visibile.');
-        return;
-      }
-
-      // Hero entrance animation
-      const heroContent = document.querySelector('.video-hero-content');
-      if (heroContent) {
+      // Entrata dell'hero: resta su GSAP come prima. Senza la libreria il
+      // contenuto è già visibile com'è nel CSS.
+      if (typeof gsap === 'undefined' || fermo) return;
+      if (document.querySelector('.video-hero-content')) {
         const tl = gsap.timeline({ delay: 0.3 });
-        if (document.querySelector('.hero-badge')) {
-          tl.from('.hero-badge', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out' });
-        }
-        tl.from('.video-hero-content h1', { opacity: 0, y: 50, duration: 1, ease: 'power3.out' }, '-=0.4')
+        tl.from('.video-hero-content h1', { opacity: 0, y: 50, duration: 1, ease: 'power3.out' })
           .from('.video-hero-content .subtitle', { opacity: 0, y: 30, duration: 0.8, ease: 'power3.out' }, '-=0.5')
           .from('.hero-scroll-indicator', { opacity: 0, duration: 0.6 }, '-=0.2');
-      }
-
-      // Materials Grid Animation — use ScrollTrigger.batch for reliable reveal
-      const matCards = gsap.utils.toArray('.materials-grid .material-card');
-      if (matCards.length) {
-        gsap.set(matCards, { opacity: 0, y: 40 });
-        ScrollTrigger.batch(matCards, {
-          onEnter: (batch) => gsap.to(batch, {
-            opacity: 1, y: 0, stagger: 0.12, duration: 0.8, ease: 'power3.out', overwrite: true
-          }),
-          start: 'top 90%',
-        });
-      }
-
-      // Sectors Tags Animation — reliable reveal
-      const sectorTags = gsap.utils.toArray('.sector-tag');
-      if (sectorTags.length) {
-        gsap.set(sectorTags, { opacity: 0, scale: 0.85 });
-        ScrollTrigger.batch(sectorTags, {
-          onEnter: (batch) => gsap.to(batch, {
-            opacity: 1, scale: 1, stagger: 0.06, duration: 0.6, ease: 'back.out(1.7)', overwrite: true
-          }),
-          start: 'top 95%',
-        });
-      }
-
-      // Sectors heading + button
-      const sectorHeading = document.querySelector('.sectors-tags-section h2');
-      const sectorBtn = document.querySelector('.sectors-tags-section .btn-sectors');
-      if (sectorHeading) {
-        gsap.set(sectorHeading, { opacity: 0, y: 30 });
-        ScrollTrigger.create({
-          trigger: '.sectors-tags-section',
-          start: 'top 80%',
-          onEnter: () => gsap.to(sectorHeading, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
-        });
-      }
-      if (sectorBtn) {
-        gsap.set(sectorBtn, { opacity: 0, y: 20 });
-        ScrollTrigger.create({
-          trigger: '.sectors-tags-section',
-          start: 'top 70%',
-          onEnter: () => gsap.to(sectorBtn, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' })
-        });
-      }
-
-      // Process Split Animation — reliable reveal
-      const splitWrapper = document.querySelector('.split-content .content-wrapper');
-      if (splitWrapper) {
-        gsap.set(splitWrapper, { opacity: 0, x: 50 });
-        ScrollTrigger.create({
-          trigger: '.process-split-section',
-          start: 'top 75%',
-          onEnter: () => gsap.to(splitWrapper, { opacity: 1, x: 0, duration: 1, ease: 'power3.out' })
-        });
       }
     });
   </script>
