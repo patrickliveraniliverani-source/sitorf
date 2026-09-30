@@ -1304,6 +1304,39 @@
                 .vr-tappa-chi { font-size: 9.5px; }
                 .vr-lungo { display: none; }
             }
+
+            /* ---- Versione pulita (richiesta del cliente) ----
+               Testo centrato e sotto il divano da solo: niente tavola scura,
+               didascalie, tappe, quote, pavimento né pulsante "Rivedi".
+               Gli elementi restano nel markup perché il JS li anima, ma non
+               si vedono. I tratti del fusto passano al blu scuro, altrimenti
+               sul fondo chiaro sparirebbero. */
+            .vr-griglia {
+                grid-template-columns: 1fr;
+                justify-items: center;
+                gap: clamp(28px, 4vw, 48px);
+            }
+            .vr-testo { text-align: center; }
+            .vr-desc { margin-left: auto; margin-right: auto; max-width: 600px; }
+            .vr-tavola {
+                width: 100%;
+                max-width: 820px;
+                padding: 0;
+                background: none;
+                box-shadow: none;
+            }
+            .vr-tavola::before,
+            .vr-tavola::after,
+            .vr-testa,
+            .vr-tappe,
+            .vr-scena .vr-quote,
+            .vr-scena .vr-pavimento { display: none !important; }
+            .vr-scena { margin: 0; }
+            .vr-scena .vr-t { stroke: rgba(10, 22, 40, 0.85); }
+            .vr-scena .vr-m { stroke: rgba(10, 22, 40, 0.3); }
+            @media (max-width: 600px) {
+                .vr-tavola { padding: 0; }
+            }
         </style>
 
         <div class="container">
@@ -1336,7 +1369,7 @@
                     </div>
 
                     <svg class="vr-scena" id="vr-scena" viewBox="30 96 580 262" role="img"
-                        aria-label="Un divano a tre posti, visto di fronte, si compone a strati: fusto in legno con le cinghie elastiche, imbottitura in poliuretano R.F., messa in bianco e tappezzeria Valli & Ricci, poi cuscini e piedini.">
+                        aria-label="Un divano a tre posti, visto di fronte, che si compone: fusto, imbottitura in poliuretano, messa in bianco, tappezzeria, cuscini e piedini.">
                         <defs>
                             <!-- sagome: una volta sola, riusate da tutti gli strati -->
                             <path id="vr-p-schienale" d="M96 272 V165 Q96 145 116 145 H524 Q544 145 544 165 V272 Z"/>
