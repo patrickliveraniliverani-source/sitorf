@@ -56,7 +56,7 @@
     </div>
 
     <section class="page-hero"
-        style="background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop');">
+        style="background-image: url('img/settori/hero-settori.jpg');">
         <div class="container">
             <h1>I NOSTRI SETTORI</h1>
             <p class="subtitle">Dall'arredamento di design all'industria tecnica: il poliuretano R.F. prende la forma
@@ -72,8 +72,7 @@
                 <!-- CARD 1 -->
                 <div class="sector-card-premium sector-anim">
                     <div class="card-img-wrap">
-                        <div class="img-placeholder" style="height: 300px; background: #e5e7eb;">FOTO ARREDO SALOTTO
-                        </div>
+                        <img class="settore-foto" src="img/settori/salotto.jpg" alt="Divano in velluto in un soggiorno" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>Arredo Salotto</h3>
@@ -86,8 +85,7 @@
                 <!-- CARD 2 -->
                 <div class="sector-card-premium sector-anim">
                     <div class="card-img-wrap">
-                        <div class="img-placeholder" style="height: 300px; background: #d1d5db;">FOTO ARREDO ESTERNO
-                        </div>
+                        <img class="settore-foto" src="img/settori/outdoor.jpg" alt="Salotto da esterno con cuscini" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>Outdoor & Giardino</h3>
@@ -100,7 +98,7 @@
                 <!-- CARD 3 -->
                 <div class="sector-card-premium sector-anim">
                     <div class="card-img-wrap">
-                        <div class="img-placeholder" style="height: 300px; background: #9ca3af;">FOTO NAUTICA</div>
+                        <img class="settore-foto" src="img/settori/nautica.jpg" alt="Sedute imbottite a bordo di una barca" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>Nautica</h3>
@@ -113,7 +111,7 @@
                 <!-- CARD 4 -->
                 <div class="sector-card-premium sector-anim">
                     <div class="card-img-wrap">
-                        <div class="img-placeholder" style="height: 300px; background: #e5e7eb;">FOTO MEDICALE</div>
+                        <img class="settore-foto" src="img/settori/medicale.jpg" alt="Poltrona imbottita di uno studio medico" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>Medicale & Sanitario</h3>
@@ -126,8 +124,7 @@
                 <!-- CARD 5 -->
                 <div class="sector-card-premium sector-anim">
                     <div class="card-img-wrap">
-                        <div class="img-placeholder" style="height: 300px; background: #d1d5db;">FOTO SALOTTI ARABI
-                        </div>
+                        <img class="settore-foto" src="img/settori/salotti-arabi.jpg" alt="Salotto arabo con sedute e cuscini a terra" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>Salotti Arabi</h3>
@@ -140,7 +137,7 @@
                 <!-- CARD 6 -->
                 <div class="sector-card-premium sector-anim">
                     <div class="card-img-wrap">
-                        <div class="img-placeholder" style="height: 300px; background: #9ca3af;">FOTO EDILIZIA</div>
+                        <img class="settore-foto" src="img/settori/edilizia.jpg" alt="Posa di pannelli isolanti in una parete" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>Edilizia & Isolamento</h3>
@@ -153,7 +150,7 @@
                 <!-- CARD 7 -->
                 <div class="sector-card-premium sector-anim">
                     <div class="card-img-wrap">
-                        <div class="img-placeholder" style="height: 300px; background: #e5e7eb;">FOTO AUTOMOTIVE</div>
+                        <img class="settore-foto" src="img/settori/automotive.jpg" alt="Sedile imbottito di un'auto" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>Automotive</h3>
@@ -166,8 +163,7 @@
                 <!-- CARD 8 -->
                 <div class="sector-card-premium sector-anim">
                     <div class="card-img-wrap">
-                        <div class="img-placeholder" style="height: 300px; background: #d1d5db;">FOTO SPORT & PALESTRE
-                        </div>
+                        <img class="settore-foto" src="img/settori/sport.jpg" alt="Tappetino e manubri in palestra" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>Sport & Wellness</h3>
@@ -240,11 +236,20 @@
             overflow: hidden;
         }
 
-        .card-img-wrap .img-placeholder {
+        .card-img-wrap .img-placeholder,
+        .card-img-wrap .settore-foto {
             transition: transform 0.6s var(--ease);
         }
 
-        .sector-card-premium:hover .card-img-wrap .img-placeholder {
+        .settore-foto {
+            display: block;
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .sector-card-premium:hover .card-img-wrap .img-placeholder,
+        .sector-card-premium:hover .card-img-wrap .settore-foto {
             transform: scale(1.05);
         }
 

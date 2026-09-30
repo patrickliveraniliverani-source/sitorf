@@ -2952,6 +2952,8 @@
                     // resta uguale, ma il browser smette di ridisegnarlo 60 volte
                     // al secondo per sempre.
                     if (tok.vivo) tok.anims.forEach(a => { if (a.effect && a.effect.getTiming().iterations === Infinity) a.pause(); });
+                    // finito il video, dopo una breve pausa si passa alla fase dopo
+                    if (tok.vivo) scenaFinita(i);
                 }).catch(e => { if (e !== FERMA) console.error(e); });
             }
 
@@ -2971,7 +2973,7 @@
                 conta: document.getElementById('metodoConta')
             };
             const ULTIMA = fasi.length - 1;
-            const DURATA = 8500;          // ms per fase nel giro automatico: la scena più lunga dura ~6 s
+            const PAUSA = 1800;           // ms fermi sull'immagine finale prima della fase dopo
 
             let attiva = 0;
             let partita = false;
@@ -3015,35 +3017,50 @@
                 }, ridotto ? 0 : 250);
             }
 
-            let automatico = !ridotto;
+            // Giro automatico: ogni fase parte quando finisce il video della
+            // precedente, dopo PAUSA ms sull'immagine finale. Durante la pausa
+            // la linea dei passi avanza verso il pallino successivo. Il giro
+            // continua anche dopo un clic su un passo: il clic sposta solo il
+            // punto da cui riparte. Fuori vista la pausa non scorre.
+            const automatico = !ridotto;
             let inVista = false;
-            let sopra = false;
+            let inAttesa = false;
             let trascorso = 0;
             let ultimo = null;
             let raf = null;
 
             function tick(ora) {
                 raf = null;
-                if (!automatico || !inVista || sopra) { ultimo = null; return; }
+                if (!automatico || !inAttesa || !inVista) { ultimo = null; return; }
                 if (ultimo !== null) trascorso += ora - ultimo;
                 ultimo = ora;
-                const frazione = Math.min(trascorso / DURATA, 1);
+                const frazione = Math.min(trascorso / PAUSA, 1);
                 riempi(attiva < ULTIMA ? attiva + frazione : ULTIMA);
                 if (frazione >= 1) {
-                    trascorso = 0;
+                    inAttesa = false;
+                    ultimo = null;
                     const prossima = attiva === ULTIMA ? 0 : attiva + 1;
-                    mostra(prossima);
                     riempi(prossima);
+                    mostra(prossima);
+                    return;
                 }
                 raf = requestAnimationFrame(tick);
             }
 
             function riparti() {
-                if (automatico && inVista && !sopra && raf === null) raf = requestAnimationFrame(tick);
+                if (automatico && inAttesa && inVista && raf === null) raf = requestAnimationFrame(tick);
+            }
+
+            function scenaFinita(i) {
+                if (i !== attiva) return;
+                inAttesa = true;
+                trascorso = 0;
+                ultimo = null;
+                riparti();
             }
 
             function sceltaUtente(i) {
-                automatico = false;
+                inAttesa = false;
                 if (raf !== null) { cancelAnimationFrame(raf); raf = null; }
                 mostra(i);
                 riempi(i);
@@ -3067,10 +3084,6 @@
 
             document.getElementById('metodoPrima').addEventListener('click', () => sceltaUtente(attiva === 0 ? ULTIMA : attiva - 1));
             document.getElementById('metodoDopo').addEventListener('click', () => sceltaUtente(attiva === ULTIMA ? 0 : attiva + 1));
-
-            // col mouse sopra il giro si ferma, per leggere con calma
-            metodo.addEventListener('mouseenter', () => { sopra = true; });
-            metodo.addEventListener('mouseleave', () => { sopra = false; riparti(); });
 
             // La prima scena parte quando la sezione entra in campo, e il giro
             // gira solo finché la si vede.
