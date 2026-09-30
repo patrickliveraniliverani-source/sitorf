@@ -92,8 +92,9 @@
                         <li>Miglioramento continuo delle prestazioni</li>
                         <li>Soddisfazione garantita del cliente</li>
                     </ul>
-                    <div style="margin-top: 32px;">
+                    <div class="azioni-certificato">
                         <span class="badge-large">Certificato N. XYZ123</span>
+                        <a href="docs/certificato-iso9001.pdf" class="btn btn-scarica" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg> Scarica il certificato</a>
                     </div>
                 </div>
                 <div class="img-placeholder reveal-scale"
@@ -123,9 +124,10 @@
                     </ul>
                     <p style="margin-top: 16px;">Scarti, energia e materiali: come lavoriamo è spiegato nella pagina
                         <a href="green-vision.html" style="color: var(--blue); text-decoration: underline;">Green Vision</a>.</p>
-                    <div style="margin-top: 32px;">
+                    <div class="azioni-certificato">
                         <!-- SEGNAPOSTO: sostituire con il numero reale del certificato ISO 14001 -->
                         <span class="badge-large">Certificato N. DA INSERIRE</span>
+                        <a href="docs/certificato-iso14001.pdf" class="btn btn-scarica" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg> Scarica il certificato</a>
                     </div>
                 </div>
                 <!-- SEGNAPOSTO: sostituire con il logo ISO 14001 / Kiwa -->
@@ -157,6 +159,10 @@
                         eccellenza.</p>
                     <p style="margin-top: 16px;">Promuoviamo le pari opportunità nelle assunzioni, nella retribuzione e
                         nello sviluppo di carriera, valorizzando il talento senza barriere.</p>
+                    <div class="azioni-certificato">
+                        <a href="docs/certificato-parita-genere.pdf" class="btn btn-scarica" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg> Scarica il certificato</a>
+                        <a href="docs/politica-parita-genere.pdf" class="btn btn-scarica" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg> Scarica la politica</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -180,45 +186,14 @@
                         <li>Rispetto delle normative ambientali</li>
                         <li>Tutela del consumatore finale</li>
                     </ul>
+                    <div class="azioni-certificato">
+                        <a href="docs/attestato-italia-imbottiti.pdf" class="btn btn-scarica" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg> Scarica l'attestato</a>
+                    </div>
                 </div>
                 <div class="img-placeholder reveal-scale"
                     style="height: 450px; background: transparent; border: none !important; display: flex; align-items: center; justify-content: center; padding: 40px;">
                     <img src="img/italia-imbottiti.png" alt="Italia Imbottiti Logo"
                         style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- DOWNLOAD AREA -->
-    <section class="section" style="background: var(--navy, #0d1f3c); color: var(--white);">
-        <div class="container">
-            <div class="section-heading center">
-                <span class="label" style="color: var(--gold);">Documentazione</span>
-                <h2 style="color: var(--white);">SCARICA I CERTIFICATI</h2>
-            </div>
-            <div class="grid grid-4" style="gap: 20px; text-align: center;">
-                <div class="download-card">
-                    <div class="icon">📄</div>
-                    <h3>Certificato ISO 9001</h3>
-                    <a href="docs/certificato-iso9001.pdf" class="link" target="_blank" rel="noopener">Scarica PDF</a>
-                </div>
-                <div class="download-card">
-                    <div class="icon">🌿</div>
-                    <h3>Certificato ISO 14001</h3>
-                    <a href="docs/certificato-iso14001.pdf" class="link" target="_blank" rel="noopener">Scarica PDF</a>
-                </div>
-                <div class="download-card">
-                    <div class="icon">⚖️</div>
-                    <h3>Certificato Parità Genere</h3>
-                    <a href="docs/certificato-parita-genere.pdf" class="link" target="_blank" rel="noopener">Scarica PDF</a>
-                </div>
-                <div class="download-card">
-                    <div class="icon">
-                        <img src="img/italia-imbottiti.png" alt="Italia Imbottiti" style="width: 40px; height: auto;">
-                    </div>
-                    <h3>Attestato Italia Imbottiti</h3>
-                    <a href="docs/attestato-italia-imbottiti.pdf" class="link" target="_blank" rel="noopener">Scarica PDF</a>
                 </div>
             </div>
         </div>
@@ -239,6 +214,38 @@
             font-weight: bold;
         }
 
+        /* numero del certificato e pulsanti per scaricare, dentro ogni blocco */
+        .azioni-certificato {
+            margin-top: 32px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-scarica {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 20px;
+            border: 1.5px solid var(--blue);
+            border-radius: var(--radius);
+            color: var(--blue);
+            background: var(--white);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+
+        .btn-scarica:hover,
+        .btn-scarica:focus-visible {
+            background: var(--blue);
+            color: var(--white);
+        }
+
         .badge-large {
             display: inline-block;
             padding: 8px 16px;
@@ -248,36 +255,6 @@
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--charcoal);
-        }
-
-        .download-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 32px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .download-card:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-5px);
-        }
-
-        .download-card .icon {
-            font-size: 2rem;
-            margin-bottom: 16px;
-        }
-
-        .download-card h3 {
-            font-size: 1.1rem;
-            margin-bottom: 16px;
-            color: var(--white);
-        }
-
-        .download-card .link {
-            color: var(--gold);
-            text-decoration: underline;
-            font-size: 0.9rem;
         }
     </style>
 

@@ -70,42 +70,133 @@
 
 
     <!-- ==================== I NOSTRI VALORI ==================== -->
-    <section class="section" style="background: var(--light);">
-        <div class="container">
-            <div class="section-heading center">
-                <span class="label">I Nostri Valori</span>
-                <h2 class="reveal">COSA CI <span class="text-blue">GUIDA</span></h2>
-                <p class="reveal" style="max-width: 650px; margin: 0 auto; color: var(--gray-400);">Quattro pilastri
-                    che definiscono il nostro modo di lavorare, ogni giorno, da oltre cinquant'anni.</p>
+    <!-- Subito dopo la hero: niente card, un elenco numerato leggero.
+         Titolo a sinistra, i quattro valori a destra separati da un filo. -->
+    <section class="section valori">
+        <div class="container valori-griglia">
+            <div class="valori-testa reveal">
+                <span class="label">I nostri valori</span>
+                <h2>COSA CI <span class="text-blue">GUIDA</span></h2>
+                <p>Quattro cose che tengono insieme il lavoro di ogni giorno, dal 1973.</p>
             </div>
-
-            <div class="grid grid-4 stagger-cards" style="gap: 24px;">
-                <div class="value-pillar">
-
-                    <h3>Esperienza</h3>
-                    <p>Oltre 50 anni di know-how nella lavorazione del poliuretano espanso. Conosciamo ogni densità,
-                        ogni taglio, ogni applicazione, perché ci lavoriamo ogni giorno dal 1973.</p>
-                </div>
-                <div class="value-pillar">
-
-                    <h3>Innovazione</h3>
-                    <p>Investiamo in macchinari di ultima generazione e nella ricerca di nuovi materiali: dal memory
-                        foam alle soluzioni ecosostenibili, guardiamo sempre avanti.</p>
-                </div>
-                <div class="value-pillar">
-
-                    <h3>Personalizzazione</h3>
-                    <p>Ogni cliente ha esigenze diverse. Offriamo consulenza tecnica, studio di modelli su misura e
-                        produzione personalizzata, dal singolo prototipo alla grande serie.</p>
-                </div>
-                <div class="value-pillar">
-
-                    <h3>Qualità</h3>
-                    <p>Certificazione ISO 9001, selezione rigorosa delle materie prime e controllo di ogni fase
-                        produttiva. La qualità non è un obiettivo, è il nostro metodo.</p>
-                </div>
-            </div>
+            <ol class="valori-elenco">
+                <li class="reveal">
+                    <span class="valori-num">01</span>
+                    <div>
+                        <h3>Esperienza</h3>
+                        <p>Lavoriamo il poliuretano espanso dal 1973: conosciamo densità, tagli e applicazioni.</p>
+                    </div>
+                </li>
+                <li class="reveal">
+                    <span class="valori-num">02</span>
+                    <div>
+                        <h3>Innovazione</h3>
+                        <p>Macchinari nuovi e ricerca sui materiali, dal memory foam alle soluzioni ecosostenibili.</p>
+                    </div>
+                </li>
+                <li class="reveal">
+                    <span class="valori-num">03</span>
+                    <div>
+                        <h3>Su misura</h3>
+                        <p>Consulenza tecnica e modelli studiati sul cliente, dal singolo prototipo alla grande serie.</p>
+                    </div>
+                </li>
+                <li class="reveal">
+                    <span class="valori-num">04</span>
+                    <div>
+                        <h3>Qualità</h3>
+                        <p>Sistemi certificati ISO 9001 e ISO 14001, controllo delle materie prime e di ogni fase.</p>
+                    </div>
+                </li>
+            </ol>
         </div>
+        <style>
+            .valori {
+                background: var(--white);
+                padding: clamp(72px, 9vw, 120px) 0;
+            }
+
+            .valori-griglia {
+                display: grid;
+                grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+                gap: clamp(40px, 7vw, 110px);
+                align-items: start;
+            }
+
+            .valori-testa {
+                position: sticky;
+                top: 120px;
+            }
+
+            .valori-testa h2 {
+                margin: 12px 0 18px;
+            }
+
+            .valori-testa p {
+                color: var(--gray-400);
+                max-width: 340px;
+            }
+
+            .valori-elenco {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                border-top: 1px solid var(--gray-100);
+            }
+
+            .valori-elenco li {
+                display: grid;
+                grid-template-columns: 64px minmax(0, 1fr);
+                gap: 12px;
+                padding: 26px 0;
+                border-bottom: 1px solid var(--gray-100);
+            }
+
+            .valori-num {
+                font-family: var(--font-heading);
+                font-size: 0.85rem;
+                font-weight: 700;
+                letter-spacing: 0.12em;
+                color: var(--gold-dark);
+                padding-top: 3px;
+            }
+
+            .valori-elenco h3 {
+                font-family: var(--font-heading);
+                font-size: 1.05rem;
+                font-weight: 800;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: var(--charcoal);
+                margin-bottom: 6px;
+                transition: color 0.3s ease;
+            }
+
+            .valori-elenco li:hover h3 {
+                color: var(--blue);
+            }
+
+            .valori-elenco p {
+                color: var(--gray-400);
+                line-height: 1.65;
+                margin: 0;
+            }
+
+            @media (max-width: 900px) {
+                .valori-griglia {
+                    grid-template-columns: 1fr;
+                }
+
+                .valori-testa {
+                    position: static;
+                }
+
+                .valori-elenco li {
+                    grid-template-columns: 48px minmax(0, 1fr);
+                    padding: 22px 0;
+                }
+            }
+        </style>
     </section>
 
     <!-- ==================== NUMERI / STATS ==================== -->
