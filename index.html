@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>R.F. Resina Forlivese — Imbottiture in Poliuretano Espanso dal 1973 | Forlì</title>
+  <title>R.F. Resina Forlivese | Imbottiture in Poliuretano Espanso dal 1973 | Forlì</title>
   <meta name="description"
     content="Leader nella lavorazione del poliuretano espanso e imbottiture su misura. Qualità certificata ISO 9001, produzione 100% Made in Italy dal 1973.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -310,9 +310,10 @@
 
     .badge-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      /* 4 certificazioni: 2x2 su desktop e tablet, una colonna sul telefono */
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 30px;
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto 40px;
       text-align: left;
     }
@@ -362,6 +363,12 @@
     }
 
     /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .badge-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 768px) {
       .feature-card {
         grid-template-columns: 1fr;
@@ -404,11 +411,11 @@
         <div class="nav-item-dropdown">
           <a href="prodotti.html" class="nav-link-parent">Prodotti</a>
           <div class="dropdown-menu">
-            <a href="prodotti.html?modal=poliuretani" class="dropdown-item">Poliuretani Espansi</a>
-            <a href="prodotti.html?modal=ovatte" class="dropdown-item">Ovatte e Resinati</a>
-            <a href="prodotti.html?modal=piuma" class="dropdown-item">Piuma e Misti</a>
-            <a href="prodotti.html?modal=microfibra" class="dropdown-item">Microfibra</a>
-            <a href="prodotti.html?modal=memory" class="dropdown-item">Memory Foam</a>
+            <a href="prodotti.html#poliuretani" class="dropdown-item">Poliuretani Espansi</a>
+            <a href="prodotti.html#ovatte" class="dropdown-item">Ovatte e Resinati</a>
+            <a href="prodotti.html#piuma" class="dropdown-item">Piuma e Misti</a>
+            <a href="prodotti.html#microfibra" class="dropdown-item">Microfibra</a>
+            <a href="prodotti.html#memory" class="dropdown-item">Memory Foam</a>
           </div>
         </div>
         <a href="lavorazioni.html">Lavorazioni</a>
@@ -438,8 +445,8 @@
 
     <div class="video-hero-content">
       <h1>IL COMFORT <br><span>NASCE QUI</span></h1>
-      <p class="subtitle">Tecnologia avanzata e artigianalità italiana <br>al servizio del mobile imbottito, dal
-        1973.
+      <p class="subtitle">Imbottiture in poliuretano, ovatta e piuma <br>per chi produce divani e poltrone.
+        A Forlì, dal 1973.
       </p>
 
     </div>
@@ -452,14 +459,7 @@
 
   <!-- ==================== MARQUEE ==================== -->
   <div class="marquee-section">
-    <div class="marquee-track"><span>QUALITÀ</span><span>•</span><span>INNOVAZIONE</span><span>•</span><span>MADE
-        IN
-        ITALY</span><span>•</span><span>DAL
-        1973</span><span>•</span><span>ARTIGIANALITÀ</span><span>•</span><span>POLIURETANO
-        ESPANSO</span><span>•</span><span>QUALITÀ</span><span>•</span><span>INNOVAZIONE</span><span>•</span><span>MADE
-        IN ITALY</span><span>•</span><span>DAL
-        1973</span><span>•</span><span>ARTIGIANALITÀ</span><span>•</span><span>POLIURETANO
-        ESPANSO</span><span>•</span>
+    <div class="marquee-track"><span>QUALITÀ</span><span>•</span><span>INNOVAZIONE</span><span>•</span><span>MADE IN ITALY</span><span>•</span><span>FORLÌ, DAL 1973</span><span>•</span><span>ARTIGIANALITÀ</span><span>•</span><span>POLIURETANO ESPANSO</span><span>•</span><span>QUALITÀ</span><span>•</span><span>INNOVAZIONE</span><span>•</span><span>MADE IN ITALY</span><span>•</span><span>FORLÌ, DAL 1973</span><span>•</span><span>ARTIGIANALITÀ</span><span>•</span><span>POLIURETANO ESPANSO</span><span>•</span>
     </div>
   </div>
 
@@ -469,17 +469,13 @@
       <div class="feature-card" style="margin-bottom: 0; align-items: flex-start;">
         <div class="feature-text" style="padding-right: 60px;">
           <span class="label"
-            style="font-size: 0.9rem; letter-spacing: 3px; margin-bottom: 24px; display: block; color: var(--gold);">LA
-            NOSTRA STORIA</span>
-          <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.4rem); margin-bottom: 32px; line-height: 1.1;">UNA STORIA
-            DI
-            FAMIGLIA, <br><span class="text-blue">VISIONE E MATERIA</span></h2>
+            style="font-size: 0.9rem; letter-spacing: 3px; margin-bottom: 24px; display: block; color: var(--gold);">CHI SIAMO</span>
+          <h2 style="font-size: clamp(1.8rem, 2.5vw, 2.4rem); margin-bottom: 32px; line-height: 1.1;">UNA STORIA <br><span class="text-blue">DI FAMIGLIA</span></h2>
           <p style="font-size: 1.2rem; line-height: 1.8; color: var(--charcoal); opacity: 0.8; margin-bottom: 40px;">
-            Nel 1973, Frediano Casalboni e Giovanni Valli fondarono R.F. Resina Forlivese con un'idea chiara:
-            trasformare il poliuretano espanso in eccellenza industriale. Oggi, alla terza generazione, Riccardo
-            Valli,
-            Michele Valli e Simona Ghetti portano avanti quella visione con innovazione, sostenibilità e passione
-            artigianale.</p>
+            Nel 1973 Giovanni Valli, falegname, e Frediano Casalboni, assicuratore, fondano a Forlì
+            R.F. Resina Forlivese per preparare le imbottiture in poliuretano espanso ai mobilifici della zona.
+            Oggi l'azienda è alla terza generazione, con Simona Ghetti, Riccardo Valli e Michele Valli, che
+            investono in tecnologia senza perdere la cura artigianale e la qualità di sempre.</p>
           <a href="chi-siamo.html" class="cta-link" style="font-size: 1.1rem;">Scopri la nostra storia completa
             <span class="arrow">→</span></a>
         </div>
@@ -513,31 +509,29 @@
     <div class="container">
       <div class="section-header text-center" style="margin-bottom: 80px;">
         <span class="label"
-          style="font-size: 0.9rem; letter-spacing: 3px; color: var(--gold); display: block; margin-bottom: 16px;">I
-          NOSTRI MATERIALI</span>
-        <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--charcoal);">ECCELLENZA NEI <span
-            class="text-blue">MATERIALI</span></h2>
+          style="font-size: 0.9rem; letter-spacing: 3px; color: var(--gold); display: block; margin-bottom: 16px;">PRODOTTI</span>
+        <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); color: var(--charcoal);">I MATERIALI <span class="text-blue">CHE LAVORIAMO</span></h2>
       </div>
 
       <div class="materials-grid"
         style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
         <!-- Card 1 -->
-        <a href="prodotti.html?modal=poliuretani" class="material-card">
+        <a href="prodotti.html#poliuretani" class="material-card">
           <h3>Poliuretano Espanso</h3>
           <p>Oltre 50 tipologie flessibili per ogni esigenza di comfort e durata.</p>
         </a>
         <!-- Card 2 -->
-        <a href="prodotti.html?modal=ovatte" class="material-card">
+        <a href="prodotti.html#ovatte" class="material-card">
           <h3>Ovatte e Resinati</h3>
           <p>Morbidezza e volume per imbottiture di alta qualità.</p>
         </a>
         <!-- Card 3 -->
-        <a href="prodotti.html?modal=piuma" class="material-card">
+        <a href="prodotti.html#piuma" class="material-card">
           <h3>Piuma e Misti</h3>
           <p>Il tocco naturale e pregiato per il massimo del comfort.</p>
         </a>
         <!-- Card 4 -->
-        <a href="prodotti.html?modal=memory" class="material-card">
+        <a href="prodotti.html#memory" class="material-card">
           <h3>Memory Foam</h3>
           <p>Materiali tecnici che si adattano perfettamente alle forme.</p>
         </a>
@@ -590,10 +584,8 @@
           DAL PROGETTO AL <br><span class="text-blue">PRODOTTO FINITO</span></h2>
         <p style="font-size: 1.15rem; line-height: 1.8; color: var(--charcoal); opacity: 0.8; margin-bottom: 40px;">
           Accompagniamo il cliente in ogni fase: dall'ascolto iniziale alla progettazione CAD, dalla
-          prototipazione
-          fisica alla produzione in serie. Taglio, cucito, puntatura, incollaggio, riempimento — ogni lavorazione
-          è
-          eseguita internamente con macchinari di precisione e operatori specializzati.</p>
+          prototipazione fisica alla produzione in serie. Taglio, cucito, puntatura, incollaggio, riempimento:
+          ogni lavorazione è eseguita internamente con macchinari di precisione e operatori specializzati.</p>
         <a href="lavorazioni.html" class="btn btn-primary">Scopri le nostre lavorazioni</a>
       </div>
     </div>
@@ -601,26 +593,24 @@
 
   <!-- ==================== MARQUEE 2 (Navy Color Fix) ==================== -->
   <div class="marquee-section" style="background: var(--blue);">
-    <div class="marquee-track"><span>QUALITÀ</span><span>•</span><span>INNOVAZIONE</span><span>•</span><span>MADE
-        IN
-        ITALY</span><span>•</span><span>DAL
-        1973</span><span>•</span><span>ARTIGIANALITÀ</span><span>•</span><span>POLIURETANO
-        ESPANSO</span><span>•</span><span>QUALITÀ</span><span>•</span><span>INNOVAZIONE</span><span>•</span><span>MADE
-        IN ITALY</span><span>•</span><span>DAL
-        1973</span><span>•</span><span>ARTIGIANALITÀ</span><span>•</span><span>POLIURETANO
-        ESPANSO</span><span>•</span>
+    <div class="marquee-track"><span>TAGLIO</span><span>•</span><span>SAGOMATURA</span><span>•</span><span>CUCITO</span><span>•</span><span>INCOLLAGGIO</span><span>•</span><span>RIEMPIMENTO</span><span>•</span><span>TAGLIO CNC</span><span>•</span><span>PROTOTIPI E SERIE</span><span>•</span><span>TAGLIO</span><span>•</span><span>SAGOMATURA</span><span>•</span><span>CUCITO</span><span>•</span><span>INCOLLAGGIO</span><span>•</span><span>RIEMPIMENTO</span><span>•</span><span>TAGLIO CNC</span><span>•</span><span>PROTOTIPI E SERIE</span><span>•</span>
     </div>
   </div>
 
   <!-- ==================== CERTIFICAZIONI (White) ==================== -->
   <section class="quality-banner" style="background: #ffffff; padding: 100px 0;">
     <div class="container">
-      <h2 class="reveal">LA QUALITÀ CREA REPUTAZIONE E AFFIDABILITÀ</h2>
+      <h2 class="reveal">QUALITÀ CERTIFICATA</h2>
       <div class="badge-grid reveal" style="margin-top: 48px;">
         <div class="badge-card">
           <div class="badge-icon">✓</div>
           <h3>ISO 9001:2015</h3>
           <p>Sistema di gestione della qualità certificato a livello internazionale.</p>
+        </div>
+        <div class="badge-card">
+          <div class="badge-icon">🌿</div>
+          <h3>ISO 14001</h3>
+          <p>Sistema di gestione ambientale certificato: rifiuti, emissioni e consumi sotto controllo.</p>
         </div>
         <div class="badge-card">
           <div class="badge-icon">⚖️</div>
@@ -717,6 +707,7 @@
           <h4>Certificazioni</h4>
           <div class="footer-badges">
             <span class="footer-badge">ISO 9001</span>
+            <span class="footer-badge">ISO 14001</span>
             <span class="footer-badge">Parità Genere</span>
             <img src="img/italia-imbottiti.png" alt="Italia Imbottiti"
               style="height:30px; opacity:0.8; background:#fff; padding:2px; border-radius:4px;">
@@ -727,14 +718,13 @@
     <div class="footer-bottom">
       <div class="container">
         <div class="footer-bottom-row">
-          <p>© 2026 R.F. Resina Forlivese S.r.l. — Tutti i diritti riservati</p>
+          <p>© 2026 R.F. Resina Forlivese S.r.l. Tutti i diritti riservati.</p>
           <div style="display:flex;gap:16px;"><a href="privacy.html">Privacy Policy</a><a href="cookie.html">Cookie Policy</a></div>
         </div>
         <div class="footer-legal">
-          <p>R.F. Resina Forlivese S.r.l. — Via Pitagora, 2 — 47121 Forlì (FC) — P.IVA: IT 00309120400 — REA: FO
-            148977
-            — SDI: A4707H7</p>
-          <p>Sottoposta a direzione e coordinamento di Valli Holding S.r.l. — Via Ossi 10, Forlì (FC) — P.IVA: IT
+          <p>R.F. Resina Forlivese S.r.l. · Via Pitagora, 2, 47121 Forlì (FC) · P.IVA: IT 00309120400 · REA: FO
+            148977 · SDI: A4707H7</p>
+          <p>Sottoposta a direzione e coordinamento di Valli Holding S.r.l. · Via Ossi 10, Forlì (FC) · P.IVA: IT
             04679600405</p>
         </div>
       </div>

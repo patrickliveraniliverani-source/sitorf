@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prodotti — R.F. Resina Forlivese | Poliuretano, Ovatta, Piuma</title>
+    <title>Prodotti | R.F. Resina Forlivese | Poliuretano, Ovatta, Piuma</title>
     <meta name="description"
         content="Produzione e lavorazione di imbottiture in poliuretano espanso, ovatta e piuma. Materiali di alta qualità per l'arredamento Made in Italy.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,11 +31,11 @@
                 <div class="nav-item-dropdown">
                     <a href="prodotti.html" class="active nav-link-parent">Prodotti</a>
                     <div class="dropdown-menu">
-                        <a href="prodotti.html?modal=poliuretani" class="dropdown-item">Poliuretani Espansi</a>
-                        <a href="prodotti.html?modal=ovatte" class="dropdown-item">Ovatte e Resinati</a>
-                        <a href="prodotti.html?modal=piuma" class="dropdown-item">Piuma e Misti</a>
-                        <a href="prodotti.html?modal=microfibra" class="dropdown-item">Microfibra</a>
-                        <a href="prodotti.html?modal=memory" class="dropdown-item">Memory Foam</a>
+                        <a href="prodotti.html#poliuretani" class="dropdown-item">Poliuretani Espansi</a>
+                        <a href="prodotti.html#ovatte" class="dropdown-item">Ovatte e Resinati</a>
+                        <a href="prodotti.html#piuma" class="dropdown-item">Piuma e Misti</a>
+                        <a href="prodotti.html#microfibra" class="dropdown-item">Microfibra</a>
+                        <a href="prodotti.html#memory" class="dropdown-item">Memory Foam</a>
                     </div>
                 </div>
 
@@ -58,7 +58,7 @@
     </div>
 
     <section class="page-hero"
-        style="background-image: url('https://images.unsplash.com/photo-1617104424032-b9bd6972d0e4?q=80&w=2070&auto=format&fit=crop');">
+        style="background-image: url('img/prodotti/hero-prodotti.jpg');">
         <div class="container">
             <h1>I NOSTRI PRODOTTI</h1>
             <p class="subtitle">Scopri i nostri materiali per la lavorazione. Dal poliuretano espanso alla piuma, per
@@ -159,6 +159,17 @@
             margin-bottom: 16px;
         }
 
+        /* Sui telefoni l'hover non esiste: senza questo la descrizione
+           della card non si vedeva mai. */
+        @media (hover: none) {
+            .mat-content p {
+                opacity: 1;
+                transform: none;
+                max-height: 100px;
+                margin-bottom: 16px;
+            }
+        }
+
         .mat-btn {
             display: inline-flex;
             align-items: center;
@@ -198,12 +209,18 @@
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s var(--ease);
+            /* visibility, non solo opacity: da chiuso i suoi pulsanti non
+               devono essere raggiungibili col Tab. Il ritardo lascia finire
+               la dissolvenza prima di nasconderlo. */
+            visibility: hidden;
+            transition: opacity 0.4s var(--ease), visibility 0s linear 0.4s;
         }
 
         .modal-overlay.active {
             opacity: 1;
             pointer-events: all;
+            visibility: visible;
+            transition: opacity 0.4s var(--ease), visibility 0s;
         }
 
         .modal-container {
@@ -308,7 +325,7 @@
                     aria-haspopup="dialog" aria-label="Scopri di più su Poliuretani Espansi"
                     data-materiale="poliuretani">
                     <div class="mat-bg"
-                        style="background-image: url('https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=2070&auto=format&fit=crop');">
+                        style="background-image: url('img/prodotti/poliuretani.jpg');">
                     </div>
                     <div class="mat-overlay"></div>
                     <div class="mat-content">
@@ -323,7 +340,7 @@
                     aria-haspopup="dialog" aria-label="Scopri di più su Ovatte e Resinati"
                     data-materiale="ovatte">
                     <div class="mat-bg"
-                        style="background-image: url('https://images.unsplash.com/photo-1540553016722-983e48a2cd10?q=80&w=2070');">
+                        style="background-image: url('img/prodotti/ovatte.jpg');">
                     </div>
                     <div class="mat-overlay"></div>
                     <div class="mat-content">
@@ -338,7 +355,7 @@
                     aria-haspopup="dialog" aria-label="Scopri di più su Piuma"
                     data-materiale="piuma">
                     <div class="mat-bg"
-                        style="background-image: url('https://placehold.co/800x600/0d1f3c/ffffff?text=FOTO+PIUMA');">
+                        style="background-image: url('img/prodotti/piuma.jpg');">
                     </div>
                     <div class="mat-overlay"></div>
                     <div class="mat-content">
@@ -353,7 +370,7 @@
                     aria-haspopup="dialog" aria-label="Scopri di più su Microfibra"
                     data-materiale="microfibra">
                     <div class="mat-bg"
-                        style="background-image: url('https://placehold.co/800x600/0d1f3c/ffffff?text=FOTO+MICROFIBRA');">
+                        style="background-image: url('img/prodotti/microfibra.jpg');">
                     </div>
                     <div class="mat-overlay"></div>
                     <div class="mat-content">
@@ -368,7 +385,7 @@
                     aria-haspopup="dialog" aria-label="Scopri di più su Memory Foam"
                     data-materiale="memory">
                     <div class="mat-bg"
-                        style="background-image: url('https://images.unsplash.com/photo-1511406361295-0a1ff814c0ce?q=80');">
+                        style="background-image: url('img/prodotti/memory.jpg');">
                     </div>
                     <div class="mat-overlay"></div>
                     <div class="mat-content">
@@ -413,7 +430,7 @@
             'poliuretani': {
                 title: "POLIURETANI ESPANSI",
                 subtitle: "Il cuore della nostra produzione",
-                image: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=2070&auto=format&fit=crop",
+                image: "img/prodotti/poliuretani.jpg",
                 description: "<p>Il poliuretano espanso flessibile è il cuore della nostra produzione. Con <strong>oltre 50 tipologie di gomme</strong> disponibili e lavorate quotidianamente, offriamo la soluzione perfetta per ogni esigenza di imbottitura nel mondo del mobile, dell'arredamento e del contract. La nostra gamma spazia dalle densità più basse per schienali morbidi a quelle più alte per sedute indeformabili.</p>",
                 specs: [
                     "<li><strong>Densità:</strong> da 18 a 60 kg/m³</li>",
@@ -425,7 +442,7 @@
             'ovatte': {
                 title: "OVATTE E RESINATI",
                 subtitle: "Morbidezza e Volume",
-                image: "https://images.unsplash.com/photo-1540553016722-983e48a2cd10?q=80&w=2070",
+                image: "img/prodotti/ovatte.jpg",
                 description: "<p>L'ovatta sintetica e i resinati sono essenziali per conferire sofficità superficiale e volume alle imbottiture. Utilizzati spesso come strato di finitura 'interliner' tra il poliuretano e il tessuto di rivestimento, migliorano in modo significativo il comfort percepito e l'estetica del prodotto finito, garantendo rotondità e pienezza.</p>",
                 specs: [
                     "<li><strong>Grammatura:</strong> da 100 a 600 gr/m²</li>",
@@ -437,7 +454,7 @@
             'piuma': {
                 title: "PIUMA E MISTI",
                 subtitle: "Comfort Naturale Superiore",
-                image: "https://placehold.co/800x600/0d1f3c/ffffff?text=FOTO+PIUMA",
+                image: "img/prodotti/piuma.jpg",
                 description: "<p>Per i progetti che richiedono il massimo del lusso e del comfort \"affondante\", offriamo una selezione pregiata di piume. Dalla piuma d'oca naturale sterling, lavata e sterilizzata secondo le più rigide normative, alle miscele con fiocco di poliestere per bilanciare sofficità e ritorno elastico.</p>",
                 specs: [
                     "<li><strong>Tipologie:</strong> Oca bianca, anatra, misto piuma</li>",
@@ -449,7 +466,7 @@
             'microfibra': {
                 title: "MICROFIBRA",
                 subtitle: "Tecnologia e Resistenza",
-                image: "https://placehold.co/800x600/0d1f3c/ffffff?text=FOTO+MICROFIBRA",
+                image: "img/prodotti/microfibra.jpg",
                 description: "<p>Le nostre soluzioni in microfibra offrono un'alternativa tecnologica e versatile per imbottiture che richiedono particolare resistenza e praticità senza rinunciare alla morbidezza. Ideali per rivestimenti tecnici e componenti interni che necessitano di traspirabilità e durata nel tempo.</p>",
                 specs: [
                     "<li><strong>Trama:</strong> Ultra-fine</li>",
@@ -461,7 +478,7 @@
             'memory': {
                 title: "MEMORY FOAM",
                 subtitle: "Ergonomia Avanzata",
-                image: "https://images.unsplash.com/photo-1511406361295-0a1ff814c0ce?q=80",
+                image: "img/prodotti/memory.jpg",
                 description: "<p>Il Memory Foam (poliuretano viscoelastico) è la frontiera dell'ergonomia. Grazie alla sua capacità di modellarsi col calore corporeo, distribuisce uniformemente la pressione, offrendo un comfort senza pari. È la scelta ideale per materassi di alta gamma, cuscini ergonomici e sedute che devono garantire relax prolungato.</p>",
                 specs: [
                     "<li><strong>Effetto:</strong> Ritorno lento (Slow Memory)</li>",
@@ -508,6 +525,15 @@
             // Stringa vuota, non 'auto': così il body torna a quello che dice il
             // CSS invece di restare con un inline style addosso per sempre.
             document.body.style.overflow = '';
+
+            // Se il modale era stato aperto da un link (prodotti.html#piuma, o il
+            // vecchio ?modal=piuma), l'indirizzo va ripulito: altrimenti
+            // ricaricando la pagina si riapre.
+            const url = new URL(window.location.href);
+            if (url.searchParams.has('modal') || materialsData[url.hash.slice(1)]) {
+                url.searchParams.delete('modal');
+                history.replaceState(null, '', url.pathname + url.search);
+            }
 
             if (focusPrimaDelModale && document.contains(focusPrimaDelModale)) {
                 focusPrimaDelModale.focus();
@@ -562,16 +588,30 @@
             }
         });
 
-        // Check for URL params to open modal
+        // I link dal menu arrivano come prodotti.html#piuma. Il frammento, a
+        // differenza di ?modal=, sopravvive ai redirect verso l'indirizzo senza
+        // .html che fanno molti hosting. ?modal= resta letto per i vecchi link.
+        function materialeDaIndirizzo() {
+            const daHash = window.location.hash.slice(1);
+            if (materialsData[daHash]) return daHash;
+            return new URLSearchParams(window.location.search).get('modal');
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const modalKey = urlParams.get('modal');
+            const modalKey = materialeDaIndirizzo();
             if (modalKey) {
                 // Small delay to ensure smooth transition after page load
                 setTimeout(() => {
                     openModal(modalKey);
                 }, 300);
             }
+        });
+
+        // Dal menu, stando già su Prodotti, cambia solo il frammento e la
+        // pagina non si ricarica: il modale va aperto qui.
+        window.addEventListener('hashchange', () => {
+            const chiave = window.location.hash.slice(1);
+            if (materialsData[chiave]) openModal(chiave);
         });
     </script>
 
@@ -734,6 +774,7 @@
                     <h4>Certificazioni</h4>
                     <div class="footer-badges">
                         <span class="footer-badge">ISO 9001</span>
+                        <span class="footer-badge">ISO 14001</span>
                         <span class="footer-badge">Parità Genere</span>
                         <img src="img/italia-imbottiti.png" alt="Italia Imbottiti"
                             style="height:30px; opacity:0.8; background:#fff; padding:2px; border-radius:4px;">
@@ -744,14 +785,14 @@
         <div class="footer-bottom">
             <div class="container">
                 <div class="footer-bottom-row">
-                    <p>© 2026 R.F. Resina Forlivese S.r.l. — Tutti i diritti riservati</p>
+                    <p>© 2026 R.F. Resina Forlivese S.r.l. Tutti i diritti riservati.</p>
                     <div style="display:flex;gap:16px;"><a href="privacy.html">Privacy Policy</a><a href="cookie.html">Cookie Policy</a>
                     </div>
                 </div>
                 <div class="footer-legal">
-                    <p>R.F. Resina Forlivese S.r.l. — Via Pitagora, 2 — 47121 Forlì (FC) — P.IVA: IT 00309120400 — REA:
-                        FO 148977 — SDI: A4707H7</p>
-                    <p>Sottoposta a direzione e coordinamento di Valli Holding S.r.l. — Via Ossi 10, Forlì (FC) — P.IVA:
+                    <p>R.F. Resina Forlivese S.r.l. · Via Pitagora, 2, 47121 Forlì (FC) · P.IVA: IT 00309120400 · REA:
+                        FO 148977 · SDI: A4707H7</p>
+                    <p>Sottoposta a direzione e coordinamento di Valli Holding S.r.l. · Via Ossi 10, Forlì (FC) · P.IVA:
                         IT 04679600405</p>
                 </div>
             </div>

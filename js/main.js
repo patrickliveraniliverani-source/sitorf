@@ -211,6 +211,9 @@ function initSmoothScroll() {
         if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
         if (scorrevoleSotto(e.target, e.deltaY)) return;
         e.preventDefault();
+        // Con un modale aperto la pagina sotto resta ferma: prima la rotellina
+        // sullo sfondo scuro, o in fondo al testo del modale, la faceva scorrere.
+        if (document.querySelector('.modal-overlay.active')) return;
         targetY = Math.max(0, Math.min(targetY + e.deltaY, getMax()));
         avviaLoop();
     }, { passive: false });
