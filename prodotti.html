@@ -476,7 +476,7 @@
                     <div class="mat-overlay"></div>
                     <div class="mat-content">
                         <h3>Microfibra</h3>
-                        <p>Tessuti tecnici resistenti e versatili.</p>
+                        <p>Fiocco sintetico da riempimento, soffice e lavabile.</p>
                         <span class="mat-btn">Scopri di più &rarr;</span>
                     </div>
                 </div>
@@ -532,7 +532,7 @@
                 title: "POLIURETANI ESPANSI",
                 subtitle: "Il cuore della nostra produzione",
                 image: "img/prodotti/poliuretani.jpg",
-                description: "<p>Il poliuretano espanso flessibile è il cuore della nostra produzione. Con <strong>oltre 50 tipologie di gomme</strong> disponibili e lavorate quotidianamente, offriamo la soluzione perfetta per ogni esigenza di imbottitura nel mondo del mobile, dell'arredamento e del contract. La nostra gamma spazia dalle densità più basse per schienali morbidi a quelle più alte per sedute indeformabili.</p>",
+                description: "<p>Il poliuretano espanso flessibile è il cuore della nostra produzione. Con <strong>oltre 50 tipologie di gomme</strong> disponibili e lavorate quotidianamente, offriamo la soluzione perfetta per ogni esigenza di imbottitura nel mondo del mobile imbottito, dell'arredamento e del contract. La nostra gamma spazia dalle densità più basse per schienali morbidi a quelle più alte per sedute indeformabili.</p>",
                 specs: [
                     "<li><strong>Densità:</strong> da 18 a 60 kg/m³</li>",
                     "<li><strong>Utilizzo:</strong> Sedute, schienali, braccioli</li>",
@@ -544,7 +544,7 @@
                 title: "OVATTE E RESINATI",
                 subtitle: "Morbidezza e Volume",
                 image: "img/prodotti/ovatte.jpg",
-                description: "<p>L'ovatta sintetica e i resinati sono essenziali per conferire sofficità superficiale e volume alle imbottiture. Utilizzati spesso come strato di finitura 'interliner' tra il poliuretano e il tessuto di rivestimento, migliorano in modo significativo il comfort percepito e l'estetica del prodotto finito, garantendo rotondità e pienezza.</p>",
+                description: "<p>L'ovatta sintetica e i resinati sono essenziali per conferire sofficità superficiale e volume alle imbottiture. Li utilizziamo spesso come strato di finitura 'interliner' tra il poliuretano e il tessuto di rivestimento, migliorano in modo significativo il comfort percepito e l'estetica del prodotto finito, garantendo rotondità e pienezza.</p>",
                 specs: [
                     "<li><strong>Grammatura:</strong> da 100 a 600 gr/m²</li>",
                     "<li><strong>Composizione:</strong> Poliestere, misto cotone</li>",
@@ -566,25 +566,25 @@
             },
             'microfibra': {
                 title: "MICROFIBRA",
-                subtitle: "Tecnologia e Resistenza",
+                subtitle: "Fiocco sintetico da riempimento",
                 image: "img/prodotti/microfibra.jpg",
-                description: "<p>Le nostre soluzioni in microfibra offrono un'alternativa tecnologica e versatile per imbottiture che richiedono particolare resistenza e praticità senza rinunciare alla morbidezza. Ideali per rivestimenti tecnici e componenti interni che necessitano di traspirabilità e durata nel tempo.</p>",
+                description: "<p>La microfibra che trattiamo non è un tessuto: è un fiocco sintetico fatto di fibre molto sottili, che usiamo come imbottitura sfusa per riempire cuscini, schienali e sacche. La proponiamo come alternativa sintetica e anallergica alla piuma. È morbida e voluminosa, si può lavare e, dopo essere stata compressa, riprende bene la sua forma.</p>",
                 specs: [
-                    "<li><strong>Trama:</strong> Ultra-fine</li>",
-                    "<li><strong>Vantaggi:</strong> Idrorepellente, antimacchia</li>",
-                    "<li><strong>Utilizzo:</strong> Rivestimenti tecnici, contract</li>",
-                    "<li><strong>Manutenzione:</strong> Lavabile e resistente</li>"
+                    "<li><strong>Materiale:</strong> Fiocco sintetico in microfibra</li>",
+                    "<li><strong>Utilizzo:</strong> Riempimento di cuscini, schienali, sacche</li>",
+                    "<li><strong>Caratteristiche:</strong> Morbido, voluminoso, anallergico</li>",
+                    "<li><strong>Manutenzione:</strong> Lavabile, buon ritorno elastico</li>"
                 ]
             },
             'memory': {
                 title: "MEMORY FOAM",
                 subtitle: "Ergonomia Avanzata",
                 image: "img/prodotti/memory.jpg",
-                description: "<p>Il Memory Foam (poliuretano viscoelastico) è la frontiera dell'ergonomia. Grazie alla sua capacità di modellarsi col calore corporeo, distribuisce uniformemente la pressione, offrendo un comfort senza pari. È la scelta ideale per materassi di alta gamma, cuscini ergonomici e sedute che devono garantire relax prolungato.</p>",
+                description: "<p>Il Memory Foam (poliuretano viscoelastico) è la frontiera dell'ergonomia. Grazie alla sua capacità di modellarsi col calore corporeo, distribuisce uniformemente la pressione, offrendo un comfort senza pari. Lo proponiamo per materassi, guanciali ergonomici e parti di sedute che devono garantire relax prolungato.</p>",
                 specs: [
                     "<li><strong>Effetto:</strong> Ritorno lento (Slow Memory)</li>",
                     "<li><strong>Benefici:</strong> Decompressione, accoglienza</li>",
-                    "<li><strong>Applicazioni:</strong> Materassi, guanciali, topping</li>",
+                    "<li><strong>Applicazioni:</strong> Materassi, guanciali, topping, parti di sedute</li>",
                     "<li><strong>Tecnologia:</strong> Viscoelastico termosensibile</li>"
                 ]
             }
@@ -652,7 +652,7 @@
         document.getElementById('modalClose').addEventListener('click', closeModal);
 
         // Le card sono div con role="button": il click lo gestisce il browser,
-        // Invio e Spazio no — vanno collegati a mano.
+        // Invio e Spazio no: vanno collegati a mano.
         document.querySelectorAll('.mat-card[data-materiale]').forEach(card => {
             const chiave = card.dataset.materiale;
             card.addEventListener('click', () => openModal(chiave));
