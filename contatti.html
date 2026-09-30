@@ -284,19 +284,19 @@
     <!-- MODULO DI CONTATTO -->
     <script>
         /* ------------------------------------------------------------------
-           L'UNICA RIGA DA CAMBIARE PER METTERE IL MODULO IN PRODUZIONE.
+           DOVE VA IL MODULO.
 
-           Ci va l'indirizzo a cui il modulo deve mandare i dati (POST). Va bene
-           qualsiasi servizio che accetti una POST e risponda 2xx — Formspree,
-           Web3Forms, Basin, un endpoint proprio. Esempio:
+           /api/contatti è la funzione serverless del sito (api/contatti.js):
+           riceve i campi in JSON, li ricontrolla e spedisce la mail via SMTP
+           Hostinger. Le credenziali stanno nelle variabili d'ambiente di
+           Vercel, vedi api/README.md.
 
-             const ENDPOINT_MODULO = 'https://formspree.io/f/xxxxxxxx';
-
-           Finché resta vuota il modulo NON invia niente: valida i campi e poi
-           dice a chi scrive di usare email o telefono, invece di far sparire
-           il messaggio come faceva prima.
+           Se la si svuota il modulo NON invia niente: valida i campi e poi
+           dice a chi scrive di usare email o telefono.
+           Nota: con "npx serve" in locale la funzione non gira, quindi lì
+           l'invio finisce nel messaggio d'errore. Si prova su Vercel.
            ------------------------------------------------------------------ */
-        const ENDPOINT_MODULO = '';
+        const ENDPOINT_MODULO = '/api/contatti';
 
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('contactForm');
@@ -313,6 +313,20 @@
                 esito.className = 'form-esito ' + tipo;
                 esito.hidden = false;
             }
+
+            // Per i messaggi che arrivano dal server: testo semplice, mai HTML.
+            function mostraEsitoTesto(testo, tipo) {
+                esito.textContent = testo;
+                esito.className = 'form-esito ' + tipo;
+                esito.hidden = false;
+            }
+
+            const ALTERNATIVE =
+                'scrivici a <a href="mailto:rf@resinaforlivese.it">rf@resinaforlivese.it</a> ' +
+                'o chiamaci allo <a href="tel:+390543700047">0543 700047</a>.';
+
+            // Impedisce il doppio invio (doppio clic, Invio ripetuto).
+            let invioInCorso = false;
 
             function pulisciErrori() {
                 form.querySelectorAll('.in-errore').forEach(c => {
@@ -374,6 +388,7 @@
 
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                if (invioInCorso) return;
                 esito.hidden = true;
 
                 // Il campo esca è compilato: è un bot. Fingiamo che sia andata
@@ -396,30 +411,57 @@
                     return;
                 }
 
+                invioInCorso = true;
                 bottone.disabled = true;
                 bottone.textContent = 'Invio in corso…';
 
+                // JSON invece di FormData: le funzioni Vercel interpretano da
+                // sole JSON e form-urlencoded, non il multipart di FormData.
+                const dati = Object.fromEntries(new FormData(form).entries());
+
                 try {
-                    const risposta = await fetch(ENDPOINT_MODULO, {
-                        method: 'POST',
-                        headers: { 'Accept': 'application/json' },
-                        body: new FormData(form),
-                    });
+                    let risposta;
+                    try {
+                        risposta = await fetch(ENDPOINT_MODULO, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                            },
+                            body: JSON.stringify(dati),
+                        });
+                    } catch (errRete) {
+                        // Niente connessione, DNS, richiesta bloccata…
+                        console.error('[contatti] errore di rete:', errRete);
+                        mostraEsito(
+                            'Non riusciamo a raggiungere il server: controlla la connessione e riprova, oppure ' +
+                            ALTERNATIVE, 'ko');
+                        return;
+                    }
 
-                    if (!risposta.ok) throw new Error('HTTP ' + risposta.status);
+                    let json = null;
+                    try { json = await risposta.json(); } catch (_) { /* risposta non JSON */ }
 
-                    form.reset();
-                    mostraEsito(
-                        'Grazie, abbiamo ricevuto la tua richiesta. Ti rispondiamo entro 24 ore lavorative.',
-                        'ok');
-                } catch (err) {
-                    console.error('[contatti] invio fallito:', err);
-                    mostraEsito(
-                        'Non siamo riusciti a inviare la richiesta. Riprova, oppure scrivici a ' +
-                        '<a href="mailto:rf@resinaforlivese.it">rf@resinaforlivese.it</a> ' +
-                        'o chiamaci allo <a href="tel:+390543700047">0543 700047</a>.',
-                        'ko');
+                    if (risposta.ok && json && json.ok) {
+                        form.reset();
+                        mostraEsito(
+                            'Grazie, abbiamo ricevuto la tua richiesta. Ti rispondiamo entro 24 ore lavorative.',
+                            'ok');
+                        return;
+                    }
+
+                    // 4xx con spiegazione (campo mancante, email non valida,
+                    // troppi invii…): la mostriamo così com'è.
+                    if (risposta.status >= 400 && risposta.status < 500 && json && json.errore) {
+                        mostraEsitoTesto(json.errore, 'ko');
+                        return;
+                    }
+
+                    // 5xx o risposta inattesa: problema nostro, non di chi scrive.
+                    console.error('[contatti] invio fallito: HTTP ' + risposta.status, json);
+                    mostraEsito('Non siamo riusciti a inviare la richiesta. Riprova, oppure ' + ALTERNATIVE, 'ko');
                 } finally {
+                    invioInCorso = false;
                     bottone.disabled = false;
                     bottone.textContent = testoBottone;
                 }

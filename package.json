@@ -1,0 +1,8 @@
+{
+  "name": "sitorf",
+  "private": true,
+  "description": "Sito statico R.F. Resina Forlivese. Nessun build: le pagine si servono così come sono; l'unica dipendenza serve alla funzione api/contatti.js.",
+  "dependencies": {
+    "nodemailer": "^10.0.13"
+  }
+}
