@@ -180,8 +180,9 @@
             color: var(--gold);
             opacity: 0.8;
             letter-spacing: 1px;
-            margin-top: auto;
-            /* Push to bottom if needed, but flex handles it */
+            /* Niente margin-top:auto: spingeva il titolo in cima alla card e
+               lasciava un vuoto in mezzo. Titolo, testo e pulsante stanno
+               raggruppati in basso, sopra la parte più scura del gradiente. */
         }
 
         /* Background Images */
@@ -277,15 +278,44 @@
             transform: rotate(90deg);
         }
 
+        /* Tablet e telefono: prima card a tutta larghezza, le altre quattro
+           in due colonne. Le altezze vengono dall'aspect-ratio, così restano
+           proporzionate alla larghezza; se il testo non ci sta la card si
+           allunga da sola. */
         @media (max-width: 900px) {
             .materials-grid {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-rows: none;
+                gap: 16px;
+                padding-bottom: 56px;
             }
 
             .mat-card {
                 grid-column: span 1 !important;
-                height: 350px;
+                aspect-ratio: 5 / 4;
+            }
+
+            .mat-card.large {
+                grid-column: span 2 !important;
+                aspect-ratio: 2 / 1;
+            }
+
+            /* Gradiente concentrato in basso: il testo resta leggibile e la
+               metà alta della foto rimane chiara. */
+            .mat-overlay,
+            .mat-card:hover .mat-overlay {
+                background: linear-gradient(to top,
+                        rgba(0, 0, 0, 0.88) 0%,
+                        rgba(0, 0, 0, 0.6) 40%,
+                        rgba(0, 0, 0, 0.12) 100%);
+            }
+
+            .mat-content {
+                padding: 28px;
+            }
+
+            .mat-content h3 {
+                font-size: 1.6rem;
             }
 
             .modal-container {
@@ -299,6 +329,77 @@
 
             .modal-content-scroll {
                 padding: 30px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .materials-grid {
+                gap: 12px;
+                padding-bottom: 48px;
+            }
+
+            .mat-card {
+                aspect-ratio: 4 / 5;
+            }
+
+            .mat-card.large {
+                aspect-ratio: 4 / 3;
+            }
+
+            .mat-content {
+                padding: 16px;
+            }
+
+            .mat-content h3 {
+                font-size: 1.15rem;
+                line-height: 1.2;
+                margin-bottom: 6px;
+            }
+
+            .mat-content p {
+                font-size: 0.85rem;
+                line-height: 1.45;
+            }
+
+            .mat-btn {
+                font-size: 0.72rem;
+                letter-spacing: 0.5px;
+                opacity: 1;
+            }
+
+            .mat-card.large .mat-content {
+                padding: 22px;
+            }
+
+            .mat-card.large .mat-content h3 {
+                font-size: 1.6rem;
+            }
+
+            .mat-card.large .mat-content p {
+                font-size: 0.95rem;
+            }
+
+            .mat-card.large .mat-btn {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 600px) and (hover: none) {
+            .mat-content p {
+                margin-bottom: 10px;
+            }
+        }
+
+        /* Schermi molto stretti: due colonne diventerebbero illeggibili. */
+        @media (max-width: 359px) {
+            .materials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mat-card,
+            .mat-card.large {
+                grid-column: span 1 !important;
+                aspect-ratio: 4 / 3;
             }
         }
     </style>
