@@ -4,5 +4,122 @@
     "api/contatti.js": {
       "maxDuration": 20
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/contact",
+      "destination": "/contatti.html",
+      "permanent": true
+    },
+    {
+      "source": "/contact/",
+      "destination": "/contatti.html",
+      "permanent": true
+    },
+    {
+      "source": "/our-staff",
+      "destination": "/chi-siamo.html",
+      "permanent": true
+    },
+    {
+      "source": "/our-staff/",
+      "destination": "/chi-siamo.html",
+      "permanent": true
+    },
+    {
+      "source": "/services",
+      "destination": "/lavorazioni.html",
+      "permanent": true
+    },
+    {
+      "source": "/services/",
+      "destination": "/lavorazioni.html",
+      "permanent": true
+    },
+    {
+      "source": "/piuma",
+      "destination": "/prodotti.html#piuma",
+      "permanent": true
+    },
+    {
+      "source": "/piuma/",
+      "destination": "/prodotti.html#piuma",
+      "permanent": true
+    },
+    {
+      "source": "/ovatta",
+      "destination": "/prodotti.html#ovatte",
+      "permanent": true
+    },
+    {
+      "source": "/ovatta/",
+      "destination": "/prodotti.html#ovatte",
+      "permanent": true
+    },
+    {
+      "source": "/poliuretano-espanso-2",
+      "destination": "/prodotti.html#poliuretani",
+      "permanent": true
+    },
+    {
+      "source": "/poliuretano-espanso-2/",
+      "destination": "/prodotti.html#poliuretani",
+      "permanent": true
+    },
+    {
+      "source": "/category/scopri-i-nostri-prodotti",
+      "destination": "/prodotti.html",
+      "permanent": true
+    },
+    {
+      "source": "/category/scopri-i-nostri-prodotti/",
+      "destination": "/prodotti.html",
+      "permanent": true
+    },
+    {
+      "source": "/termini-e-condizioni",
+      "destination": "/privacy.html",
+      "permanent": true
+    },
+    {
+      "source": "/termini-e-condizioni/",
+      "destination": "/privacy.html",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": ".*\\.vercel\\.app"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    },
+    {
+      "source": "/img/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(css|js)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    }
+  ]
 }

@@ -1,0 +1,13 @@
+# File di lavoro: restano nel repo ma non vanno online
+GEMINI.md
+brand-guidelines.md
+testi_sito.txt
+prototipo-sagome.html
+directives
+execution
+.claude
+.tmp
+api/README.md
+js/hero-animation.js
+js/hero-slideshow.js
+._*

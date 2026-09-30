@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://resinaforlivese.it/sitemap.xml

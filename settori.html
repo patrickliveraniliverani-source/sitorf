@@ -205,9 +205,12 @@
             transform: translate(50px, 50px);
         }
 
+        /* stessa forza delle regole :nth-child qui sopra, e dopo di loro:
+           senza .grid-2 la card restava spostata di 50px per sempre */
+        .js .grid-2 .sector-anim.revealed,
         .js .sector-anim.revealed {
             opacity: 1;
-            transform: translate(0, 0);
+            transform: none;
         }
 
         @media (prefers-reduced-motion: reduce) {
